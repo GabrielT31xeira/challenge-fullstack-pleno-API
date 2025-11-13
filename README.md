@@ -1,6 +1,6 @@
 # Desafio: Sistema de E-commerce - Nível Pleno
 
-**Atenção, Dev Pleno!**
+**Atenção, Dev!**
 
 Este desafio foi projetado para avaliar conhecimentos avançados em Laravel, arquitetura de software e boas práticas. Antes de começar, leia com atenção todas as instruções abaixo.
 
@@ -12,8 +12,7 @@ Você deverá desenvolver um sistema de e-commerce completo com as seguintes fun
 - Gestão de produtos com categorias e tags
 - Sistema de carrinho de compras
 - Processamento de pedidos
-- Sistema de avaliações e comentários
-- Gestão de estoque com histórico
+- Gestão de estoque
 - Dashboard administrativo
 
 ---
@@ -38,7 +37,7 @@ Crie os seguintes modelos com seus relacionamentos:
 
 **Product:**
 - Campos: id, name, slug, description, price, cost_price, quantity, min_quantity, active, category_id, created_at, updated_at, deleted_at (soft delete)
-- Relacionamentos: belongsTo Category, belongsToMany Tags, hasMany OrderItems, hasMany Reviews, hasMany StockMovements
+- Relacionamentos: belongsTo Category, belongsToMany Tags, hasMany OrderItems, hasMany StockMovements
 
 **Category:**
 - Campos: id, name, slug, description, parent_id, active, created_at, updated_at
@@ -57,9 +56,6 @@ Crie os seguintes modelos com seus relacionamentos:
 - Campos: id, order_id, product_id, quantity, unit_price, total_price, created_at, updated_at
 - Relacionamentos: belongsTo Order, belongsTo Product
 
-**Review:**
-- Campos: id, product_id, user_id, rating, title, comment, approved, created_at, updated_at
-- Relacionamentos: belongsTo Product, belongsTo User
 
 **StockMovement:**
 - Campos: id, product_id, type, quantity, reason, reference_type, reference_id, created_at, updated_at
@@ -91,7 +87,6 @@ Implemente uma **API RESTful versionada** (v1) com os seguintes endpoints:
 - `POST /api/v1/products` - Criar produto (apenas admin)
 - `PUT /api/v1/products/{id}` - Atualizar produto (apenas admin)
 - `DELETE /api/v1/products/{id}` - Excluir produto (soft delete, apenas admin)
-- `GET /api/v1/products/{id}/reviews` - Listar avaliações do produto
 
 **Categorias:**
 - `GET /api/v1/categories` - Listar categorias (árvore hierárquica)
@@ -110,23 +105,16 @@ Implemente uma **API RESTful versionada** (v1) com os seguintes endpoints:
 - `POST /api/v1/orders` - Criar pedido a partir do carrinho
 - `PUT /api/v1/orders/{id}/status` - Atualizar status do pedido (apenas admin)
 
-**Avaliações:**
-- `POST /api/v1/products/{id}/reviews` - Criar avaliação
-- `PUT /api/v1/reviews/{id}` - Atualizar avaliação (apenas dono)
-- `DELETE /api/v1/reviews/{id}` - Excluir avaliação (apenas dono ou admin)
-
 **Requisitos de validação:**
 - Produto: name (obrigatório, único), price (obrigatório, > 0), cost_price (opcional, < price), quantity (obrigatório, inteiro, >= 0), min_quantity (opcional, inteiro, >= 0)
 - Pedido: validação de estoque antes de criar o pedido
-- Avaliação: rating (1-5), title e comment obrigatórios
 
 ### 5 - Autenticação e Autorização
 
 - Implemente autenticação usando **Laravel Sanctum** (API tokens).
 - Crie **Políticas (Policies)** para autorização:
   - Apenas admins podem criar/editar/excluir produtos
-  - Usuários só podem editar/excluir suas próprias avaliações
-  - Admins podem aprovar/rejeitar avaliações
+  - Usuários só podem visualizar e gerenciar seus próprios pedidos
 - Implemente **middleware** para rate limiting (100 requisições/minuto por IP).
 - Crie **roles e permissions** usando Spatie Laravel Permission ou implementação própria.
 
@@ -177,7 +165,7 @@ Escreva testes abrangentes cobrindo:
 **Testes de Feature:**
 - Fluxo completo de criação de pedido
 - Fluxo de adicionar item ao carrinho
-- Fluxo de aprovação de avaliação
+- Fluxo de atualização de estoque
 
 **Cobertura mínima:** 80% do código
 
@@ -253,16 +241,20 @@ Todas as respostas devem seguir o padrão:
 
 ---
 
-## 🎨 Segunda Etapa - SPA (Frontend)
+## 🎨 Segunda Etapa - Frontend
 
-Para consumir os dados da API, você deverá criar uma **SPA moderna em ReactJS** (pode usar Inertia.js ou React isolado com Vite).
+Para consumir os dados da API, você poderá escolher uma das seguintes abordagens:
+
+- **SPA em ReactJS** (pode usar Inertia.js ou React isolado com Vite)
+- **SPA em Vue.js** (pode usar Inertia.js ou Vue isolado com Vite)
+- **Blade Templates** (tradicional do Laravel)
 
 ### Funcionalidades Obrigatórias:
 
 **Páginas Públicas:**
 - Homepage com produtos em destaque
 - Listagem de produtos com filtros (categoria, preço, busca)
-- Página de detalhes do produto (com avaliações)
+- Página de detalhes do produto
 - Página de login/registro
 
 **Páginas Autenticadas:**
@@ -277,25 +269,33 @@ Para consumir os dados da API, você deverá criar uma **SPA moderna em ReactJS*
 - CRUD completo de produtos
 - CRUD de categorias
 - Listagem de pedidos com filtros
-- Gestão de avaliações (aprovar/rejeitar)
 - Relatório de estoque baixo
 
-### Requisitos Técnicos:
+### Requisitos Técnicos (SPA - React/Vue):
 
-- Use **TypeScript** para type safety
-- Implemente **gerenciamento de estado** (Context API, Zustand, ou Redux)
-- Use uma biblioteca de formulários (React Hook Form + Zod/Yup)
+- Use **TypeScript** para type safety (recomendado)
+- Implemente **gerenciamento de estado** adequado à tecnologia escolhida
+- Use uma biblioteca de formulários apropriada
 - Implemente **tratamento de erros** global
 - Adicione **loading states** e **skeleton screens**
 - Implemente **infinite scroll** ou paginação na listagem
-- Use **React Query** ou SWR para cache e sincronização de dados
+- Use bibliotecas apropriadas para cache e sincronização de dados (React Query, SWR, Vue Query, etc)
 - Implemente **toast notifications** para feedback ao usuário
 - Adicione **validação de formulários** no frontend
 - Implemente **roteamento protegido** (rotas privadas e admin)
 
-### Design:
+### Requisitos Técnicos (Blade):
 
-- Use um framework CSS moderno (Tailwind CSS, Material-UI, ou Chakra UI)
+- Use **Livewire** ou **Alpine.js** para interatividade (recomendado)
+- Implemente **componentes Blade reutilizáveis**
+- Use **Blade Components** e **View Composers** quando apropriado
+- Implemente **validação de formulários** no frontend e backend
+- Adicione **feedback visual** para ações do usuário
+- Use **AJAX** ou **Fetch API** para requisições assíncronas quando necessário
+
+### Design (Todas as Abordagens):
+
+- Use um framework CSS moderno (Tailwind CSS, Bootstrap, Material-UI, ou similar)
 - Design responsivo (mobile-first)
 - Acessibilidade (WCAG 2.1 nível AA)
 - Animações suaves para transições
@@ -313,11 +313,11 @@ Para consumir os dados da API, você deverá criar uma **SPA moderna em ReactJS*
 - **Documentação:** API documentada, código comentado quando necessário
 
 ### Frontend:
-- **Arquitetura:** Organização de componentes, hooks customizados, separação de concerns
-- **Performance:** Code splitting, lazy loading, otimização de re-renders
+- **Arquitetura:** Organização de componentes/views, separação de concerns, reutilização de código
+- **Performance:** Code splitting, lazy loading, otimização de renderizações (quando aplicável)
 - **UX/UI:** Interface intuitiva, responsiva e acessível
-- **Type Safety:** Uso adequado de TypeScript
-- **Estado:** Gerenciamento de estado eficiente
+- **Type Safety:** Uso adequado de TypeScript (para SPAs) ou validação robusta (para Blade)
+- **Estado:** Gerenciamento de estado eficiente (SPAs) ou uso adequado de sessão/componentes (Blade)
 
 ### Geral:
 - **Versionamento:** Commits descritivos, branch strategy
