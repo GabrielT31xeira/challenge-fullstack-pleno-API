@@ -35,6 +35,8 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     libssl-dev
 
+RUN docker-php-ext-install mbstring
+
 RUN chmod +x /usr/local/bin/install-php-extensions && \
     install-php-extensions pdo_mysql
 
