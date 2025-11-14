@@ -4,16 +4,24 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Laravel\Sanctum\PersonalAccessToken;
 
 class IsAdmin
 {
     public function handle(Request $request, Closure $next)
     {
+        $user = auth('sanctum')->user();
+        // Se não estiver autenticado
+        if (!$user) {
+            return response()->json([
+                'message' => 'Usuário não autenticado.',
+            ], 401);
+        }
 
-        if (!PersonalAccessToken::findToken($request->bearerToken()) || !Auth::user()->isAdmin()) {
-            return response()->json(['message' => 'Acesso negado'], 403);
+        // Verificar se é admin
+        if ($user->role === 'user') {
+            return response()->json([
+                'message' => 'Acesso negado. Apenas administradores podem realizar esta ação.',
+            ], 403);
         }
 
         return $next($request);
