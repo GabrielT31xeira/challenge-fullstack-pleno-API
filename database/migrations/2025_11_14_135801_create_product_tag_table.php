@@ -9,7 +9,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('product_tag', function (Blueprint $table) {
-            $table->uuid('id')->primary();
             $table->uuid('product_id');
             $table->uuid('tag_id');
 
