@@ -22,4 +22,16 @@ class LoginRequest extends FormRequest
             $this->password
         );
     }
+
+    public function messages()
+    {
+        return [
+            'email.required'    => 'O campo e-mail é obrigatório.',
+            'email.email'       => 'Informe um endereço de e-mail válido.',
+
+            'password.required' => 'O campo senha é obrigatório.',
+            'password.string'   => 'A senha deve ser um texto válido.',
+        ];
+    }
+
 }
