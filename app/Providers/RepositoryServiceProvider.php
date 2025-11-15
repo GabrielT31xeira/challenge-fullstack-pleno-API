@@ -26,6 +26,11 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Repositories\Category\CategoryRepositoryInterface::class,
             \App\Repositories\Category\CategoryRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\Cart\CartRepositoryInterface::class,
+            \App\Repositories\Cart\CartRepository::class,
+        );
     }
 
     public function boot()

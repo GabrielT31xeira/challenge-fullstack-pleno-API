@@ -5,6 +5,7 @@ use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\ProfileController;
 use App\Http\Controllers\api\ProductController;
 use App\Http\Controllers\api\CategoryController;
+use App\Http\Controllers\api\CartController;
 
 Route::prefix('v1')->group(function () {
 
@@ -15,21 +16,30 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/profile', [ProfileController::class, 'show']);
-    });
 
-    // --- Categories ---
-    Route::get('/categories', [CategoryController::class, 'index']);
-    Route::get('/categories/{id}/products', [CategoryController::class, 'products']);
+        // --- Categories ---
+        Route::get('/categories', [CategoryController::class, 'index']);
+        Route::get('/categories/{id}/products', [CategoryController::class, 'products']);
 
-    // --- Products ---
-    Route::prefix('products')->group(function () {
-        Route::get('/', [ProductController::class, 'index']);
-        Route::get('/{id}', [ProductController::class, 'show']);
+        // --- Products ---
+        Route::prefix('products')->group(function () {
+            Route::get('/', [ProductController::class, 'index']);
+            Route::get('/{id}', [ProductController::class, 'show']);
 
-        Route::middleware('admin')->group(function () {
-            Route::post('/', [ProductController::class, 'store']);
-            Route::put('/{id}', [ProductController::class, 'update']);
-            Route::delete('/{id}', [ProductController::class, 'destroy']);
+            Route::middleware('admin')->group(function () {
+                Route::post('/', [ProductController::class, 'store']);
+                Route::put('/{id}', [ProductController::class, 'update']);
+                Route::delete('/{id}', [ProductController::class, 'destroy']);
+            });
+        });
+
+        // --- Cart ---
+        Route::prefix('cart')->group(function () {
+            Route::get('/', [CartController::class, 'show']);
+            Route::post('/items', [CartController::class, 'addItem']);
+            Route::put('/items/{id}', [CartController::class, 'updateItem']);
+            Route::delete('/items/{id}', [CartController::class, 'removeItem']);
+            Route::delete('/', [CartController::class, 'clear']);
         });
     });
 });
