@@ -27,13 +27,17 @@ class AuthService
     {
         $user = $this->users->findByEmail($data->email);
 
-        if (!$user || !Hash::check($data->password, $user->password)) {
-            abort(401, 'Credenciales incorrectas');
+        if (!$user || !Hash::make($data->password) == $user->password) {
+            return [
+                'error' => true,
+                'message' => 'Email ou senha incorretas'
+            ];
         }
 
-        $token = $user->createToken('auth-token')->plainTextToken;
+        $token = $user->createToken('api_token')->plainTextToken;
 
         return [
+            'error' => false,
             'user' => $user,
             'token' => $token
         ];
