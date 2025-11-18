@@ -9,6 +9,7 @@ class IsAdmin
 {
     public function handle(Request $request, Closure $next)
     {
+
         $user = auth('sanctum')->user();
         // Se não estiver autenticado
         if (!$user) {

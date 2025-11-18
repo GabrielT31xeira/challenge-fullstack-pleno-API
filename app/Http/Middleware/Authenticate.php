@@ -13,7 +13,6 @@ class Authenticate
     public function handle(Request $request, Closure $next): Response
     {
         $token = $request->bearerToken();
-
         if (!$token) {
             return response()->json([
                 'message' => 'Token de acesso não fornecido',
@@ -36,8 +35,6 @@ class Authenticate
 
         $user = $accessToken->tokenable;
         auth()->setUser($user);
-
-        $accessToken->update(['last_used_at' => now()]);
 
         return $next($request);
     }

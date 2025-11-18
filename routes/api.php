@@ -6,6 +6,7 @@ use App\Http\Controllers\api\ProfileController;
 use App\Http\Controllers\api\ProductController;
 use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\api\CartController;
+use App\Http\Controllers\api\OrderController;
 
 Route::prefix('v1')->group(function () {
 
@@ -13,7 +14,7 @@ Route::prefix('v1')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 
-    Route::middleware('auth')->group(function () {
+    Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/profile', [ProfileController::class, 'show']);
 
@@ -40,6 +41,15 @@ Route::prefix('v1')->group(function () {
             Route::put('/items/{id}', [CartController::class, 'updateItem']);
             Route::delete('/items/{id}', [CartController::class, 'removeItem']);
             Route::delete('/', [CartController::class, 'clear']);
+        });
+
+        // --- Orders ---
+        Route::prefix('orders')->group(function () {
+            Route::get('/', [OrderController::class, 'index']);
+            Route::post('/', [OrderController::class, 'store']);
+
+            Route::get('/{id}', [OrderController::class, 'show']);
+            Route::put('/{id}/status', [OrderController::class, 'updateStatus']);
         });
     });
 });
