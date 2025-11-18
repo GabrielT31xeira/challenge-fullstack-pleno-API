@@ -31,6 +31,10 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Repositories\Cart\CartRepositoryInterface::class,
             \App\Repositories\Cart\CartRepository::class,
         );
+        $this->app->bind(
+            \App\Repositories\Order\OrderRepositoryInterface::class,
+            \App\Repositories\Order\OrderRepository::class,
+        );
     }
 
     public function boot()
