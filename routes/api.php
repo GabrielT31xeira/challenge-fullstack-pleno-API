@@ -49,7 +49,7 @@ Route::prefix('v1')->group(function () {
             Route::post('/', [OrderController::class, 'store']);
 
             Route::get('/{id}', [OrderController::class, 'show']);
-            Route::put('/{id}/status', [OrderController::class, 'updateStatus']);
+            Route::put('/{id}/status', [OrderController::class, 'updateStatus'])->middleware('admin');
         });
     });
 });

@@ -18,6 +18,10 @@ class OrderItem extends Model
         'total_price',
     ];
 
+    protected $casts = [
+        'price' => 'decimal:2',
+        'total' => 'decimal:2',
+    ];
     public $incrementing = false;
     protected $keyType = 'string';
 

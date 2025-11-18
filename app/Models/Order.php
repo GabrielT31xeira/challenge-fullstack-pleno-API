@@ -10,7 +10,11 @@ class Order extends Model
 {
     use HasFactory, HasUuids;
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected $fillable = [
+        'id',
         'user_id',
         'status',
         'total',
@@ -22,8 +26,15 @@ class Order extends Model
         'notes',
     ];
 
-    public $incrementing = false;
-    protected $keyType = 'string';
+    protected $casts = [
+        'shipping_address' => 'array',
+        'billing_address'  => 'array',
+        'total'            => 'decimal:2',
+        'subtotal'         => 'decimal:2',
+        'tax'              => 'decimal:2',
+        'shipping_cost'    => 'decimal:2',
+    ];
+
 
     // Relationships
     public function user()
