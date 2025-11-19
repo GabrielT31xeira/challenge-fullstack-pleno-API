@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\Auth\UserResource;
 use App\Services\AuthService;
+use App\Support\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -18,34 +19,53 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request): JsonResponse
     {
-        $user = $this->authService->register($request->toDTO());
+        try {
+            $user = $this->authService->register($request->toDTO());
 
-        return response()->json([
-            'message' => 'Usuario registrado correctamente',
-            'data' => new UserResource($user)
-        ], 201);
+            return ApiResponse::success(new UserResource($user));
+        } catch (\Throwable $th) {
+            return ApiResponse::serverError(
+                "Erro por parte do servidor, tente novamente mais tarde",
+                $th->getMessage());
+        }
+
     }
 
     public function login(LoginRequest $request): JsonResponse
     {
-        $result = $this->authService->login($request->toDTO());
+        try {
+            $result = $this->authService->login($request->toDTO());
 
-        if ($result['error']) {
+            if ($result['error']) {
+                return ApiResponse::error(
+                    "Erro nas credenciais enviadas, tente novamente",
+                );
+            }
             return response()->json([
-                'message' => $result['message']
-            ], 401);
+                'success' => true,
+                'data' => [
+                    'user' => new UserResource($result['user']),
+                    'token' => $result['token']
+                ]
+            ]);
+        } catch (\Throwable $th) {
+            return ApiResponse::serverError(
+                "Erro por parte do servidor, tente novamente mais tarde",
+                $th->getMessage()
+            );
         }
-        return response()->json([
-            'message' => 'Login realizado correctamente',
-            'token' => $result['token'],
-            'data' => new UserResource($result['user'])
-        ]);
     }
 
     public function logout(Request $request): JsonResponse
     {
-        $this->authService->logout($request->user());
+        try {
+            $this->authService->logout($request->user());
 
-        return response()->json(['message' => 'Logout realizado com sucesso'], 201);
+            return ApiResponse::success();
+        } catch (\Throwable $th) {
+            return ApiResponse::serverError(
+                "Erro por parte do servidor, tente novamente mais tarde",
+                $th->getMessage());
+        }
     }
 }

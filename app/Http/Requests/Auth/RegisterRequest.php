@@ -2,8 +2,11 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Support\ApiResponse;
+use Dotenv\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use App\DTO\Auth\RegisterDTO;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class RegisterRequest extends FormRequest
 {
@@ -39,6 +42,13 @@ class RegisterRequest extends FormRequest
             'password.required' => 'O campo senha é obrigatório.',
             'password.min'      => 'A senha deve conter pelo menos 6 caracteres.',
         ];
+    }
+
+    protected function failedValidation(Validator|\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        $response = ApiResponse::error("Os seguintes erros foram encontrados", $validator->errors()->all());
+
+        throw new HttpResponseException($response);
     }
 
 }

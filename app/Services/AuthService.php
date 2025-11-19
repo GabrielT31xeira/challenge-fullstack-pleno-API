@@ -30,7 +30,6 @@ class AuthService
         if (!$user || !Hash::make($data->password) == $user->password) {
             return [
                 'error' => true,
-                'message' => 'Email ou senha incorretas'
             ];
         }
 
