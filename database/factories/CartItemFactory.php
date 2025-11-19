@@ -13,8 +13,8 @@ class CartItemFactory extends Factory
     {
         return [
             'id' => Str::uuid(),
-            'cart_id' => Cart::inRandomOrder()->first()->id,
-            'product_id' => Product::inRandomOrder()->first()->id,
+            'cart_id' => Cart::factory(),
+            'product_id' => Product::factory(),
             'quantity' => $this->faker->numberBetween(1, 5),
         ];
     }

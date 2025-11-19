@@ -12,7 +12,7 @@ class CartFactory extends Factory
     {
         return [
             'id' => Str::uuid(),
-            'user_id' => User::inRandomOrder()->first()->id,
+            'user_id' => User::factory(),
             'session_id' => Str::uuid(),
         ];
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Cart\AddItemCartRequest;
 use App\Services\CartService;
 use Illuminate\Http\Request;
 
@@ -25,24 +26,31 @@ class CartController extends Controller
         ]);
     }
 
-    public function addItem(Request $request)
+    public function getOne($id)
     {
-        $validated = $request->validate([
-            'product_id' => 'required|string|exists:products,id',
-            'quantity' => 'required|integer|min:1'
+        $cart = $this->cart->getOne($id);
+        return response()->json([
+            'message' => 'Carrinho carregado com sucesso.',
+            'cart' => $cart,
         ]);
+    }
 
-        $item = $this->cart->addItem(
+    public function addItem(AddItemCartRequest $request)
+    {
+        [$cart, $item] = $this->cart->addItem(
+            $request->cart_id,
             $request->user()->id,
-            $validated['product_id'],
-            $validated['quantity']
+            $request->product_id,
+            $request->quantity
         );
 
         return response()->json([
             'message' => 'Item adicionado ao carrinho.',
+            'cart_id' => $cart->id,
             'item' => $item
         ], 201);
     }
+
 
     public function updateItem(Request $request, $id)
     {

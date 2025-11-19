@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\Cart;
 use App\Models\CartItem;
 use App\Repositories\Cart\CartRepositoryInterface;
+use Illuminate\Support\Str;
 
 class CartService
 {
@@ -12,6 +14,12 @@ class CartService
     public function __construct(CartRepositoryInterface $carts)
     {
         $this->carts = $carts;
+    }
+
+    public function getOne($id)
+    {
+        $cart = Cart::find($id)->items();
+        return $cart;
     }
 
     private function getOrCreateCart(string $userId)
@@ -30,23 +38,36 @@ class CartService
         return $this->getOrCreateCart($userId);
     }
 
-    public function addItem(string $userId, string $productId, int $quantity)
+    public function addItem(?string $cartId, string $userId, string $productId, int $quantity)
     {
-        $cart = $this->getOrCreateCart($userId);
+        if ($cartId) {
+            $cart = Cart::where('id', $cartId)
+                ->where('user_id', $userId)
+                ->firstOrFail();
+        }
+        else {
+            $cart = Cart::create([
+                'user_id' => $userId,
+                'session_id' => Str::uuid(),
+            ]);
+        }
 
         $item = $cart->items()->where('product_id', $productId)->first();
 
         if ($item) {
             $item->quantity += $quantity;
             $item->save();
-            return $item;
+            return [$cart, $item];
         }
 
-        return $cart->items()->create([
+        $item = $cart->items()->create([
             'product_id' => $productId,
-            'quantity' => $quantity
+            'quantity' => $quantity,
         ]);
+
+        return [$cart, $item];
     }
+
 
     public function updateItem(string $userId, string $itemId, int $quantity)
     {
