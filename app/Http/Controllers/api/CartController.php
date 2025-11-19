@@ -4,7 +4,11 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cart\AddItemCartRequest;
+use App\Http\Requests\Cart\UpdateCartRequest;
+use App\Http\Resources\Auth\UserResource;
+use App\Http\Resources\Cart\CartResource;
 use App\Services\CartService;
+use App\Support\ApiResponse;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -18,72 +22,86 @@ class CartController extends Controller
 
     public function show(Request $request)
     {
-        $cart = $this->cart->getCart($request->user()->id);
+        try {
+            $cart = $this->cart->getCart($request->user()->id);
 
-        return response()->json([
-            'message' => 'Carrinho carregado com sucesso.',
-            'cart' => $cart,
-        ]);
+            return ApiResponse::success(new CartResource($cart));
+        } catch (\Throwable $th) {
+            return ApiResponse::serverError(
+                "Erro por parte do servidor, tente novamente mais tarde",
+                $th->getMessage());
+        }
     }
 
     public function getOne($id)
     {
-        $cart = $this->cart->getOne($id);
-        return response()->json([
-            'message' => 'Carrinho carregado com sucesso.',
-            'cart' => $cart,
-        ]);
+        try {
+            $cart = $this->cart->getOne($id);
+
+            return ApiResponse::success(new CartResource($cart));
+        } catch (\Throwable $th) {
+            return ApiResponse::serverError(
+                "Erro por parte do servidor, tente novamente mais tarde",
+                $th->getMessage());
+        }
     }
 
-    public function addItem(AddItemCartRequest $request)
+    public function addItem(AddItemCartRequest $request): \Illuminate\Http\JsonResponse
     {
-        [$cart, $item] = $this->cart->addItem(
-            $request->cart_id,
-            $request->user()->id,
-            $request->product_id,
-            $request->quantity
-        );
+        try {
+            $user_id = $request->user()->id;
+            $cart = $this->cart->addItem($request->validated(), $user_id);
 
-        return response()->json([
-            'message' => 'Item adicionado ao carrinho.',
-            'cart_id' => $cart->id,
-            'item' => $item
-        ], 201);
+            return ApiResponse::success(new CartResource($cart));
+        } catch (\Throwable $th) {
+            return ApiResponse::serverError(
+                "Erro por parte do servidor, tente novamente mais tarde",
+                $th->getMessage());
+        }
     }
 
 
-    public function updateItem(Request $request, $id)
+    public function updateItem(UpdateCartRequest $request, $id)
     {
-        $validated = $request->validate([
-            'quantity' => 'required|integer|min:1'
-        ]);
-        $item = $this->cart->updateItem(
-            $request->user()->id,
-            $id,
-            $validated['quantity']
-        );
+        try {
+            $cart = $this->cart->updateItem(
+                $request->user()->id,
+                $id,
+                $request['quantity']
+            );
 
-        return response()->json([
-            'message' => 'Item atualizado com sucesso.',
-            'item' => $item
-        ]);
+            return ApiResponse::success(new CartResource($cart));
+        } catch (\Throwable $th) {
+            return ApiResponse::serverError(
+                "Erro por parte do servidor, tente novamente mais tarde",
+                $th->getMessage());
+        }
+
     }
 
     public function removeItem(Request $request, $id)
     {
-        $this->cart->removeItem($request->user()->id, $id);
+        try {
+            $this->cart->removeItem($request->user()->id, $id);
 
-        return response()->json([
-            'message' => 'Item removido do carrinho.',
-        ]);
+            return ApiResponse::success();
+        } catch (\Throwable $th) {
+            return ApiResponse::serverError(
+                "Erro por parte do servidor, tente novamente mais tarde",
+                $th->getMessage());
+        }
     }
 
     public function clear(Request $request)
     {
-        $this->cart->clear($request->user()->id);
+        try {
+            $this->cart->clear($request->user()->id);
 
-        return response()->json([
-            'message' => 'Carrinho limpo com sucesso.',
-        ]);
+            return ApiResponse::success();
+        } catch (\Throwable $th) {
+            return ApiResponse::serverError(
+                "Erro por parte do servidor, tente novamente mais tarde",
+                $th->getMessage());
+        }
     }
 }

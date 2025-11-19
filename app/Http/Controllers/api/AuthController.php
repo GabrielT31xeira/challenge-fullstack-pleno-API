@@ -28,7 +28,6 @@ class AuthController extends Controller
                 "Erro por parte do servidor, tente novamente mais tarde",
                 $th->getMessage());
         }
-
     }
 
     public function login(LoginRequest $request): JsonResponse

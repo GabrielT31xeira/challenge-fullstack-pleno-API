@@ -2,23 +2,20 @@
 
 namespace App\Services;
 
-use App\Models\Cart;
-use App\Models\CartItem;
-use App\Repositories\Cart\CartRepositoryInterface;
-use Illuminate\Support\Str;
+use App\Repositories\Cart\CartRepository;
 
 class CartService
 {
-    protected CartRepositoryInterface $carts;
+    protected CartRepository $carts;
 
-    public function __construct(CartRepositoryInterface $carts)
+    public function __construct(CartRepository $carts)
     {
         $this->carts = $carts;
     }
 
     public function getOne($id)
     {
-        $cart = Cart::find($id)->items();
+        $cart = $this->carts->getOne($id);
         return $cart;
     }
 
@@ -38,40 +35,14 @@ class CartService
         return $this->getOrCreateCart($userId);
     }
 
-    public function addItem(?string $cartId, string $userId, string $productId, int $quantity)
+    public function addItem($request, $user_id)
     {
-        if ($cartId) {
-            $cart = Cart::where('id', $cartId)
-                ->where('user_id', $userId)
-                ->firstOrFail();
-        }
-        else {
-            $cart = Cart::create([
-                'user_id' => $userId,
-                'session_id' => Str::uuid(),
-            ]);
-        }
-
-        $item = $cart->items()->where('product_id', $productId)->first();
-
-        if ($item) {
-            $item->quantity += $quantity;
-            $item->save();
-            return [$cart, $item];
-        }
-
-        $item = $cart->items()->create([
-            'product_id' => $productId,
-            'quantity' => $quantity,
-        ]);
-
-        return [$cart, $item];
+        return $this->carts->addItem($request, $user_id);
     }
 
 
     public function updateItem(string $userId, string $itemId, int $quantity)
     {
-
         $cart = $this->getOrCreateCart($userId);
         $item = $cart->items()->where('product_id', $itemId)->firstOrFail();
 
@@ -79,7 +50,7 @@ class CartService
             'quantity' => $quantity
         ]);
 
-        return $item;
+        return $cart;
     }
 
     public function removeItem(string $userId, string $itemId)
