@@ -2,24 +2,22 @@
 
 namespace App\Services;
 
-use App\Repositories\Category\CategoryRepositoryInterface;
+use App\Models\Category;
+use App\Repositories\Category\CategoryRepository;
 
 class CategoryService
 {
-    protected $categories;
-
-    public function __construct(CategoryRepositoryInterface $categories)
+    public function __construct(CategoryRepository $categoryRepository)
     {
-        $this->categories = $categories;
+        $this->categoryRepository = $categoryRepository;
+    }
+    public function allTree()
+    {
+        return $this->categoryRepository->allTree();
     }
 
-    public function listTree()
+    public function findProductsByCategory(string $id)
     {
-        return $this->categories->allTree();
-    }
-
-    public function listProducts(string $categoryId)
-    {
-        return $this->categories->findProductsByCategory($categoryId);
+        return $this->categoryRepository->findProductsByCategory($id);
     }
 }

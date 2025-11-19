@@ -8,15 +8,20 @@ class CategoryRepository implements CategoryRepositoryInterface
 {
     public function allTree()
     {
-        return Category::with('children.children.children')
+        return Category::with([
+            'children' => function ($query) {
+                $query->with('children');
+            }])
             ->whereNull('parent_id')
-            ->get();
+            ->orderBy('name')
+            ->paginate(10);
     }
 
     public function findProductsByCategory(string $id)
     {
         return Category::with('products.tags', 'products.category')
             ->findOrFail($id)
-            ->products;
+            ->products()
+            ->paginate(10);
     }
 }
