@@ -13,6 +13,7 @@ class UserSeeder extends Seeder
         User::factory()->admin()->create([
             'name' => 'Admin Master',
             'email' => 'admin@example.com',
+            'password' => 'password',
         ]);
 
         // Usuários normais

@@ -11,14 +11,15 @@ class OrderItemFactory extends Factory
 {
     public function definition()
     {
-        $product = Product::inRandomOrder()->first();
+        $product = Product::factory()->create();
+        $order   = Order::factory()->create();
 
         $qty = $this->faker->numberBetween(1, 5);
         $price = $product->price;
 
         return [
             'id' => Str::uuid(),
-            'order_id' => Order::inRandomOrder()->first()->id,
+            'order_id' => $order->id,
             'product_id' => $product->id,
             'quantity' => $qty,
             'unit_price' => $price,

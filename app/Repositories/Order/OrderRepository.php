@@ -7,7 +7,9 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Nette\Schema\ValidationException;
 
 class OrderRepository implements OrderRepositoryInterface
 {
@@ -34,43 +36,61 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function create(CreateOrderDTO $dto): Order
     {
-        $cart = Cart::with('items.product')->findOrFail($dto->cart_id);
+        return DB::transaction(function () use ($dto) {
 
-        $subtotal = 0;
-        foreach ($cart->items as $item) {
-            $subtotal += $item->product->price * $item->quantity;
-        }
+            $cart = Cart::with('items.product')->findOrFail($dto->cart_id);
 
-        $tax = $subtotal * 0.10; // exemplo 10%
-        $shipping = 20;          // frete fixo exemplo
-        $total = $subtotal + $tax + $shipping;
+            if ($cart->items->isEmpty()) {
+                throw ValidationException::withMessages([
+                    'message' => 'O pedido deve conter ao menos 1 item.'
+                ]);
+            }
 
-        // Cria a order
-        $order = Order::create([
-            'id'              => Str::uuid(),
-            'user_id'         => $dto->user->id,
-            'status'          => 'pending',
-            'subtotal'        => $subtotal,
-            'tax'             => $tax,
-            'shipping_cost'   => $shipping,
-            'total'           => $total,
-            'shipping_address'=> $dto->shippingAddress,
-            'billing_address' => $dto->billingAddress,
-            'notes'           => $dto->notes,
-        ]);
+            $subtotal = 0;
+            foreach ($cart->items as $item) {
+                $subtotal += $item->product->price * $item->quantity;
+            }
 
-        foreach ($cart->items as $item) {
-            OrderItem::create([
-                'id'         => Str::uuid(),
-                'order_id'   => $order->id,
-                'product_id' => $item->product_id,
-                'quantity'   => $item->quantity,
-                'unit_price' => $item->product->price,
-                'total_price'=> $item->product->price * $item->quantity,
+            $tax = $subtotal * 0.10;
+            $shipping = 20;
+            $total = $subtotal + $tax + $shipping;
+
+            $order = Order::create([
+                'id'              => Str::uuid(),
+                'user_id'         => $dto->user->id,
+                'status'          => 'pending',
+                'subtotal'        => $subtotal,
+                'tax'             => $tax,
+                'shipping_cost'   => $shipping,
+                'total'           => $total,
+                'shipping_address'=> $dto->shippingAddress,
+                'billing_address' => $dto->billingAddress,
+                'notes'           => $dto->notes,
+                'cart_id'         => $dto->cart_id,
             ]);
-        }
 
-        return $order->load('items');
+            foreach ($cart->items as $item) {
+                $product = $item->product;
+
+                if ($product->quantity < $item->quantity) {
+                    throw ValidationException::withMessages([
+                        'message' => "Estoque insuficiente para o produto {$product->name}"
+                    ]);
+                }
+                $product->decrement('quantity', $item->quantity);
+
+                OrderItem::create([
+                    'id'         => Str::uuid(),
+                    'order_id'   => $order->id,
+                    'product_id' => $item->product_id,
+                    'quantity'   => $item->quantity,
+                    'unit_price' => $product->price,
+                    'total_price'=> $product->price * $item->quantity,
+                ]);
+            }
+
+            return $order->load('items');
+        });
     }
 
 

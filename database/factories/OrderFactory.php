@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -12,7 +13,8 @@ class OrderFactory extends Factory
     {
         return [
             'id' => Str::uuid(),
-            'user_id' => User::inRandomOrder()->first()->id,
+            'user_id' => User::factory(),
+            'cart_id' => Cart::factory(),
             'status' => $this->faker->randomElement(['pending', 'processing', 'shipped', 'delivered', 'cancelled']),
             'subtotal' => 0,
             'tax' => 0,
