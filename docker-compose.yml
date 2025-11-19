@@ -28,6 +28,7 @@ services:
         - GID=${GID:-1000}
     volumes:
       - "./:/var/www/html"
+      - "./php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini"
     environment:
       - "DB_CONNECTION=mysql"
       - "DB_HOST=db"

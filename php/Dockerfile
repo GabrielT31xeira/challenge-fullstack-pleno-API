@@ -35,6 +35,9 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     libssl-dev
 
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
 RUN docker-php-ext-install mbstring
 
 RUN chmod +x /usr/local/bin/install-php-extensions && \
