@@ -4,7 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Category\CategoryResource;
-use App\Http\Resources\Category\ProductResource;
+use App\Http\Resources\Category\ProductCategoryResource;
 use App\Services\CategoryService;
 use App\Support\ApiResponse;
 
@@ -37,7 +37,7 @@ class CategoryController extends Controller
     {
         try {
             $products = $this->categories->findProductsByCategory($id);
-            $resource = ProductResource::collection($products);
+            $resource = ProductCategoryResource::collection($products);
             return ApiResponse::paginated($resource);
         } catch (\Throwable $th) {
             return ApiResponse::serverError(

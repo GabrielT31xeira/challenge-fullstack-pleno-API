@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Product;
+namespace App\Http\Resources\Category;
 
-use App\Http\Resources\Category\CategoryResource;
-use App\Http\Resources\Tags\TagsResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductResource extends JsonResource
+class ProductCategoryResource extends JsonResource
 {
     public function toArray($request)
     {
@@ -22,7 +20,6 @@ class ProductResource extends JsonResource
             'active' => $this->active,
             'category_id' => $this->category_id,
             'category' => new CategoryResource($this->whenLoaded('category')),
-            'tags' => TagsResource::collection($this->whenLoaded('tags')),
             'created_at' => $this->created_at->format('d/m/Y H:i'),
             'updated_at' => $this->updated_at->format('d/m/Y H:i'),
         ];

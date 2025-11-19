@@ -34,7 +34,9 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function find(string $id)
     {
-        return Product::with(['category', 'tags'])->findOrFail($id);
+        return Product::withTrashed()
+            ->with(['category', 'tags'])
+            ->find($id);
     }
 
     public function create(array $data)

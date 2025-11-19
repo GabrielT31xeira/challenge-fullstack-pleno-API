@@ -21,6 +21,7 @@ class Product extends Model
         'min_quantity',
         'active',
         'category_id',
+        'deleted_at'
     ];
 
     public $incrementing = false;

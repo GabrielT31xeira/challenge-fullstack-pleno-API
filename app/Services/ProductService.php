@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Repositories\Product\ProductRepositoryInterface;
+use App\Repositories\Product\ProductRepository;
 
 class ProductService
 {
     public function __construct(
-        protected ProductRepositoryInterface $products
+        protected ProductRepository $products
     ) {}
 
     public function list(array $filters)
