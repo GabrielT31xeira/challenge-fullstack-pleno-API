@@ -1,12 +1,11 @@
 <?php
-
 namespace Tests\Unit\Services;
 
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Repositories\Order\OrderRepository;
-use App\Repositories\Product\ProductRepositoryInterface;
+use App\Repositories\Product\ProductRepository;
 use Tests\TestCase;
 use Mockery;
 use App\Services\OrderService;
@@ -39,7 +38,7 @@ class OrderServiceTest extends TestCase
             cart_id: $cart->id
         );
 
-        $productRepo = Mockery::mock(ProductRepositoryInterface::class);
+        $productRepo = Mockery::mock(ProductRepository::class);
         $orderRepo   = Mockery::mock(OrderRepository::class);
 
         $productRepo->shouldReceive('find')
@@ -58,7 +57,7 @@ class OrderServiceTest extends TestCase
             ->once()
             ->andReturn($order);
 
-        $service = new OrderService($productRepo, $orderRepo);
+        $service = new OrderService($orderRepo);
 
         $result = $service->createOrder($dto);
 

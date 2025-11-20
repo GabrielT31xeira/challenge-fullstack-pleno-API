@@ -37,7 +37,6 @@ class CartService
         return $this->cartsRepository->addItem($request, $user_id);
     }
 
-
     public function updateItem(string $userId, string $itemId, int $quantity)
     {
         $cart = $this->getOrCreateCart($userId);

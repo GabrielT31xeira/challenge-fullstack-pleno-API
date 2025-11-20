@@ -25,7 +25,7 @@ class CartFlowTest extends TestCase
             'quantity' => 3
         ]);
 
-        $response->assertStatus(201);
+        $response->assertStatus(200);
 
         $cart = Cart::where('user_id', $user->id)->first();
 

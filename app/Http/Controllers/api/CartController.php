@@ -43,7 +43,7 @@ class CartController extends Controller
         }
     }
 
-    public function addItem(AddItemCartRequest $request): \Illuminate\Http\JsonResponse
+    public function addItem(AddItemCartRequest $request)
     {
         try {
             $user_id = $request->user()->id;

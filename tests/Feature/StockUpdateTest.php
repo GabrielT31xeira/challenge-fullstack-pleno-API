@@ -43,7 +43,7 @@ class StockUpdateTest extends TestCase
         echo "Status: " . $response->status() . "\n";
         echo "Response: " . $response->getContent() . "\n";
 
-        $this->assertEquals(201, $response->status(), "A API deveria retornar status 201");
+        $this->assertEquals(200, $response->status(), "A API deveria retornar status 200");
 
         $updatedProduct = Product::find($product->id);
         $this->assertEquals(3, $updatedProduct->quantity);

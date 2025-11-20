@@ -26,11 +26,16 @@ class CartRepository implements CartRepositoryInterface
 
     public function addItem($request, $user_id)
     {
-        $cartId = array_key_exists('cart_id', $request) ? $request['cart_id'] : null;
+        $cartId = $request['cart_id'] ?? null;
 
         if ($cartId !== null) {
-            $cart = Cart::where('id', $request['cart_id'])
-                ->where('user_id', $user_id);
+            $cart = Cart::where('id', $cartId)
+                ->where('user_id', $user_id)
+                ->first();
+
+            if (!$cart) {
+                throw new \Exception("Carrinho não encontrado para o usuário");
+            }
         } else {
             $cart = Cart::create([
                 'user_id' => $user_id,
@@ -43,14 +48,14 @@ class CartRepository implements CartRepositoryInterface
         if ($item) {
             $item->quantity += $request['quantity'];
             $item->save();
-            return [$cart, $item];
+            return $item;
         }
 
-        $cart->items()->create([
+        $newItem = $cart->items()->create([
             'product_id' => $request['product_id'],
             'quantity' => $request['quantity'],
         ]);
 
-        return $cart;
+        return $newItem;
     }
 }
