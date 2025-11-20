@@ -11,7 +11,7 @@ class AuthAccessTest extends TestCase
 
     public function test_guest_cannot_create_order()
     {
-        $this->postJson('/api/orders', [])
+        $this->postJson('/api/v1/orders', [])
             ->assertStatus(401);
     }
 }

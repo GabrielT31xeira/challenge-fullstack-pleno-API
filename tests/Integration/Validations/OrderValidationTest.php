@@ -2,6 +2,8 @@
 
 namespace Tests\Integration\Validations;
 
+use App\Models\Order;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
@@ -12,14 +14,14 @@ class OrderValidationTest extends TestCase
 
     public function test_order_status_validation()
     {
-        $user = User::factory()->create();
-
+        $user = User::factory()->create(['role' => 'admin']);
+        Sanctum::actingAs($user);
+        $order = Order::factory()->create();
         $payload = [
             'status' => 'invalid-status'
         ];
 
-        $this->actingAs($user)
-            ->patchJson('/api/orders/status/123', $payload)
+        $this->putJson('/api/v1/orders/'. $order->id.'/status', $payload)
             ->assertStatus(422)
             ->assertJsonValidationErrors(['status']);
     }
