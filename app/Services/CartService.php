@@ -6,25 +6,22 @@ use App\Repositories\Cart\CartRepository;
 
 class CartService
 {
-    protected CartRepository $carts;
-
-    public function __construct(CartRepository $carts)
-    {
-        $this->carts = $carts;
-    }
+    public function __construct(
+        protected CartRepository $cartsRepository
+    )
+    {}
 
     public function getOne($id)
     {
-        $cart = $this->carts->getOne($id);
-        return $cart;
+        return $this->cartsRepository->getOne($id);
     }
 
     private function getOrCreateCart(string $userId)
     {
-        $cart = $this->carts->getUserCart($userId);
+        $cart = $this->cartsRepository->getUserCart($userId);
 
         if (!$cart) {
-            $cart = $this->carts->createUserCart($userId);
+            $cart = $this->cartsRepository->createUserCart($userId);
         }
 
         return $cart;
@@ -37,7 +34,7 @@ class CartService
 
     public function addItem($request, $user_id)
     {
-        return $this->carts->addItem($request, $user_id);
+        return $this->cartsRepository->addItem($request, $user_id);
     }
 
 

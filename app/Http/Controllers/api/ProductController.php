@@ -15,13 +15,13 @@ use Illuminate\Validation\ValidationException;
 class ProductController extends Controller
 {
     public function __construct(
-        protected ProductService $products
+        protected ProductService $productsService
     ) {}
 
     public function index()
     {
         try {
-            $response = $this->products->list(request()->all());
+            $response = $this->productsService->list(request()->all());
             $resource = ProductResource::collection($response);
 
             return ApiResponse::paginated($resource);
@@ -37,7 +37,7 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $response = $this->products->show($id);
+            $response = $this->productsService->show($id);
 
             if ($response->deleted_at !== null) {
                 return ApiResponse::error(
@@ -61,7 +61,7 @@ class ProductController extends Controller
             $dto = CreateProductDTO::fromRequest($request);
             $dto->validateBusinessRules();
 
-            $product = $this->products->create($dto);
+            $product = $this->productsService->create($dto);
 
             return ApiResponse::success(
                 new ProductResource($product)
@@ -81,7 +81,7 @@ class ProductController extends Controller
             $dto = UpdateProductDTO::fromRequest($request, $productId);
             $dto->validateBusinessRules();
 
-            $product = $this->products->update($dto);
+            $product = $this->productsService->update($dto);
 
             return ApiResponse::success(
                 new ProductResource($product),
@@ -100,7 +100,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         try {
-            $response = $this->products->delete($id);
+            $response = $this->productsService->delete($id);
 
             return ApiResponse::success($response);
         } catch (\Throwable $th) {

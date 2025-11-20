@@ -13,17 +13,14 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    protected CartService $cart;
-
-    public function __construct(CartService $cart)
-    {
-        $this->cart = $cart;
-    }
+    public function __construct(
+        protected CartService $cartService
+    ){}
 
     public function show(Request $request)
     {
         try {
-            $cart = $this->cart->getCart($request->user()->id);
+            $cart = $this->cartService->getCart($request->user()->id);
 
             return ApiResponse::success(new CartResource($cart));
         } catch (\Throwable $th) {
@@ -36,7 +33,7 @@ class CartController extends Controller
     public function getOne($id)
     {
         try {
-            $cart = $this->cart->getOne($id);
+            $cart = $this->cartService->getOne($id);
 
             return ApiResponse::success(new CartResource($cart));
         } catch (\Throwable $th) {
@@ -50,7 +47,7 @@ class CartController extends Controller
     {
         try {
             $user_id = $request->user()->id;
-            $cart = $this->cart->addItem($request->validated(), $user_id);
+            $cart = $this->cartService->addItem($request->validated(), $user_id);
 
             return ApiResponse::success(new CartResource($cart));
         } catch (\Throwable $th) {
@@ -64,7 +61,7 @@ class CartController extends Controller
     public function updateItem(UpdateCartRequest $request, $id)
     {
         try {
-            $cart = $this->cart->updateItem(
+            $cart = $this->cartService->updateItem(
                 $request->user()->id,
                 $id,
                 $request['quantity']
@@ -82,7 +79,7 @@ class CartController extends Controller
     public function removeItem(Request $request, $id)
     {
         try {
-            $this->cart->removeItem($request->user()->id, $id);
+            $this->cartService->removeItem($request->user()->id, $id);
 
             return ApiResponse::success();
         } catch (\Throwable $th) {
@@ -95,7 +92,7 @@ class CartController extends Controller
     public function clear(Request $request)
     {
         try {
-            $this->cart->clear($request->user()->id);
+            $this->cartService->clear($request->user()->id);
 
             return ApiResponse::success();
         } catch (\Throwable $th) {

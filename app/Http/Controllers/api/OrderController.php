@@ -15,13 +15,10 @@ use Nette\Schema\ValidationException;
 
 class OrderController extends Controller
 {
-    protected $orderService;
-    protected $cartService;
-    public function __construct(OrderService $orderService, CartService $cartService)
-    {
-        $this->orderService = $orderService;
-        $this->cartService = $cartService;
-    }
+    public function __construct(
+        protected OrderService $orderService,
+        protected CartService $cartService
+    ){}
 
     public function index(Request $request)
     {

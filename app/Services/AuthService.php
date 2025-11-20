@@ -4,18 +4,18 @@ namespace App\Services;
 
 use App\DTO\Auth\LoginDTO;
 use App\DTO\Auth\RegisterDTO;
-use App\Repositories\User\UserRepositoryInterface;
+use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService
 {
     public function __construct(
-        protected UserRepositoryInterface $users
+        protected UserRepository $usersRepository
     ) {}
 
     public function register(RegisterDTO $data)
     {
-        return $this->users->create([
+        return $this->usersRepository->create([
             'name' => $data->name,
             'email' => $data->email,
             'password' => Hash::make($data->password),
@@ -25,7 +25,7 @@ class AuthService
 
     public function login(LoginDTO $data)
     {
-        $user = $this->users->findByEmail($data->email);
+        $user = $this->usersRepository->findByEmail($data->email);
 
         if (!$user || !Hash::make($data->password) == $user->password) {
             return [

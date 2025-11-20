@@ -2,14 +2,12 @@
 
 namespace App\Services;
 
-use App\Models\Category;
 use App\Repositories\Category\CategoryRepository;
 
 class CategoryService
 {
-    public function __construct(CategoryRepository $categoryRepository)
+    public function __construct(protected CategoryRepository $categoryRepository)
     {
-        $this->categoryRepository = $categoryRepository;
     }
     public function allTree()
     {

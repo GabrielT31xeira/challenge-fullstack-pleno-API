@@ -10,17 +10,14 @@ use App\Support\ApiResponse;
 
 class CategoryController extends Controller
 {
-    protected $categories;
-
-    public function __construct(CategoryService $categories)
-    {
-        $this->categories = $categories;
-    }
+    public function __construct(
+        protected CategoryService $categoriesService
+    ){}
 
     public function index()
     {
         try {
-            $tree = $this->categories->allTree();
+            $tree = $this->categoriesService->allTree();
             $resource = CategoryResource::collection($tree);
 
             return ApiResponse::paginated($resource);
@@ -36,7 +33,7 @@ class CategoryController extends Controller
     public function products($id)
     {
         try {
-            $products = $this->categories->findProductsByCategory($id);
+            $products = $this->categoriesService->findProductsByCategory($id);
             $resource = ProductCategoryResource::collection($products);
             return ApiResponse::paginated($resource);
         } catch (\Throwable $th) {
