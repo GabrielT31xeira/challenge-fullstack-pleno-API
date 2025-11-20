@@ -19,9 +19,10 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     public function findProductsByCategory(string $id)
     {
-        return Category::with('products.tags', 'products.category')
-            ->findOrFail($id)
-            ->products()
+        $category = Category::findOrFail($id);
+
+        return $category->products()
+            ->with(['tags', 'category'])
             ->paginate(10);
     }
 }

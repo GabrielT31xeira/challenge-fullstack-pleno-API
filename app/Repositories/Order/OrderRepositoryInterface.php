@@ -7,7 +7,7 @@ use App\Models\Order;
 interface OrderRepositoryInterface
 {
     public function listByUser(array $data);
-    public function find(string $id);
+    public function find(string $id, string $userId);
     public function addItem(Order $order, array $item);
     public function updateStatus(string $order, string $status);
 }

@@ -26,10 +26,10 @@ class OrderRepository implements OrderRepositoryInterface
             ->get();
     }
 
-    public function find(string $id)
+    public function find(string $id, string $userId)
     {
         return Order::with('items.product')
-            ->where('user_id', $id)
+            ->where('user_id', $userId)
             ->findOrFail($id);
     }
 
@@ -95,7 +95,7 @@ class OrderRepository implements OrderRepositoryInterface
             $order = Order::with('items.product')->find($orderId);
             if (!$order) {
                 throw ValidationException::withMessages([
-                    'order' => ['Pedido não encontrado']
+                    'Pedido não encontrado'
                 ]);
             }
 
@@ -117,6 +117,8 @@ class OrderRepository implements OrderRepositoryInterface
 
     private function restoreStock(Order $order): void
     {
+        $order->loadMissing('items.product');
+
         foreach ($order->items as $item) {
             $product = $item->product;
 
@@ -128,12 +130,15 @@ class OrderRepository implements OrderRepositoryInterface
 
     private function removeStock(Order $order): void
     {
+        $order->loadMissing('items.product');
+
         foreach ($order->items as $item) {
             $product = $item->product;
+
             if ($product) {
                 if ($product->quantity < $item->quantity) {
                     throw ValidationException::withMessages([
-                        'stock' => ["Estoque insuficiente para reativar o pedido. Produto: {$product->name}"]
+                        "Estoque insuficiente para reativar o pedido. Produto: {$product->name}"
                     ]);
                 }
                 $product->decrement('quantity', $item->quantity);
@@ -144,12 +149,11 @@ class OrderRepository implements OrderRepositoryInterface
     private function validateStatusTransition(string $currentStatus, string $newStatus): void
     {
         $allowedTransitions = [
-            'pending' => ['confirmed', 'cancelled'],
-            'confirmed' => ['processing', 'cancelled'],
+            'pending' => ['processing', 'cancelled'],
             'processing' => ['shipped', 'cancelled'],
             'shipped' => ['delivered', 'cancelled'],
-            'delivered' => ['cancelled'],
-            'cancelled' => ['pending', 'confirmed'],
+            'delivered' => [],
+            'cancelled' => ['pending'],
         ];
 
         if (!in_array($newStatus, $allowedTransitions[$currentStatus] ?? [])) {
