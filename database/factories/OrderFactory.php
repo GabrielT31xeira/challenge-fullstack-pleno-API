@@ -15,7 +15,7 @@ class OrderFactory extends Factory
             'id' => Str::uuid(),
             'user_id' => User::factory(),
             'cart_id' => Cart::factory(),
-            'status' => $this->faker->randomElement(['pending', 'processing', 'shipped', 'delivered', 'cancelled']),
+            'status' => 'pending',
             'subtotal' => 0,
             'tax' => 0,
             'shipping_cost' => $this->faker->randomFloat(2, 10, 50),
