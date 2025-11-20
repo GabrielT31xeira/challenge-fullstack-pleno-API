@@ -1,67 +1,104 @@
 <?php
+
 namespace Tests\Unit\Services;
 
-use App\Models\Cart;
-use App\Models\Order;
-use App\Models\OrderItem;
-use App\Repositories\Order\OrderRepository;
-use App\Repositories\Product\ProductRepository;
-use Tests\TestCase;
-use Mockery;
-use App\Services\OrderService;
 use App\DTO\Order\CreateOrderDTO;
+use App\Models\Order;
 use App\Models\User;
+use App\Repositories\Order\OrderRepository;
+use App\Services\OrderService;
+use Illuminate\Foundation\Testing\WithFaker;
+use Mockery;
+use Tests\TestCase;
 
 class OrderServiceTest extends TestCase
 {
-    public function test_create_order_processes_correctly()
+    use WithFaker;
+
+    private OrderRepository $repositoryMock;
+    private OrderService $service;
+
+    protected function setUp(): void
     {
-        $user = User::factory()->create();
+        parent::setUp();
 
-        $cart = Cart::factory()
-            ->hasItems(3)
-            ->create([
-                'user_id' => $user->id
-            ]);
+        // Mock do repository
+        $this->repositoryMock = Mockery::mock(OrderRepository::class);
 
-        $items = $cart->items->map(fn($item) => [
-            'product_id' => $item->product_id,
-            'quantity' => $item->quantity
-        ])->toArray();
-
-        $dto = new CreateOrderDTO(
-            user: $user,
-            items: $items,
-            shippingAddress: ['Rua A'],
-            billingAddress: ['Rua B'],
-            notes: 'teste',
-            cart_id: $cart->id
+        // Instancia o service usando o mock
+        $this->service = new OrderService(
+            ordersRepository: $this->repositoryMock
         );
+    }
 
-        $productRepo = Mockery::mock(ProductRepository::class);
-        $orderRepo   = Mockery::mock(OrderRepository::class);
+    /** @test */
+    public function it_lists_orders_by_user()
+    {
+        $filters = ['user_id' => '123'];
+        $expected = collect(['order1', 'order2']);
 
-        $productRepo->shouldReceive('find')
-            ->andReturn((object)[
-                'id' => 1,
-                'price' => 50
-            ]);
-
-        $order = Order::factory()->make();
-
-        $order->setRelation('items', collect([
-            OrderItem::factory()->make(['order_id' => $order->id])
-        ]));
-
-        $orderRepo->shouldReceive('create')
+        $this->repositoryMock
+            ->shouldReceive('listByUser')
             ->once()
+            ->with($filters)
+            ->andReturn($expected);
+
+        $result = $this->service->listByUser($filters);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /** @test */
+    public function it_gets_an_order_by_id()
+    {
+        $order = new Order();
+        $order->id = 'abc123';
+
+        $this->repositoryMock
+            ->shouldReceive('findById')
+            ->once()
+            ->with('abc123')
             ->andReturn($order);
 
-        $service = new OrderService($orderRepo);
+        $result = $this->service->getOne('abc123');
 
-        $result = $service->createOrder($dto);
+        $this->assertEquals($order, $result);
+    }
 
-        $this->assertInstanceOf(Order::class, $result);
-        $this->assertTrue($result->relationLoaded('items'));
+    /** @test */
+    public function it_creates_an_order()
+    {
+        $dto = Mockery::mock(CreateOrderDTO::class);
+        $order = new Order();
+        $order->id = 'ord123';
+
+        $this->repositoryMock
+            ->shouldReceive('create')
+            ->once()
+            ->with($dto)
+            ->andReturn($order);
+
+        $result = $this->service->createOrder($dto);
+
+        $this->assertEquals($order, $result);
+    }
+
+    /** @test */
+    public function it_updates_order_status()
+    {
+        $order = new Order();
+        $order->id = 'ord123';
+        $order->status = 'confirmed';
+
+        $this->repositoryMock
+            ->shouldReceive('updateStatus')
+            ->once()
+            ->with('ord123', 'confirmed')
+            ->andReturn($order);
+
+        $result = $this->service->updateStatus('ord123', 'confirmed');
+
+        $this->assertEquals($order, $result);
+        $this->assertEquals('confirmed', $result->status);
     }
 }
