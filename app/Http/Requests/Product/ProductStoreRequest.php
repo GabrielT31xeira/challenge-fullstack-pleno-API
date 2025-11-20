@@ -22,7 +22,9 @@ class ProductStoreRequest extends FormRequest
             'quantity'     => 'required|integer|min:0',
             'min_quantity' => 'nullable|integer|min:0',
             'active'       => 'boolean',
-            'category_id'  => 'required|exists:categories,id'
+            'category_id'  => 'required|exists:categories,id',
+            'tags'         => 'sometimes|array',
+            'tags.*'       => 'required|string|exists:tags,id'
         ];
     }
 
@@ -36,7 +38,9 @@ class ProductStoreRequest extends FormRequest
             'cost_price.lt' => 'O custo deve ser menor que o preço de venda.',
             'quantity.min' => 'A quantidade não pode ser negativa.',
             'category_id.exists' => 'A categoria informada não existe.',
+            'tags.array' => 'As tags devem ser um array.',
+            'tags.*.required' => 'Cada tag deve ter um ID válido.',
+            'tags.*.exists' => 'Uma ou mais tags não existem.',
         ];
     }
-
 }

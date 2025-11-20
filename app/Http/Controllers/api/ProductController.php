@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\api;
 
+use App\DTO\Product\CreateProductDTO;
+use App\DTO\Product\UpdateProductDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\ProductStoreRequest;
 use App\Http\Requests\Product\ProductUpdateRequest;
 use App\Http\Resources\Product\ProductResource;
 use App\Services\ProductService;
 use App\Support\ApiResponse;
+use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
@@ -55,9 +58,14 @@ class ProductController extends Controller
     public function store(ProductStoreRequest $request)
     {
         try {
-            $response = $this->products->create($request->toArray());
+            $dto = CreateProductDTO::fromRequest($request);
+            $dto->validateBusinessRules();
 
-            return ApiResponse::success($response);
+            $product = $this->products->create($dto);
+
+            return ApiResponse::success(
+                new ProductResource($product)
+            );
 
         } catch (\Throwable $th) {
             return ApiResponse::serverError(
@@ -67,16 +75,23 @@ class ProductController extends Controller
         }
     }
 
-    public function update(ProductUpdateRequest $request, $id)
+    public function update(ProductUpdateRequest $request, string $productId)
     {
         try {
-            $response = $this->products->update($id, $request->toArray());
+            $dto = UpdateProductDTO::fromRequest($request, $productId);
+            $dto->validateBusinessRules();
 
-            return ApiResponse::success($response);
+            $product = $this->products->update($dto);
 
+            return ApiResponse::success(
+                new ProductResource($product),
+            );
+
+        } catch (ValidationException $e) {
+            return ApiResponse::error($e->getMessage());
         } catch (\Throwable $th) {
             return ApiResponse::serverError(
-                "Erro ao atualizar o produto",
+                "Erro ao atualizar produto",
                 $th->getMessage()
             );
         }

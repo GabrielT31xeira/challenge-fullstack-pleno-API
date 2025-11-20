@@ -43,10 +43,6 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $product = Product::create($data);
 
-        if (!empty($data['tags'])) {
-            $product->tags()->sync($data['tags']);
-        }
-
         return $product->load(['category', 'tags']);
     }
 
@@ -61,6 +57,22 @@ class ProductRepository implements ProductRepositoryInterface
         }
 
         return $product->load(['category', 'tags']);
+    }
+
+    public function slugExists(string $slug, ?string $ignoreId = null): bool
+    {
+        $query = Product::where('slug', $slug);
+
+        if ($ignoreId) {
+            $query->where('id', '!=', $ignoreId);
+        }
+
+        return $query->exists();
+    }
+
+    public function findWithRelations(string $id)
+    {
+        return Product::with(['category', 'tags'])->find($id);
     }
 
     public function delete(string $id)
