@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources\Order;
 
-use App\Http\Resources\Auth\UserResource;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrderResource extends JsonResource
@@ -22,7 +20,7 @@ class OrderResource extends JsonResource
             'shipping_address' => $this->shipping_address,
             'billing_address'  => $this->billing_address,
 
-            'items' => OrderItemResource::collection($this->items),
+            'items' => OrderItemResource::collection($this->whenLoaded('items')),
 
             'created_at' => $this->created_at->toDateTimeString(),
         ];

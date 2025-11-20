@@ -6,10 +6,9 @@ use App\DTO\Order\CreateOrderDTO;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Nette\Schema\ValidationException;
+use Illuminate\Validation\ValidationException;
 
 class OrderRepository implements OrderRepositoryInterface
 {
@@ -34,16 +33,14 @@ class OrderRepository implements OrderRepositoryInterface
             ->findOrFail($id);
     }
 
-    public function create(CreateOrderDTO $dto): Order
+    public function create(CreateOrderDTO $dto)
     {
         return DB::transaction(function () use ($dto) {
 
             $cart = Cart::with('items.product')->findOrFail($dto->cart_id);
 
             if ($cart->items->isEmpty()) {
-                throw ValidationException::withMessages([
-                    'message' => 'O pedido deve conter ao menos 1 item.'
-                ]);
+                throw ValidationException::withMessages(["O pedido deve ter pelo menos um produto."]);
             }
 
             $subtotal = 0;
@@ -73,9 +70,7 @@ class OrderRepository implements OrderRepositoryInterface
                 $product = $item->product;
 
                 if ($product->quantity < $item->quantity) {
-                    throw ValidationException::withMessages([
-                        'message' => "Estoque insuficiente para o produto {$product->name}"
-                    ]);
+                    throw ValidationException::withMessages(["Estoque insuficiente para o produto {$product->name}"]);
                 }
                 $product->decrement('quantity', $item->quantity);
 
@@ -94,15 +89,79 @@ class OrderRepository implements OrderRepositoryInterface
     }
 
 
-    public function updateStatus(Order $order, string $status): Order
+    public function updateStatus(string $orderId, string $status): Order
     {
-        $order->status = $status;
-        $order->save();
+        return DB::transaction(function () use ($orderId, $status) {
+            $order = Order::with('items.product')->find($orderId);
+            if (!$order) {
+                throw ValidationException::withMessages([
+                    'order' => ['Pedido não encontrado']
+                ]);
+            }
 
-        return $order;
+            $oldStatus = $order->status;
+            $this->validateStatusTransition($oldStatus, $status);
+
+            if ($status === 'cancelled' && $oldStatus !== 'cancelled') {
+                $this->restoreStock($order);
+            }
+
+            if ($oldStatus === 'cancelled' && $status !== 'cancelled') {
+                $this->removeStock($order);
+            }
+
+            $order->update(['status' => $status]);
+            return $order->fresh(['items.product']);
+        });
+    }
+
+    private function restoreStock(Order $order): void
+    {
+        foreach ($order->items as $item) {
+            $product = $item->product;
+
+            if ($product) {
+                $product->increment('quantity', $item->quantity);
+            }
+        }
+    }
+
+    private function removeStock(Order $order): void
+    {
+        foreach ($order->items as $item) {
+            $product = $item->product;
+            if ($product) {
+                if ($product->quantity < $item->quantity) {
+                    throw ValidationException::withMessages([
+                        'stock' => ["Estoque insuficiente para reativar o pedido. Produto: {$product->name}"]
+                    ]);
+                }
+                $product->decrement('quantity', $item->quantity);
+            }
+        }
+    }
+
+    private function validateStatusTransition(string $currentStatus, string $newStatus): void
+    {
+        $allowedTransitions = [
+            'pending' => ['confirmed', 'cancelled'],
+            'confirmed' => ['processing', 'cancelled'],
+            'processing' => ['shipped', 'cancelled'],
+            'shipped' => ['delivered', 'cancelled'],
+            'delivered' => ['cancelled'],
+            'cancelled' => ['pending', 'confirmed'],
+        ];
+
+        if (!in_array($newStatus, $allowedTransitions[$currentStatus] ?? [])) {
+            throw ValidationException::withMessages([
+                'status' => ["Não é possível alterar o status de '{$currentStatus}' para '{$newStatus}'"]
+            ]);
+        }
     }
     public function findById(string $id): ?Order
     {
-        return Order::find($id);
+        return Order::where('id',$id)
+            ->with('items.product')
+            ->first();
     }
 }

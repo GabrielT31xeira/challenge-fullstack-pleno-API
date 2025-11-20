@@ -7,10 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\OrderStoreRequest;
 use App\Http\Requests\Order\OrderUpdateRequest;
 use App\Http\Resources\Order\OrderResource;
-use App\Models\Cart;
 use App\Services\CartService;
+use App\Support\ApiResponse;
 use Illuminate\Http\Request;
 use App\Services\OrderService;
+use Nette\Schema\ValidationException;
 
 class OrderController extends Controller
 {
@@ -26,13 +27,13 @@ class OrderController extends Controller
     {
         try {
             $orders = $this->orderService->listByUser($request);
-
-            return OrderResource::collection($orders);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 422);
+            $resource = OrderResource::collection($orders);
+            return ApiResponse::paginated($resource);
+        } catch (\Throwable $th) {
+            return ApiResponse::serverError(
+                "Erro ao carregar ordens de pedido",
+                $th->getMessage()
+            );
         }
     }
 
@@ -40,11 +41,14 @@ class OrderController extends Controller
     public function show($id)
     {
         try {
-            return $this->orderService->getOne($id);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 422);
+            $order = $this->orderService->getOne($id);
+            $resource = new OrderResource($order);
+            return ApiResponse::success($resource);
+        } catch (\Throwable $th) {
+            return ApiResponse::serverError(
+                "Erro ao buscar ordens de pedido",
+                $th->getMessage()
+            );
         }
     }
 
@@ -53,13 +57,15 @@ class OrderController extends Controller
         try {
             $dto = CreateOrderDTO::fromRequest($request, $request->user());
             $order = $this->orderService->createOrder($dto);
-
-            return new OrderResource($order);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 422);
+            return ApiResponse::success(new OrderResource($order));
+        } catch (ValidationException $e) {
+            return ApiResponse::error($e->errors());
+        }
+        catch (\Throwable $th) {
+            return ApiResponse::serverError(
+                "Erro ao criar pedido",
+                $th->getMessage()
+            );
         }
     }
 
@@ -67,14 +73,16 @@ class OrderController extends Controller
     public function updateStatus(OrderUpdateRequest $request, string $id)
     {
         try {
-            $status = $request->input('status');
+            return $this->orderService->updateStatus($id, $request->input('status'));
 
-            return $this->orderService->updateStatus($id, $status);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 422);
+        }catch (ValidationException $e) {
+            return ApiResponse::error($e->errors());
+        }
+        catch (\Throwable $th) {
+            return ApiResponse::serverError(
+                "Erro ao atualizar ordens de pedido",
+                $th->getMessage()
+            );
         }
     }
 }

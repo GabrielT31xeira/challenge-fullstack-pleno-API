@@ -4,7 +4,7 @@ namespace App\DTO\Order;
 
 use App\Models\User;
 use App\Models\Cart;
-use InvalidArgumentException;
+use App\Support\ApiResponse;
 
 class CreateOrderDTO
 {
@@ -20,7 +20,7 @@ class CreateOrderDTO
         public readonly ?string $cart_id,
     ) {
         if (empty($items)) {
-            throw new InvalidArgumentException('O pedido deve conter ao menos 1 item.');
+            return ApiResponse::error( 'O pedido deve conter ao menos 1 item.');
         }
 
         $this->items = array_map(

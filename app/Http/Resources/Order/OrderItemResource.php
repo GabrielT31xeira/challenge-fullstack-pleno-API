@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Order;
 
-use App\Http\Resources\Category\ProductResource;
+use App\Http\Resources\Product\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 

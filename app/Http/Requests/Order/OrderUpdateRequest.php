@@ -30,7 +30,7 @@ class OrderUpdateRequest extends FormRequest
     {
         return [
             'status.required' => 'O campo status é obrigatório.',
-            'status.in' => 'O status informado é inválido. Os valores permitidos são: pending, processing, shipped, delivered ou cancelled.',
+            'status.in' => 'O status informado é inválido.',
         ];
     }
 }
