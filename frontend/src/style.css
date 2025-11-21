@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset para acessibilidade */
+@layer base {
+  html:focus-within {
+    scroll-behavior: smooth;
+  }
+
+  /* Melhor contraste para texto */
+  body {
+    @apply text-gray-900 bg-white;
+    line-height: 1.6;
+  }
+
+  /* Foco acessível */
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    @apply outline-2 outline-offset-2 outline-blue-600;
+  }
+
+  /* Remove outline padrão para mouse users mas mantém para keyboard */
+  button:focus:not(:focus-visible),
+  a:focus:not(:focus-visible) {
+    @apply outline-none;
+  }
+}
+
+/* Componentes reutilizáveis com acessibilidade */
+@layer components {
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg
+           transition-all duration-200 ease-in-out
+           focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 px-4 rounded-lg
+           transition-all duration-200 ease-in-out
+           focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-200
+           hover:shadow-md transition-shadow duration-300;
+  }
+
+  /* Input acessível */
+  .input-field {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg
+           focus:border-blue-500 focus:ring-1 focus:ring-blue-500
+           transition-colors duration-200
+           disabled:bg-gray-100 disabled:cursor-not-allowed;
+  }
+}
+
+/* Utilidades para animações suaves */
+@layer utilities {
+  .animate-smooth {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .focus-visible-safe {
+    @apply focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600;
+  }
+}
