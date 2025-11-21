@@ -14,19 +14,18 @@ Route::prefix('v1')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 
+    // --- public routes ---
+    Route::get('/categories', [CategoryController::class, 'index']);
+    Route::get('/categories/{id}/products', [CategoryController::class, 'products']);
+    Route::get('/products', [ProductController::class, 'index']);
+    Route::get('/products/{id}', [ProductController::class, 'show']);
+
     Route::middleware('verify-token')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/profile', [ProfileController::class, 'show']);
 
-        // --- Categories ---
-        Route::get('/categories', [CategoryController::class, 'index']);
-        Route::get('/categories/{id}/products', [CategoryController::class, 'products']);
-
         // --- Products ---
         Route::prefix('products')->group(function () {
-            Route::get('/', [ProductController::class, 'index']);
-            Route::get('/{id}', [ProductController::class, 'show']);
-
             Route::middleware('admin')->group(function () {
                 Route::post('/', [ProductController::class, 'store']);
                 Route::put('/{id}', [ProductController::class, 'update']);

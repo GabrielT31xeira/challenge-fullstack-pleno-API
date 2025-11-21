@@ -20,7 +20,7 @@ class CategoryController extends Controller
             $tree = $this->categoriesService->allTree();
             $resource = CategoryResource::collection($tree);
 
-            return ApiResponse::paginated($resource);
+            return ApiResponse::success($resource);
 
         } catch (\Throwable $th) {
             return ApiResponse::serverError(
