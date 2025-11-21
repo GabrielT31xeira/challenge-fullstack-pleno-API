@@ -1,0 +1,728 @@
+{
+	"info": {
+		"_postman_id": "533e203c-1347-4a97-b63d-f021aaedf682",
+		"name": "ALD test challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18370856"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "token",
+					"item": [
+						{
+							"name": "user profile",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}profile",
+									"host": [
+										"{{url}}profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "logout",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "12|qmuWZ7I6wWmJo0w1GEHilMhAK1UQwoc64Y2B3hqc3feeaa19",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}logout",
+									"host": [
+										"{{url}}logout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "user register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Gabriel Carvalho\",\n  \"email\": \"teste23@example.com\",\n  \"password\": \"Admin1232!\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}register",
+							"host": [
+								"{{url}}register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"teste23@example.com\",\n  \"password\": \"Admin1232!\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}login",
+							"host": [
+								"{{url}}login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "product",
+			"item": [
+				{
+					"name": "admin",
+					"item": [
+						{
+							"name": "create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"test 3\",\n  \"description\": \"Notebook para uso profissional com 16GB RAM e SSD de 512GB.\",\n  \"price\": 4899.90,\n  \"cost_price\": 3250.00,\n  \"quantity\": 40,\n  \"min_quantity\": 5,\n  \"active\": true,\n  \"category_id\": \"18919e8e-020c-4a37-b97f-92f80fbc8760\",\n  \"tags\": [\n    \"3d02a3ae-8beb-4f63-9957-6e5990efff2d\",\n    \"5242e722-3c7c-46be-9d29-e4add68076c6\"\n  ]\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}products",
+									"host": [
+										"{{url}}products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Esse e do bom 2\",\n  \"description\": \"Notebook para uso profissional com 16GB RAM e SSD de 512GB.\",\n  \"price\": 4899.90,\n  \"cost_price\": 3250.00,\n  \"quantity\": 40,\n  \"min_quantity\": 5,\n  \"active\": true,\n  \"category_id\": \"18919e8e-020c-4a37-b97f-92f80fbc8760\",\n  \"tags\": [\n    \"3d02a3ae-8beb-4f63-9957-6e5990efff2d\",\n    \"5242e722-3c7c-46be-9d29-e4add68076c6\"\n  ]\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}products/019aa213-17d2-7384-ace2-2bbbd3f35cb9",
+									"host": [
+										"{{url}}products"
+									],
+									"path": [
+										"019aa213-17d2-7384-ace2-2bbbd3f35cb9"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}products/019a9db7-486e-71a4-a53c-dea9526e454c",
+									"host": [
+										"{{url}}products"
+									],
+									"path": [
+										"019a9db7-486e-71a4-a53c-dea9526e454c"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}products",
+							"host": [
+								"{{url}}products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get one",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}products/019aa213-17d2-7384-ace2-2bbbd3f35cb9",
+							"host": [
+								"{{url}}products"
+							],
+							"path": [
+								"019aa213-17d2-7384-ace2-2bbbd3f35cb9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "categories",
+			"item": [
+				{
+					"name": "get all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}categories",
+							"host": [
+								"{{url}}categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by products",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}categories/18919e8e-020c-4a37-b97f-92f80fbc8760/products",
+							"host": [
+								"{{url}}categories"
+							],
+							"path": [
+								"18919e8e-020c-4a37-b97f-92f80fbc8760",
+								"products"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cart",
+			"item": [
+				{
+					"name": "get all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}cart",
+							"host": [
+								"{{url}}cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add item",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|7HpWWLqJJban6lVEcoQHa8Vj1k2b4ityqkPbSh6Acd166660",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"product_id\": \"01f2dfa0-93a3-4025-a34d-f474940698eb\",\n  \"quantity\": 1\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}cart/items",
+							"host": [
+								"{{url}}cart"
+							],
+							"path": [
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": 3\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}cart/items/01f2dfa0-93a3-4025-a34d-f474940698eb",
+							"host": [
+								"{{url}}cart"
+							],
+							"path": [
+								"items",
+								"01f2dfa0-93a3-4025-a34d-f474940698eb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Item remove",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "16|mvIdPNaPsZTOMaPVVEGD0nzJvC9jz5Bq51qau5Ozaba4924a",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}cart/items/05d9e618-5b2e-48e7-9c55-115b6d6b1bc7",
+							"host": [
+								"{{url}}cart"
+							],
+							"path": [
+								"items",
+								"05d9e618-5b2e-48e7-9c55-115b6d6b1bc7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "clear cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "16|mvIdPNaPsZTOMaPVVEGD0nzJvC9jz5Bq51qau5Ozaba4924a",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}cart",
+							"host": [
+								"{{url}}cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get one",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}cart/818d550b-cf39-44cc-b9e4-a3dd51f5f12a",
+							"host": [
+								"{{url}}cart"
+							],
+							"path": [
+								"818d550b-cf39-44cc-b9e4-a3dd51f5f12a"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "order",
+			"item": [
+				{
+					"name": "admin",
+					"item": [
+						{
+							"name": "update status",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"status\": \"cancelled\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}orders/818d550b-cf39-44cc-b9e4-a3dd51f5f12a/status",
+									"host": [
+										"{{url}}orders"
+									],
+									"path": [
+										"818d550b-cf39-44cc-b9e4-a3dd51f5f12a",
+										"status"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "index",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}orders",
+							"host": [
+								"{{url}}orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cart_id\": \"019a9e2e-953d-7115-979f-76df9477576a\",\n  \"shipping_address\": [\"Rua Exemplo, Nº 123, Centro, Palmas - TO\"],\n  \"billing_address\": [\"Rua Exemplo, Nº 123, Centro, Palmas - TO\"],\n  \"notes\": \"Entregar somente no período da tarde.\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}orders",
+							"host": [
+								"{{url}}orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get one",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}orders/818d550b-cf39-44cc-b9e4-a3dd51f5f12a",
+							"host": [
+								"{{url}}orders"
+							],
+							"path": [
+								"818d550b-cf39-44cc-b9e4-a3dd51f5f12a"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:84/api/v1/",
+			"type": "string"
+		}
+	]
+}
