@@ -131,4 +131,88 @@ class ProductRepositoryTest extends TestCase
         $this->assertTrue($deleted);
         $this->assertSoftDeleted('products', ['id' => $product->id]);
     }
+
+    /** @test */
+    public function it_filters_products_with_sorting()
+    {
+        Product::factory()->create(['name' => 'Z Product', 'created_at' => now()]);
+        Product::factory()->create(['name' => 'A Product', 'created_at' => now()->addMinute()]);
+
+        $filters = [
+            'sort' => 'name',
+            'direction' => 'asc',
+            'per_page' => 10
+        ];
+
+        $result = $this->repo->paginate($filters);
+
+        $this->assertCount(2, $result);
+        $this->assertEquals('A Product', $result->first()->name);
+        $this->assertEquals('Z Product', $result->last()->name);
+    }
+
+    /** @test */
+    public function it_filters_products_with_sorting_and_desc_direction()
+    {
+        Product::factory()->create(['name' => 'A Product', 'created_at' => now()]);
+        Product::factory()->create(['name' => 'Z Product', 'created_at' => now()->addMinute()]);
+
+        $filters = [
+            'sort' => 'name',
+            'direction' => 'desc',
+            'per_page' => 10
+        ];
+
+        $result = $this->repo->paginate($filters);
+
+        $this->assertCount(2, $result);
+        $this->assertEquals('Z Product', $result->first()->name);
+        $this->assertEquals('A Product', $result->last()->name);
+    }
+
+    /** @test */
+    public function it_filters_products_with_sorting_and_default_direction()
+    {
+        Product::factory()->create(['name' => 'Z Product', 'price' => 100]);
+        Product::factory()->create(['name' => 'A Product', 'price' => 200]);
+
+        $filters = [
+            'sort' => 'name',
+            'per_page' => 10
+        ];
+
+        $result = $this->repo->paginate($filters);
+
+        $this->assertCount(2, $result);
+        $this->assertEquals('A Product', $result->first()->name);
+        $this->assertEquals('Z Product', $result->last()->name);
+    }
+    /** @test */
+    public function it_finds_product_with_relations_loaded()
+    {
+        $category = Category::factory()->create();
+        $product = Product::factory()
+            ->for($category)
+            ->has(Tag::factory()->count(3))
+            ->create();
+
+        $found = $this->repo->findWithRelations($product->id);
+
+        $this->assertNotNull($found);
+        $this->assertEquals($product->id, $found->id);
+
+        $this->assertTrue($found->relationLoaded('category'));
+        $this->assertTrue($found->relationLoaded('tags'));
+
+        $this->assertEquals($category->id, $found->category->id);
+        $this->assertCount(3, $found->tags);
+    }
+
+    /** @test */
+    public function it_returns_null_when_product_not_found_with_relations()
+    {
+        $found = $this->repo->findWithRelations('non-existent-id');
+
+        $this->assertNull($found);
+    }
 }

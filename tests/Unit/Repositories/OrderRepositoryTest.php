@@ -26,6 +26,35 @@ class OrderRepositoryTest extends TestCase
     }
 
     /** @test */
+    public function it_adds_item_to_order()
+    {
+        $order = Order::factory()->create();
+        $product = Product::factory()->create();
+
+        $itemData = [
+            'product_id' => $product->id,
+            'quantity' => 2,
+            'unit_price' => 29.99,
+            'total_price' => 59.98
+        ];
+
+        $orderItem = $this->repo->addItem($order, $itemData);
+
+        $this->assertInstanceOf(OrderItem::class, $orderItem);
+        $this->assertEquals($order->id, $orderItem->order_id);
+        $this->assertEquals($product->id, $orderItem->product_id);
+        $this->assertEquals(2, $orderItem->quantity);
+        $this->assertEquals(29.99, $orderItem->unit_price);
+        $this->assertEquals(59.98, $orderItem->total_price);
+
+        $this->assertDatabaseHas('order_items', [
+            'order_id' => $order->id,
+            'product_id' => $product->id,
+            'quantity' => 2
+        ]);
+    }
+
+    /** @test */
     public function it_creates_an_order_correctly()
     {
         $user = User::factory()->create();
@@ -210,5 +239,34 @@ class OrderRepositoryTest extends TestCase
         $this->repo->updateStatus($order->id, 'pending');
 
         $this->assertEquals(15, $product->fresh()->quantity);
+    }
+
+    /** @test */
+    public function it_throws_validation_exception_when_order_not_found_for_status_update()
+    {
+        $nonExistentOrderId = 9999;
+
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('Pedido não encontrado');
+
+        $this->repo->updateStatus($nonExistentOrderId, 'processing');
+    }
+
+    /** @test */
+    public function it_throws_when_reactivating_cancelled_order_with_insufficient_stock()
+    {
+        $product = Product::factory()->create(['quantity' => 2]);
+        $order = Order::factory()->create(['status' => 'cancelled']);
+
+        OrderItem::factory()->create([
+            'order_id' => $order->id,
+            'product_id' => $product->id,
+            'quantity' => 5,
+        ]);
+
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage("Estoque insuficiente para reativar o pedido. Produto: {$product->name}");
+
+        $this->repo->updateStatus($order->id, 'pending');
     }
 }

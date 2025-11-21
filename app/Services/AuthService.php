@@ -27,7 +27,7 @@ class AuthService
     {
         $user = $this->usersRepository->findByEmail($data->email);
 
-        if (!$user || !Hash::make($data->password) == $user->password) {
+        if (!$user || !Hash::check($data->password, $user->password)) {
             return [
                 'error' => true,
             ];

@@ -75,7 +75,7 @@ class ProductServiceTest extends TestCase
             ->shouldReceive('findMany')
             ->with([1, 2])
             ->once()
-            ->andReturn(collect([new Tag(), new Tag()])); // duas tags existem
+            ->andReturn(collect([new Tag(), new Tag()]));
 
         $result = $this->service->create($dto);
 
@@ -98,7 +98,6 @@ class ProductServiceTest extends TestCase
             ->once()
             ->andReturn($product);
 
-        // Apenas 1 tag encontrada, deveria ser 2
         $this->tagRepository
             ->shouldReceive('findMany')
             ->with([1, 2])
@@ -131,6 +130,232 @@ class ProductServiceTest extends TestCase
         $result = $this->service->update($dto);
 
         $this->assertSame($product, $result);
+    }
+
+    /** @test */
+    public function it_throws_validation_exception_when_product_not_found_on_update()
+    {
+        $dto = Mockery::mock(UpdateProductDTO::class);
+        $dto->id = 999;
+        $dto->slug = 'updated-product';
+
+        DB::shouldReceive('transaction')->andReturnUsing(function ($callback) {
+            return $callback();
+        });
+
+        $this->productRepository
+            ->shouldReceive('find')
+            ->with(999)
+            ->andReturn(null);
+
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('Produto não encontrado');
+
+        $this->service->update($dto);
+    }
+
+    /** @test */
+    public function it_throws_validation_exception_when_slug_already_exists_on_update()
+    {
+        $dto = Mockery::mock(UpdateProductDTO::class);
+        $dto->id = 2;
+        $dto->slug = 'existing-slug';
+
+        $existingProduct = Mockery::mock(Product::class);
+
+        DB::shouldReceive('transaction')->andReturnUsing(function ($callback) {
+            return $callback();
+        });
+
+        $this->productRepository
+            ->shouldReceive('find')
+            ->with(2)
+            ->andReturn($existingProduct);
+
+        $this->productRepository
+            ->shouldReceive('slugExists')
+            ->with('existing-slug', 2)
+            ->andReturn(true);
+
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('Produto não encontrado');
+
+        $this->service->update($dto);
+    }
+
+    /** @test */
+    public function it_updates_successfully_when_slug_is_null()
+    {
+        $dto = Mockery::mock(UpdateProductDTO::class);
+        $dto->id = 1;
+        $dto->slug = null;
+
+        $dto->shouldReceive('toArray')->andReturn(['name' => 'Updated Name']);
+        $dto->shouldReceive('hasTags')->andReturn(false);
+
+        $product = Mockery::mock(Product::class);
+        $updatedProduct = Mockery::mock(Product::class);
+
+        DB::shouldReceive('transaction')->andReturnUsing(function ($callback) {
+            return $callback();
+        });
+
+        $this->productRepository
+            ->shouldReceive('find')
+            ->with(1)
+            ->andReturn($product);
+
+        $this->productRepository
+            ->shouldReceive('slugExists')
+            ->never();
+
+        $this->productRepository
+            ->shouldReceive('update')
+            ->with(1, ['name' => 'Updated Name'])
+            ->andReturn(true);
+
+        $this->productRepository
+            ->shouldReceive('findWithRelations')
+            ->with(1)
+            ->andReturn($updatedProduct);
+
+        $result = $this->service->update($dto);
+
+        $this->assertSame($updatedProduct, $result);
+    }
+
+    /** @test */
+    public function it_updates_successfully_when_slug_is_empty_string()
+    {
+        $dto = Mockery::mock(UpdateProductDTO::class);
+        $dto->id = 1;
+        $dto->slug = '';
+
+        $dto->shouldReceive('toArray')->andReturn(['name' => 'Updated Name']);
+        $dto->shouldReceive('hasTags')->andReturn(false);
+
+        $product = Mockery::mock(Product::class);
+        $updatedProduct = Mockery::mock(Product::class);
+
+        DB::shouldReceive('transaction')->andReturnUsing(function ($callback) {
+            return $callback();
+        });
+
+        $this->productRepository
+            ->shouldReceive('find')
+            ->with(1)
+            ->andReturn($product);
+
+        $this->productRepository
+            ->shouldReceive('slugExists')
+            ->never();
+
+        $this->productRepository
+            ->shouldReceive('update')
+            ->with(1, ['name' => 'Updated Name'])
+            ->andReturn(true);
+
+        $this->productRepository
+            ->shouldReceive('findWithRelations')
+            ->with(1)
+            ->andReturn($updatedProduct);
+
+        $result = $this->service->update($dto);
+
+        $this->assertSame($updatedProduct, $result);
+    }
+
+    /** @test */
+    public function it_updates_successfully_with_new_unique_slug()
+    {
+        $dto = Mockery::mock(UpdateProductDTO::class);
+        $dto->id = 1;
+        $dto->slug = 'new-unique-slug';
+
+        $dto->shouldReceive('toArray')->andReturn(['name' => 'Updated Product']);
+        $dto->shouldReceive('hasTags')->andReturn(false);
+
+        $product = Mockery::mock(Product::class);
+        $updatedProduct = Mockery::mock(Product::class);
+
+        DB::shouldReceive('transaction')->andReturnUsing(function ($callback) {
+            return $callback();
+        });
+
+        $this->productRepository
+            ->shouldReceive('find')
+            ->with(1)
+            ->andReturn($product);
+
+        $this->productRepository
+            ->shouldReceive('slugExists')
+            ->with('new-unique-slug', 1)
+            ->andReturn(false);
+
+        $this->productRepository
+            ->shouldReceive('update')
+            ->with(1, ['name' => 'Updated Product'])
+            ->andReturn(true);
+
+        $this->productRepository
+            ->shouldReceive('findWithRelations')
+            ->with(1)
+            ->andReturn($updatedProduct);
+
+        $result = $this->service->update($dto);
+
+        $this->assertSame($updatedProduct, $result);
+    }
+
+    /** @test */
+    public function it_updates_product_and_associates_tags()
+    {
+        $dto = Mockery::mock(UpdateProductDTO::class);
+        $dto->id = 1;
+        $dto->slug = 'product-slug';
+
+        $dto->shouldReceive('toArray')->andReturn(['name' => 'Updated Product']);
+        $dto->shouldReceive('hasTags')->andReturn(true);
+        $dto->shouldReceive('getTags')->andReturn([1, 2]);
+
+        $product = Mockery::mock(Product::class);
+        $updatedProduct = Mockery::mock(Product::class);
+
+        DB::shouldReceive('transaction')->andReturnUsing(function ($callback) {
+            return $callback();
+        });
+
+        $this->productRepository
+            ->shouldReceive('find')
+            ->with(1)
+            ->andReturn($product);
+
+        $this->productRepository
+            ->shouldReceive('slugExists')
+            ->with('product-slug', 1)
+            ->andReturn(false);
+
+        $this->productRepository
+            ->shouldReceive('update')
+            ->with(1, ['name' => 'Updated Product'])
+            ->andReturn(true);
+
+        $this->tagRepository
+            ->shouldReceive('findMany')
+            ->with([1, 2])
+            ->andReturn(collect([new Tag(), new Tag()]));
+
+        $product->shouldReceive('tags')->andReturnSelf();
+        $product->shouldReceive('sync')->with([1, 2])->once();
+
+        $this->productRepository
+            ->shouldReceive('findWithRelations')
+            ->with(1)
+            ->andReturn($updatedProduct);
+
+        $result = $this->service->update($dto);
+
+        $this->assertSame($updatedProduct, $result);
     }
 
     /** @test */

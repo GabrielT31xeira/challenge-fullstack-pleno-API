@@ -10,6 +10,24 @@ use Tests\TestCase;
 
 class UpdateProductDTOTest extends TestCase
 {
+    /** @test */
+    public function it_returns_tags_correctly()
+    {
+        $dto = new UpdateProductDTO(
+            id: '1',
+            name: 'Test Product',
+            price: 99.99,
+            categoryId: '1',
+            quantity: 10,
+            tags: [1, 2, 3]
+        );
+
+        $tags = $dto->getTags();
+
+        $this->assertEquals([1, 2, 3], $tags);
+        $this->assertIsArray($tags);
+        $this->assertCount(3, $tags);
+    }
     public function test_it_creates_dto_from_request()
     {
         $request = Mockery::mock(ProductUpdateRequest::class)->makePartial();

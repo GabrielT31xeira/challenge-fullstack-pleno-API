@@ -6,7 +6,6 @@ use App\DTO\Auth\LoginDTO;
 use App\DTO\Auth\RegisterDTO;
 use App\Models\User;
 use App\Repositories\User\UserRepository;
-use App\Repositories\User\UserRepositoryInterface;
 use App\Services\AuthService;
 use Illuminate\Support\Facades\Hash;
 use Mockery;
@@ -87,5 +86,39 @@ class AuthServiceTest extends TestCase
         $this->service->logout($mockUser);
 
         $this->assertTrue(true);
+    }
+
+    /** @test */
+    public function it_logs_in_successfully()
+    {
+        $user = new User([
+            'id' => 1,
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'password' => Hash::make('secret123'),
+        ]);
+
+        $user = Mockery::mock($user)->makePartial();
+        $user->shouldReceive('createToken')
+            ->once()
+            ->with('api_token')
+            ->andReturn((object) ['plainTextToken' => 'mocked-token-here']);
+
+        $dto = new LoginDTO(
+            email: 'john@example.com',
+            password: 'secret123'
+        );
+
+        $this->userRepository
+            ->shouldReceive('findByEmail')
+            ->with('john@example.com')
+            ->andReturn($user);
+
+        $result = $this->service->login($dto);
+
+        $this->assertFalse($result['error']);
+        $this->assertArrayHasKey('token', $result);
+        $this->assertEquals('mocked-token-here', $result['token']);
+        $this->assertSame($user, $result['user']);
     }
 }
