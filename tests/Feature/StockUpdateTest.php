@@ -38,7 +38,12 @@ class StockUpdateTest extends TestCase
         echo "Product stock: " . $product->quantity . "\n";
         echo "Cart items count: " . $cart->items()->count() . "\n";
 
-        $response = $this->actingAs($user)->postJson('/api/v1/orders', $payload);
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json'
+        ])->postJson('/api/v1/orders', $payload);
 
         echo "Status: " . $response->status() . "\n";
         echo "Response: " . $response->getContent() . "\n";

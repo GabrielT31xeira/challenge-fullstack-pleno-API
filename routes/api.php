@@ -14,7 +14,7 @@ Route::prefix('v1')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 
-    Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware('verify-token')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/profile', [ProfileController::class, 'show']);
 
@@ -52,5 +52,12 @@ Route::prefix('v1')->group(function () {
             Route::get('/{id}', [OrderController::class, 'show']);
             Route::put('/{id}/status', [OrderController::class, 'updateStatus'])->middleware('admin');
         });
+    });
+});
+
+// Apenas para teste
+Route::middleware(['admin'])->group(function () {
+    Route::get('/admin-route', function () {
+        return response()->json(['success' => true, 'message' => 'Acesso permitido']);
     });
 });

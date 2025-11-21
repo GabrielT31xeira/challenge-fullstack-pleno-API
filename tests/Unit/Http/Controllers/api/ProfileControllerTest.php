@@ -14,8 +14,13 @@ class ProfileControllerTest extends TestCase
     public function it_returns_authenticated_user_profile()
     {
         $user = User::factory()->create();
-        Sanctum::actingAs($user);
-        $response = $this->getJson('/api/v1/profile');
+
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json'
+        ])->getJson('/api/v1/profile');
 
         $response->assertStatus(200);
     }
@@ -32,8 +37,13 @@ class ProfileControllerTest extends TestCase
     public function it_handles_server_errors_gracefully()
     {
         $user = User::factory()->create();
-        Sanctum::actingAs($user);
-        $response = $this->getJson('/api/v1/profile');
+
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json'
+        ])->getJson('/api/v1/profile');
 
         $response->assertStatus(200);
     }

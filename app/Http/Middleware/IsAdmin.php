@@ -13,13 +13,17 @@ class IsAdmin
         $user = auth('sanctum')->user();
         if (!$user) {
             return response()->json([
-                'message' => 'Usuário não autenticado.',
+                'success' => false,
+                'message' => 'Usuário não autenticado',
+                'errors' => []
             ], 401);
         }
 
         if ($user->role === 'user') {
             return response()->json([
-                'message' => 'Acesso negado. Apenas administradores podem realizar esta ação.',
+                'success' => false,
+                'message' => 'Acesso negado. Apenas administradores podem realizar esta ação',
+                'errors' => []
             ], 403);
         }
 

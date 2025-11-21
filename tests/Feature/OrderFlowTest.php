@@ -17,13 +17,17 @@ class OrderFlowTest extends TestCase
     public function test_full_order_creation_flow()
     {
         $user = User::factory()->create();
-        Sanctum::actingAs($user);
 
         $product = Product::factory()->create(['price' => 100.00, 'quantity' => 100]);
 
         $cart = Cart::factory()->create(['user_id' => $user->id]);
 
-        $cartResponse = $this->postJson('/api/v1/cart/items', [
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $cartResponse = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json'
+        ])->postJson('/api/v1/cart/items',[
             'cart_id' => $cart->id,
             'product_id' => $product->id,
             'quantity' => 2

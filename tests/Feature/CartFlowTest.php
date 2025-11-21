@@ -18,9 +18,12 @@ class CartFlowTest extends TestCase
         $user = User::factory()->create();
         $product = Product::factory()->create();
 
-        Sanctum::actingAs($user);
+        $token = $user->createToken('test-token')->plainTextToken;
 
-        $response = $this->postJson('/api/v1/cart/items', [
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json'
+        ])->postJson('/api/v1/cart/items',[
             'product_id' => $product->id,
             'quantity' => 3
         ]);

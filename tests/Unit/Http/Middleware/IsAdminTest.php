@@ -1,67 +1,75 @@
 <?php
 
-namespace tests\Unit\Middleware;
+namespace Tests\Unit\Http\Middleware;
 
 use Tests\TestCase;
-use App\Http\Middleware\IsAdmin;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class IsAdminTest extends TestCase
 {
     /** @test */
-    public function it_denies_access_if_user_not_authenticated()
+    public function it_blocks_non_authenticated_users()
     {
-        $middleware = new IsAdmin();
+        $response = $this->getJson('api/admin-route');
 
-        $request = Request::create('/test', 'GET');
-
-        $response = $middleware->handle($request, function () {});
-
-        $this->assertEquals(401, $response->status());
-        $this->assertEquals(
-            ['message' => 'Usuário não autenticado.'],
-            $response->getData(true)
-        );
+        $response->assertStatus(401)
+            ->assertJson([
+                'success' => false,
+                'message' => 'Usuário não autenticado',
+                'errors' => []
+            ]);
     }
 
     /** @test */
-    public function it_denies_access_if_user_is_not_admin()
+    public function it_blocks_regular_users()
     {
-        $user = User::factory()->make(['role' => 'user']);
+        $user = User::factory()->create(['role' => 'user']);
 
-        $this->actingAs($user, 'sanctum');
+        $token = $user->createToken('test-token')->plainTextToken;
 
-        $middleware = new IsAdmin();
-        $request = Request::create('/test', 'GET');
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json'
+        ])->getJson('api/admin-route');
 
-        $response = $middleware->handle($request, function () {});
-
-        $this->assertEquals(403, $response->status());
-        $this->assertEquals(
-            ['message' => 'Acesso negado. Apenas administradores podem realizar esta ação.'],
-            $response->getData(true)
-        );
+        $response->assertStatus(403)
+            ->assertJson([
+                'success' => false,
+                'message' => 'Acesso negado. Apenas administradores podem realizar esta ação',
+                'errors' => []
+            ]);
     }
 
     /** @test */
-    public function it_allows_access_if_user_is_admin()
+    public function it_allows_admin_users()
     {
-        $user = User::factory()->make(['role' => 'admin']);
+        $user = User::factory()->create(['role' => 'admin']);
 
-        $this->actingAs($user, 'sanctum');
+        $token = $user->createToken('test-token')->plainTextToken;
 
-        $middleware = new IsAdmin();
-        $request = Request::create('/test', 'GET');
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json'
+        ])->getJson('api/admin-route');
 
-        $called = false;
+        $response->assertStatus(200);
+    }
 
-        $response = $middleware->handle($request, function ($req) use (&$called) {
-            $called = true;
-            return response('next called');
-        });
+    /** @test */
+    public function it_blocks_other_roles()
+    {
+        $user = User::factory()->create(['role' => 'user']);
+        $token = $user->createToken('test-token')->plainTextToken;
 
-        $this->assertTrue($called);
-        $this->assertEquals('next called', $response->getContent());
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json'
+        ])->getJson('api/admin-route');
+        $response->assertStatus(403)
+            ->assertJson([
+                'success' => false,
+                'message' => 'Acesso negado. Apenas administradores podem realizar esta ação',
+                'errors' => []
+            ]);
     }
 }

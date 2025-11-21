@@ -21,7 +21,12 @@ class OrderValidationTest extends TestCase
             'status' => 'invalid-status'
         ];
 
-        $this->putJson('/api/v1/orders/'. $order->id.'/status', $payload)
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json'
+        ])->putJson('/api/v1/orders/'. $order->id.'/status', $payload)
             ->assertStatus(422)
             ->assertJsonValidationErrors(['status']);
     }

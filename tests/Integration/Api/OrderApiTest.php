@@ -17,7 +17,6 @@ class OrderApiTest extends TestCase
     public function test_order_create_order()
     {
         $user = User::factory()->create();
-        Sanctum::actingAs($user);
         $cart = Cart::factory()->create();
         $product = Product::factory()->create();
 
@@ -34,8 +33,11 @@ class OrderApiTest extends TestCase
             'notes' => 'Entrega rápida'
         ];
 
-        $this->postJson('/api/v1/orders', $payload)
-            ->assertStatus(200);
+        $token = $user->createToken('test-token')->plainTextToken;
 
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json'
+        ])->postJson('/api/v1/orders', $payload)->assertStatus(200);
     }
 }
