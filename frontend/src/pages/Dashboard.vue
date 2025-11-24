@@ -124,7 +124,6 @@ export default defineComponent({
       if (meta.value && newPage > meta.value.last_page) return;
       page.value = newPage;
       loadProducts();
-      // opcional: scroll to top do main
       window.scrollTo({ top: 0, behavior: "smooth" });
     };
 

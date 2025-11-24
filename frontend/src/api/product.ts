@@ -52,7 +52,9 @@ export const fetchProducts = async (
             if (filters.price) params.max_price = filters.price;
         }
 
-        const response = await axios.get<ProductResponse>(`${API_BASE_URL}products`, { params });
+        const response = await axios.get<ProductResponse>(`${API_BASE_URL}products`,
+            { params }
+        );
         return response.data;
     } catch (error) {
         console.error("Erro ao buscar produtos:", error);

@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import Dashboard from "@/pages/Dashboard.vue";
+import ToastContainer from "./components/ToastContainer.vue";
 </script>
 
 <template>
   <div>
-    <Dashboard />
+    <ToastContainer />
+    <router-view />
   </div>
 </template>
 
