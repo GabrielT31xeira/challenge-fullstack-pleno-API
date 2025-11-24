@@ -43,12 +43,4 @@ class RegisterRequest extends FormRequest
             'password.min'      => 'A senha deve conter pelo menos 6 caracteres.',
         ];
     }
-
-    protected function failedValidation(Validator|\Illuminate\Contracts\Validation\Validator $validator)
-    {
-        $response = ApiResponse::error("Os seguintes erros foram encontrados", $validator->errors()->all());
-
-        throw new HttpResponseException($response);
-    }
-
 }

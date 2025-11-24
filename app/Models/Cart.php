@@ -14,6 +14,7 @@ class Cart extends Model
         'id',
         'user_id',
         'session_id',
+        'name'
     ];
 
     public $incrementing = false;

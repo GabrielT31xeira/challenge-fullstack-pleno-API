@@ -27,9 +27,14 @@ class CartService
         return $cart;
     }
 
-    public function getCart(string $userId)
+    public function getCart(array $filters, string $userId)
     {
-        return $this->getOrCreateCart($userId);
+        return $this->cartsRepository->getUserCarts($filters, $userId);
+    }
+
+    public function createCart($cartData, $userId)
+    {
+        return $this->cartsRepository->createCart($cartData, $userId);
     }
 
     public function addItem($request, $user_id)

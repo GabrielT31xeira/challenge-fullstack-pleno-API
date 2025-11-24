@@ -11,6 +11,7 @@ class CartResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'name' => $this->name,
             'user_id' => $this->user_id,
             'session_id' => $this->session_id,
             'created_at' => $this->created_at->format('d/m/Y H:i'),

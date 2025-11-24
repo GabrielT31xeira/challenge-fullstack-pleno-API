@@ -21,15 +21,11 @@ class ProductRepository implements ProductRepositoryInterface
             $query->where('category_id', $filters['category_id']);
         }
 
-        if (!empty($filters['active'])) {
-            $query->where('active', $filters['active']);
+        if (!empty($filters['max_price'])) {
+            $query->where('price', '<', $filters['max_price']);
         }
 
-        if (!empty($filters['sort'])) {
-            $query->orderBy($filters['sort'], $filters['direction'] ?? 'asc');
-        }
-
-        return $query->paginate($filters['per_page'] ?? 10);
+        return $query->paginate(9);
     }
 
     public function find(string $id)

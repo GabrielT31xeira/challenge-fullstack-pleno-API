@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cart\AddItemCartRequest;
+use App\Http\Requests\Cart\CreateCartRequest;
 use App\Http\Requests\Cart\UpdateCartRequest;
 use App\Http\Resources\Auth\UserResource;
 use App\Http\Resources\Cart\CartResource;
@@ -20,9 +21,9 @@ class CartController extends Controller
     public function show(Request $request)
     {
         try {
-            $cart = $this->cartService->getCart($request->user()->id);
-
-            return ApiResponse::success(new CartResource($cart));
+            $cart = $this->cartService->getCart(request()->all(), $request->user()->id);
+            $resource = CartResource::collection($cart);
+            return ApiResponse::paginated($resource);
         } catch (\Throwable $th) {
             return ApiResponse::serverError(
                 "Erro por parte do servidor, tente novamente mais tarde",
@@ -34,6 +35,20 @@ class CartController extends Controller
     {
         try {
             $cart = $this->cartService->getOne($id);
+
+            return ApiResponse::success(new CartResource($cart));
+        } catch (\Throwable $th) {
+            return ApiResponse::serverError(
+                "Erro por parte do servidor, tente novamente mais tarde",
+                $th->getMessage());
+        }
+    }
+
+    public function create(CreateCartRequest $request)
+    {
+        try {
+            $user_id = $request->user()->id;
+            $cart = $this->cartService->createCart($request->validated(), $user_id);
 
             return ApiResponse::success(new CartResource($cart));
         } catch (\Throwable $th) {

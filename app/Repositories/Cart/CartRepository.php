@@ -12,9 +12,16 @@ class CartRepository implements CartRepositoryInterface
         return Cart::with('items.product')->where('id', $id)->first() ;
     }
     
-    public function getUserCart(string $userId)
+    public function getUserCarts(array $filters, string $userId)
     {
-        return Cart::with('items.product')->where('user_id', $userId)->first();
+        $query = Cart::with('items.product');
+        if (!empty($filters['search'])) {
+            $query->where(function ($q) use ($filters) {
+                $q->where('name', 'like', "%{$filters['search']}%");
+            });
+        }
+
+        return $query->paginate(9);
     }
 
     public function createUserCart(string $userId)
@@ -57,5 +64,14 @@ class CartRepository implements CartRepositoryInterface
         ]);
 
         return $newItem;
+    }
+
+    public function createCart(array $cartData, string $userId)
+    {
+        return Cart::create([
+            'user_id' => $userId,
+            'name' => $cartData['name'],
+            'session_id' => Str::uuid(),
+        ]);
     }
 }
