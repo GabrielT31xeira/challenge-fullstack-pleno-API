@@ -48,8 +48,8 @@ export const fetchProducts = async (
 
         if (filters) {
             if (filters.categoryId) params.category_id = filters.categoryId;
-            if (filters.name) params.name = filters.name;
-            if (filters.price) params.price = filters.price;
+            if (filters.name) params.search = filters.name;
+            if (filters.price) params.max_price = filters.price;
         }
 
         const response = await axios.get<ProductResponse>(`${API_BASE_URL}products`, { params });

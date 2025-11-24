@@ -4,9 +4,6 @@
       <li class="hover:bg-gray-700 dark:hover:bg-gray-600 p-2 rounded cursor-pointer">
         Produtos em destaque
       </li>
-      <li class="hover:bg-gray-700 dark:hover:bg-gray-600 p-2 rounded cursor-pointer">
-        Outras opções
-      </li>
     </ul>
   </aside>
 </template>
