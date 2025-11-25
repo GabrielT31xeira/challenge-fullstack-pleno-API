@@ -22,6 +22,7 @@ class AddItemCartRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'cart_id' => 'nullable|uuid|exists:carts,id',
             'product_id' => 'required|string|exists:products,id',
             'quantity' => 'required|integer|min:1'
         ];
@@ -30,6 +31,9 @@ class AddItemCartRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'cart_id.uuid'   => 'O ID do carrinho informado é inválido.',
+            'cart_id.exists' => 'O carrinho selecionado não foi encontrado.',
+            
             'product_id.required' => 'O campo product_id é obrigatório.',
             'product_id.string'   => 'O product_id deve ser uma string válida.',
             'product_id.exists'   => 'O produto informado não foi encontrado.',

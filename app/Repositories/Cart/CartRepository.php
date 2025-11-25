@@ -3,6 +3,7 @@
 namespace App\Repositories\Cart;
 
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Support\Str;
 
 class CartRepository implements CartRepositoryInterface
@@ -11,10 +12,16 @@ class CartRepository implements CartRepositoryInterface
     {
         return Cart::with('items.product')->where('id', $id)->first() ;
     }
+
+    public function getAll(string $userId)
+    {
+        return Cart::where('user_id', $userId)->get();
+    }
     
     public function getUserCarts(array $filters, string $userId)
     {
-        $query = Cart::with('items.product');
+        $query = Cart::where('user_id', $userId)
+            ->with('items.product');
         if (!empty($filters['search'])) {
             $query->where(function ($q) use ($filters) {
                 $q->where('name', 'like', "%{$filters['search']}%");
@@ -31,25 +38,36 @@ class CartRepository implements CartRepositoryInterface
         ]);
     }
 
+    public function createCart(array $cartData, string $userId)
+    {
+        return Cart::create([
+            'user_id' => $userId,
+            'name' => $cartData['name'],
+            'session_id' => Str::uuid(),
+        ]);
+    }
+
     public function addItem($request, $user_id)
     {
+        // Verifica se foi enviado o cart_id se não foi cria um carrinho
         $cartId = $request['cart_id'] ?? null;
-
         if ($cartId !== null) {
             $cart = Cart::where('id', $cartId)
-                ->where('user_id', $user_id)
                 ->first();
 
             if (!$cart) {
-                throw new \Exception("Carrinho não encontrado para o usuário");
+                return null;
             }
         } else {
+            $quantity = Cart::where('user_id', $user_id)->get()->count();
             $cart = Cart::create([
                 'user_id' => $user_id,
                 'session_id' => Str::uuid(),
+                'name' => 'Carrinho '. $quantity,
             ]);
         }
 
+        // adiciona items ao carrinho e diminui o estoque daquele produto
         $item = $cart->items()->where('product_id', $request['product_id'])->first();
 
         if ($item) {
@@ -58,20 +76,9 @@ class CartRepository implements CartRepositoryInterface
             return $item;
         }
 
-        $newItem = $cart->items()->create([
+        return $cart->items()->create([
             'product_id' => $request['product_id'],
-            'quantity' => $request['quantity'],
-        ]);
-
-        return $newItem;
-    }
-
-    public function createCart(array $cartData, string $userId)
-    {
-        return Cart::create([
-            'user_id' => $userId,
-            'name' => $cartData['name'],
-            'session_id' => Str::uuid(),
+            'quantity'   => $request['quantity'],
         ]);
     }
 }

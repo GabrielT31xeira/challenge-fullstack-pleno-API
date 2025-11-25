@@ -18,12 +18,12 @@ class CartController extends Controller
         protected CartService $cartService
     ){}
 
-    public function show(Request $request)
+    public function getOne($id)
     {
         try {
-            $cart = $this->cartService->getCart(request()->all(), $request->user()->id);
-            $resource = CartResource::collection($cart);
-            return ApiResponse::paginated($resource);
+            $cart = $this->cartService->getOne($id);
+
+            return ApiResponse::success(new CartResource($cart));
         } catch (\Throwable $th) {
             return ApiResponse::serverError(
                 "Erro por parte do servidor, tente novamente mais tarde",
@@ -31,12 +31,24 @@ class CartController extends Controller
         }
     }
 
-    public function getOne($id)
+    public function getAll(Request $request)
     {
         try {
-            $cart = $this->cartService->getOne($id);
+            $carts  = $this->cartService->getAll($request->user()->id);
+            return ApiResponse::success($carts);
+        } catch (\Throwable $th) {
+            return ApiResponse::serverError(
+                "Erro por parte do servidor, tente novamente mais tarde",
+                $th->getMessage());
+        }
+    }
 
-            return ApiResponse::success(new CartResource($cart));
+    public function showPaginated(Request $request)
+    {
+        try {
+            $cart = $this->cartService->getCart(request()->all(), $request->user()->id);
+            $resource = CartResource::collection($cart);
+            return ApiResponse::paginated($resource);
         } catch (\Throwable $th) {
             return ApiResponse::serverError(
                 "Erro por parte do servidor, tente novamente mais tarde",
@@ -64,6 +76,8 @@ class CartController extends Controller
             $user_id = $request->user()->id;
             $cart = $this->cartService->addItem($request->validated(), $user_id);
 
+            if ($cart === null) return ApiResponse::error("Carrinho não encontrado");
+
             return ApiResponse::success(new CartResource($cart));
         } catch (\Throwable $th) {
             return ApiResponse::serverError(
@@ -88,7 +102,6 @@ class CartController extends Controller
                 "Erro por parte do servidor, tente novamente mais tarde",
                 $th->getMessage());
         }
-
     }
 
     public function removeItem(Request $request, $id)
