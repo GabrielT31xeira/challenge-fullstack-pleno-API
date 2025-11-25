@@ -11,15 +11,14 @@ class CartItemResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'total_price' => ($this->product->price ?? 0) * $this->quantity,
             'cart_id' => $this->cart_id,
             'product_id' => $this->product_id,
             'quantity' => $this->quantity,
-            'unit_price' => $this->unit_price,
             'created_at' => $this->created_at->format('d/m/Y H:i'),
             'updated_at' => $this->updated_at->format('d/m/Y H:i'),
             'product' => new ProductResource($this->whenLoaded('product')),
             'cart' => new CartResource($this->whenLoaded('cart')),
-            'total_price' => $this->quantity * $this->unit_price,
         ];
     }
 }

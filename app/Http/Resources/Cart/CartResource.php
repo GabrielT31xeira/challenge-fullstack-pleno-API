@@ -23,9 +23,10 @@ class CartResource extends JsonResource
             'total_quantity' => $this->whenLoaded('items', function() {
                 return $this->items->sum('quantity');
             }),
-            'subtotal' => $this->whenLoaded('items', function() {
-                return $this->items->sum(function($item) {
-                    return $item->quantity * $item->unit_price;
+            'total' => $this->whenLoaded('items', function() {
+                return $this->items->sum(function ($item) {
+                    $price = $item->product->price ?? 0;
+                    return $item->quantity * $price;
                 });
             }),
         ];

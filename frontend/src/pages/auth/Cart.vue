@@ -49,31 +49,81 @@
         </div>
 
         <!-- Modal de Visualização do Carrinho -->
+        <!-- Modal do Carrinho -->
         <div
             v-if="selectedCart"
             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
         >
-          <div class="bg-white dark:bg-gray-800 p-6 rounded shadow-lg w-96 relative">
+          <div class="bg-white dark:bg-gray-800 p-6 rounded shadow-lg w-96 max-h-[90vh] overflow-y-auto relative">
 
+            <!-- Título -->
             <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">
               Detalhes do Carrinho
             </h2>
 
+            <!-- Dados principais -->
             <p class="text-gray-700 dark:text-gray-200 mb-2">
               <strong>Nome:</strong> {{ selectedCart.name }}
             </p>
 
             <p class="text-gray-700 dark:text-gray-200 mb-2">
-              <strong>Criado em: </strong>
-              {{ formatDate(selectedCart.created_at).toLocaleString() }}
+              <strong>Criado em:</strong> {{ selectedCart.created_at }}
             </p>
 
             <p class="text-gray-700 dark:text-gray-200 mb-4">
-              <strong>Atualizado em: </strong>
-              {{ formatDate(selectedCart.updated_at).toLocaleString() }}
+              <strong>Atualizado em:</strong> {{ selectedCart.updated_at }}
             </p>
 
-            <div class="flex justify-end">
+            <!-- Lista de Itens -->
+            <div v-if="selectedCart.items?.length">
+              <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
+                Itens do Carrinho
+              </h3>
+
+              <ul>
+                <li
+                    v-for="item in selectedCart.items"
+                    :key="item.id"
+                    class="mb-4 p-3 rounded border border-gray-300 dark:border-gray-600"
+                >
+                  <p class="text-gray-900 dark:text-white font-medium">
+                    {{ item.product?.name }}
+                  </p>
+
+                  <p class="text-gray-700 dark:text-gray-200">
+                    <strong>Quantidade:</strong> {{ item.quantity }}
+                  </p>
+
+                  <p class="text-gray-700 dark:text-gray-200">
+                    <strong>Preço unitário:</strong>
+                    R$ {{ Number(item.product?.price).toFixed(2) }}
+                  </p>
+
+                  <p class="text-gray-700 dark:text-gray-200">
+                    <strong>Total do item:</strong>
+                    R$ {{ Number(item.total_price).toFixed(2) }}
+                  </p>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Totais -->
+            <div class="mt-4 border-t pt-4 border-gray-300 dark:border-gray-700">
+              <p class="text-gray-800 dark:text-gray-100">
+                <strong>Total de itens:</strong> {{ selectedCart.items_count }}
+              </p>
+
+              <p class="text-gray-800 dark:text-gray-100">
+                <strong>Total de unidades:</strong> {{ selectedCart.total_quantity }}
+              </p>
+
+              <p class="text-gray-900 dark:text-white text-lg font-bold mt-2">
+                Total do Carrinho: R$ {{ Number(selectedCart.total).toFixed(2) }}
+              </p>
+            </div>
+
+            <!-- Botão fechar -->
+            <div class="flex justify-end mt-6">
               <button
                   @click="closeCartModal"
                   class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded"
@@ -101,7 +151,7 @@
                 v-for="cart in carts"
                 :key="cart.id"
                 :cart="cart"
-                @click="openCartModal(cart)"
+                @click="openCartModal(cart.id)"
                 class="max-h-[150px]"
             />
           </div>
@@ -127,7 +177,7 @@ import Navbar from "@/components/Navbar.vue";
 import {defineComponent, onMounted, ref} from "vue";
 import { toastError, toastSuccess, toastValidation } from "@/utils/toastApiHandler.ts";
 
-import { type Cart, createCart, fetchCarts } from "@/api/auth/Cart.ts";
+import {type Cart, createCart, fetchCarts, getOne} from "@/api/auth/Cart.ts";
 
 import Pagination from "@/components/Pagination.vue";
 import SearchBar from "@/components/cart/SearchBar.vue";
@@ -142,7 +192,6 @@ export default defineComponent({
     const loading = ref(false);
     const carts = ref<Cart[]>([]);
     const page = ref(1);
-
     const form = ref({
       name: "",
     });
@@ -151,8 +200,6 @@ export default defineComponent({
 
     const meta = ref<any>(null);
     const links = ref<PaginationLinks | null>(null);
-
-    const selectedCart = ref<Cart | null>(null);
 
     function resetModal() {
       cartName.value = "";
@@ -225,8 +272,30 @@ export default defineComponent({
       window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
-    const openCartModal = (cart: Cart) => {
-      selectedCart.value = cart;
+    const selectedCart = ref(null);
+
+    const openCartModal = async (cart_id: string) => {
+      try {
+        const res = await getOne(cart_id);
+
+        if (res.success) {
+          selectedCart.value = res.data;
+          toastSuccess("Carrinho carregado!");
+        } else {
+          toastError("Erro ao buscar o carrinho.");
+        }
+      } catch (error: any) {
+        const apiError = error.response?.data;
+
+        if (apiError) {
+          toastError(apiError.message || "Erro ao buscar o carrinho.");
+          if (apiError.errors) toastValidation(apiError.errors);
+        } else {
+          toastError("Erro no servidor.");
+        }
+
+        selectedCart.value = null;
+      }
     };
 
     const closeCartModal = () => {

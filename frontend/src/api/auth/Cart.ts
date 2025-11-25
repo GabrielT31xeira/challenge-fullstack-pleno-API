@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_BASE_URL } from "../config";
 import {useAuthStore} from "@/stores/auth.ts";
+import cart from "@/pages/auth/Cart.vue";
 
 export interface addItemData {
     product_id: string;
@@ -41,8 +42,46 @@ export interface CartResponse {
     links: PaginationLinks;
 }
 
+export interface AddItem {
+    cart_id: string | null;
+    quantity: number;
+    product_id: string;
+}
+
 export interface createCartData {
     name: string;
+}
+
+export const getOne = async (id: string) => {
+    const auth = useAuthStore();
+    try {
+        const response = await axios.get(`${API_BASE_URL}cart/${id}`, {
+            headers: {
+                Authorization: `Bearer ${auth.token}`,
+            },
+        });
+
+        return response.data;
+    } catch (error: any) {
+        console.error("Erro ao carregar carrinhos:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export const getAll = async () => {
+    const auth = useAuthStore();
+    try {
+        const response = await axios.get(`${API_BASE_URL}cart/getAll`, {
+            headers: {
+                Authorization: `Bearer ${auth.token}`,
+            },
+        });
+
+        return response.data;
+    } catch (error: any) {
+        console.error("Erro ao carregar carrinhos:", error.response?.data || error.message);
+        throw error;
+    }
 }
 
 export const fetchCarts = async (
@@ -67,6 +106,33 @@ export const fetchCarts = async (
         return response.data;
     } catch (error: any) {
         console.error("Erro ao carregar carrinhos:", error.response?.data || error.message);
+        throw error;
+    }
+};
+
+export const addItem = async (data: AddItem) => {
+    const auth = useAuthStore();
+
+    try {
+        const payload = {
+            cart_id: data.cart_id ?? null,
+            quantity: data.quantity,
+            product_id: data.product_id,
+        };
+
+        const response = await axios.post(
+            `${API_BASE_URL}cart/items`,
+            payload,
+            {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`,
+                },
+            }
+        );
+
+        return response.data;
+    } catch (error: any) {
+        console.error("Erro ao registrar item no carrinho:", error.response?.data || error.message);
         throw error;
     }
 };

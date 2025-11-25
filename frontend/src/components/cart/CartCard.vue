@@ -11,13 +11,6 @@
     <div class="text-sm text-gray-700 dark:text-gray-300 space-y-1 mb-4">
       <p><span class="font-medium">Itens únicos:</span> {{ cart.items_count }}</p>
       <p><span class="font-medium">Quantidade total:</span> {{ cart.total_quantity }}</p>
-
-      <p>
-        <span class="font-medium">Subtotal:</span>
-        <span class="text-blue-600 dark:text-blue-400 font-bold">
-          R$ {{ Number(cart.subtotal).toFixed(2) }}
-        </span>
-      </p>
     </div>
   </div>
 </template>

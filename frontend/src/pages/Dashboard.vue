@@ -60,6 +60,14 @@
               </div>
 
               <button
+                  v-if="auth.isAuthenticated"
+                  @click="addToCart(selectedProduct)"
+                  class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded mr-3"
+              >
+                Adicionar ao Carrinho
+              </button>
+
+              <button
                   @click="closeProductModal"
                   class="px-4 py-2 bg-red-600 dark:bg-red-700 text-white rounded hover:bg-red-700 dark:hover:bg-red-800 transition"
               >
@@ -67,6 +75,67 @@
               </button>
             </div>
           </div>
+
+          <div
+              v-if="showCartModal"
+              class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+              @click.self="closeCartModal"
+          >
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-md w-full">
+
+              <h2 class="text-xl font-bold mb-4">Adicionar ao Carrinho</h2>
+
+              <label class="block mb-4">
+                <span class="text-sm font-medium">Quantidade</span>
+                <input
+                    v-model.number="cartQuantity"
+                    type="number"
+                    min="1"
+                    class="w-full px-3 py-2 border rounded dark:bg-gray-700 dark:border-gray-600"
+                />
+              </label>
+
+              <label class="block mb-6">
+                <span class="text-sm font-medium">Escolha o Carrinho (opcional)</span>
+
+                <select
+                    v-model="selectedCartId"
+                    class="w-full px-3 py-2 border rounded dark:bg-gray-700 dark:border-gray-600"
+                >
+                  <option value="">Criar novo carrinho automaticamente</option>
+
+                  <option
+                      v-for="cart in userCarts"
+                      :key="cart.id"
+                      :value="cart.id"
+                  >
+                    {{ cart.name }}
+                  </option>
+
+                </select>
+              </label>
+
+              <div class="flex justify-end gap-3">
+                <button
+                    class="px-4 py-2 bg-gray-400 rounded hover:bg-gray-500"
+                    @click="closeCartModal"
+                >
+                  Cancelar
+                </button>
+
+                <button
+                    class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                    @click="confirmAddToCart"
+                    :disabled="cartQuantity < 1"
+                >
+                  Confirmar
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+
         </div>
       </main>
     </div>
@@ -81,11 +150,14 @@ import SearchBar from "../components/SearchBar.vue";
 import ProductCard from "../components/ProductCard.vue";
 import Pagination from "../components/Pagination.vue";
 import { fetchProducts, type Product, type PaginationMeta, type PaginationLinks } from "../api/product";
+import { useAuthStore } from "@/stores/auth";
+import { getAll as fetchUserCarts, addItem } from "@/api/auth/Cart";
+import {toastError, toastSuccess, toastValidation} from "@/utils/toastApiHandler.ts";
 
 export default defineComponent({
   components: { Navbar, Sidebar, SearchBar, ProductCard, Pagination },
-
   setup() {
+    const auth = useAuthStore();
     const products = ref<Product[]>([]);
     const loading = ref(false);
     const page = ref(1);
@@ -131,16 +203,106 @@ export default defineComponent({
     const openProductModal = (product: Product) => (selectedProduct.value = product);
     const closeProductModal = () => (selectedProduct.value = null);
 
+    // Modal de adicionar ao carrinho
+    const showCartModal = ref(false);
+    const cartQuantity = ref(1);
+    const selectedCartId = ref("");
+
+    const userCarts = ref<any[]>([]);
+    const cartsLoading = ref(false);
+
+    const addToCart = (product: Product) => {
+      selectedProduct.value = product;
+      showCartModal.value = true;
+    };
+
+    const closeCartModal = () => {
+      showCartModal.value = false;
+      cartQuantity.value = 1;
+      selectedCartId.value = "";
+    };
+
+    const confirmAddToCart = async () => {
+      if (!selectedProduct.value) return;
+
+      const payload = {
+        product_id: selectedProduct.value.id,
+        quantity: cartQuantity.value,
+        cart_id: selectedCartId.value || null,
+      };
+
+      try {
+        const res = await addItem(payload);
+        closeCartModal();
+
+        if (res.errors) {
+          toastError(res.message);
+          toastValidation(res.errors);
+        } else {
+          toastSuccess("Produto adicionado ao carrinho!");
+        }
+      } catch (error: any) {
+        const apiError = error.response?.data;
+
+        if (apiError) {
+          toastError(apiError.message || "Erro ao adicionar item.");
+          if (apiError.errors) {
+            toastValidation(apiError.errors);
+          }
+          return;
+        }
+
+        toastError("Erro no servidor.");
+
+        closeCartModal();
+      }
+    };
+
+    const loadUserCarts = async () => {
+      if (!auth.isAuthenticated) return;
+      cartsLoading.value = true;
+
+      try {
+        const res = await fetchUserCarts();
+
+        if (res.success) {
+          userCarts.value = res.data;
+        } else {
+          userCarts.value = [];
+        }
+      } catch (err) {
+        console.error("Erro ao buscar carrinhos do usuário:", err);
+        userCarts.value = [];
+      } finally {
+        cartsLoading.value = false;
+      }
+    };
+
     onMounted(() => loadProducts());
 
+    onMounted(() => {
+      if (auth.isAuthenticated) {
+        loadUserCarts();
+      }
+    })
+
     return {
+      userCarts,
+      confirmAddToCart,
+      loadUserCarts,
+      cartQuantity,
+      selectedProduct,
+      selectedCartId,
+      closeCartModal,
+      showCartModal,
+      addToCart,
+      auth,
       products,
       loading,
       meta,
       links,
       handleSearch,
       changePage,
-      selectedProduct,
       openProductModal,
       closeProductModal,
     };
