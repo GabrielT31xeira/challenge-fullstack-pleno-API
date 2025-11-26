@@ -81,4 +81,10 @@ class CartRepository implements CartRepositoryInterface
             'quantity'   => $request['quantity'],
         ]);
     }
+
+    public function removeItem($id, Cart $cart) {
+        return $cart->items()->where('product_id', $id)
+            ->firstOrFail()
+            ->delete();
+    }
 }

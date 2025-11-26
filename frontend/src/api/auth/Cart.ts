@@ -138,6 +138,25 @@ export const addItem = async (data: AddItem) => {
 };
 
 
+export const deleteItem = async (cart_id: string, product_id: string) => {
+    const auth = useAuthStore();
+    try {
+        const response = await axios.delete(
+            `${API_BASE_URL}cart/${cart_id}/items/${product_id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`,
+                },
+            }
+        );
+
+        return response.data;
+    } catch (error: any) {
+        console.error("Erro ao registrar item no carrinho:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
 export const createCart = async (data: createCartData) => {
     const auth = useAuthStore();
 

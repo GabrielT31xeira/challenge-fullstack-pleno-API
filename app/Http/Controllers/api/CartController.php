@@ -104,10 +104,10 @@ class CartController extends Controller
         }
     }
 
-    public function removeItem(Request $request, $id)
+    public function removeItem($cart_id, $product_id)
     {
         try {
-            $this->cartService->removeItem($request->user()->id, $id);
+            $this->cartService->removeItem($cart_id, $product_id);
 
             return ApiResponse::success();
         } catch (\Throwable $th) {

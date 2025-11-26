@@ -49,7 +49,6 @@
         </div>
 
         <!-- Modal de Visualização do Carrinho -->
-        <!-- Modal do Carrinho -->
         <div
             v-if="selectedCart"
             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
@@ -86,6 +85,22 @@
                     :key="item.id"
                     class="mb-4 p-3 rounded border border-gray-300 dark:border-gray-600"
                 >
+                  <button
+                      @click="removeItem(selectedCart.id, item.product_id)"
+                      class="absolute right-10 text-red-500 hover:text-red-700 transition"
+                      title="Remover item"
+                  >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-5 h-5"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
                   <p class="text-gray-900 dark:text-white font-medium">
                     {{ item.product?.name }}
                   </p>
@@ -177,7 +192,7 @@ import Navbar from "@/components/Navbar.vue";
 import {defineComponent, onMounted, ref} from "vue";
 import { toastError, toastSuccess, toastValidation } from "@/utils/toastApiHandler.ts";
 
-import {type Cart, createCart, fetchCarts, getOne} from "@/api/auth/Cart.ts";
+import {type Cart, createCart, deleteItem, fetchCarts, getOne} from "@/api/auth/Cart.ts";
 
 import Pagination from "@/components/Pagination.vue";
 import SearchBar from "@/components/cart/SearchBar.vue";
@@ -298,6 +313,31 @@ export default defineComponent({
       }
     };
 
+    const removeItem = async (cart_id: string, item_id: string) => {
+      try {
+        const res = await deleteItem(cart_id, item_id);
+
+        if (res.success) {
+          toastSuccess("Item removido!");
+          closeCartModal()
+        } else {
+          toastError("Erro ao remover o item");
+          closeCartModal()
+        }
+      } catch (error: any) {
+        const apiError = error.response?.data;
+        closeCartModal()
+        if (apiError) {
+          toastError(apiError.message || "Erro ao remover o item");
+          if (apiError.errors) toastValidation(apiError.errors);
+        } else {
+          toastError("Erro no servidor.");
+        }
+
+        selectedCart.value = null;
+      }
+    };
+
     const closeCartModal = () => {
       selectedCart.value = null;
     };
@@ -311,6 +351,7 @@ export default defineComponent({
     onMounted(() => fetchCart());
 
     return {
+      removeItem,
       formatDate,
       openModal,
       cartName,

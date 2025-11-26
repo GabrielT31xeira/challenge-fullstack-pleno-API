@@ -68,7 +68,7 @@ class CartService
         return $item;
     }
 
-    public function removeItem(string $cartId, string $itemId)
+    public function removeItem(string $cartId, string $productId)
     {
         $cart = $this->cartsRepository->getOne($cartId);
 
@@ -76,9 +76,7 @@ class CartService
             throw new \Exception("Carrinho não encontrado");
         }
 
-        $item = $cart->items()->where('product_id', $itemId)->firstOrFail();
-
-        return $item->delete();
+        return $this->cartsRepository->removeItem($productId, $cart);
     }
 
     public function clear(string $cartId)
