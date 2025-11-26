@@ -49,7 +49,6 @@ class CartRepository implements CartRepositoryInterface
 
     public function addItem($request, $user_id)
     {
-        // Verifica se foi enviado o cart_id se não foi cria um carrinho
         $cartId = $request['cart_id'] ?? null;
         if ($cartId !== null) {
             $cart = Cart::where('id', $cartId)
@@ -67,7 +66,6 @@ class CartRepository implements CartRepositoryInterface
             ]);
         }
 
-        // adiciona items ao carrinho e diminui o estoque daquele produto
         $item = $cart->items()->where('product_id', $request['product_id'])->first();
 
         if ($item) {
@@ -80,6 +78,17 @@ class CartRepository implements CartRepositoryInterface
             'product_id' => $request['product_id'],
             'quantity'   => $request['quantity'],
         ]);
+    }
+
+    public function updateItem($productId, Cart $cart, $quantity)
+    {
+        $item = $cart->items()->where('product_id', $productId)->firstOrFail();
+
+        $item->update([
+            'quantity' => $quantity
+        ]);
+
+        return $cart->fresh(['items']);
     }
 
     public function removeItem($id, Cart $cart) {

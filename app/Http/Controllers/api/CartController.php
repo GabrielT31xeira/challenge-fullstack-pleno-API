@@ -87,12 +87,12 @@ class CartController extends Controller
     }
 
 
-    public function updateItem(UpdateCartRequest $request, $id)
+    public function updateItem(UpdateCartRequest $request, $cart_id, $product_id)
     {
         try {
             $cart = $this->cartService->updateItem(
-                $request->user()->id,
-                $id,
+                $cart_id,
+                $product_id,
                 $request['quantity']
             );
 
@@ -117,16 +117,30 @@ class CartController extends Controller
         }
     }
 
-    public function clear(Request $request)
+    public function clear($cart_id)
     {
         try {
-            $this->cartService->clear($request->user()->id);
+            $this->cartService->clear($cart_id);
 
             return ApiResponse::success();
         } catch (\Throwable $th) {
             return ApiResponse::serverError(
                 "Erro por parte do servidor, tente novamente mais tarde",
                 $th->getMessage());
+        }
+    }
+
+    public function deleteCart(string $cart_id)
+    {
+        try {
+            $this->cartService->deleteCart($cart_id);
+
+            return ApiResponse::success();
+        } catch (\Throwable $th) {
+            return ApiResponse::serverError(
+                "Erro por parte do servidor, tente novamente mais tarde",
+                $th->getMessage()
+            );
         }
     }
 }

@@ -40,9 +40,10 @@ Route::prefix('v1')->group(function () {
             Route::get('/{id}', [CartController::class, 'getOne']);
             Route::post('/', [CartController::class, 'create']);
             Route::post('/items', [CartController::class, 'addItem']);
-            Route::put('/items/{id}', [CartController::class, 'updateItem']);
+            Route::put('{cart_id}/items/{product_id}', [CartController::class, 'updateItem']);
             Route::delete('{cart_id}/items/{product_id}', [CartController::class, 'removeItem']);
-            Route::delete('/', [CartController::class, 'clear']);
+            Route::delete('/{cart_id}/clear', [CartController::class, 'clear']);
+            Route::delete('/{cart_id}/delete', [CartController::class, 'deleteCart']);
         });
 
         // --- Orders ---

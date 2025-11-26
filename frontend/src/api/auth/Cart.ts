@@ -1,11 +1,10 @@
 import axios from "axios";
 import { API_BASE_URL } from "../config";
 import {useAuthStore} from "@/stores/auth.ts";
-import cart from "@/pages/auth/Cart.vue";
 
 export interface addItemData {
     product_id: string;
-    quantity: bigint;
+    quantity: number;
 }
 
 export interface Cart {
@@ -157,6 +156,29 @@ export const deleteItem = async (cart_id: string, product_id: string) => {
     }
 }
 
+export const updateItem = async (cart_id: string, product_id: string, quantity: number) => {
+    const auth = useAuthStore();
+    try {
+        const response = await axios.put(
+            `${API_BASE_URL}cart/${cart_id}/items/${product_id}`,
+            {
+                "quantity": quantity,
+            }
+            ,
+            {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`,
+                },
+            }
+        );
+
+        return response.data;
+    } catch (error: any) {
+        console.error("Erro ao registrar item no carrinho:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
 export const createCart = async (data: createCartData) => {
     const auth = useAuthStore();
 
@@ -177,21 +199,40 @@ export const createCart = async (data: createCartData) => {
     }
 }
 
-export const addItemData = async (data: addItemData) => {
+export const clearCart = async (cart_id: string) => {
     const auth = useAuthStore();
-
     try {
-        await axios.post(
-            `${API_BASE_URL}cart/items`,
-            {data: data},
+        const response = await axios.delete(
+            `${API_BASE_URL}cart/${cart_id}/clear`,
             {
                 headers: {
                     Authorization: `Bearer ${auth.token}`,
                 },
             }
         );
+
+        return response.data;
     } catch (error: any) {
-        console.error("Erro no registro:", error.response?.data || error.message);
+        console.error("Erro ao registrar item no carrinho:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export const deleteCart = async (cart_id: string) => {
+    const auth = useAuthStore();
+    try {
+        const response = await axios.delete(
+            `${API_BASE_URL}cart/${cart_id}/delete`,
+            {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`,
+                },
+            }
+        );
+
+        return response.data;
+    } catch (error: any) {
+        console.error("Erro ao registrar item no carrinho:", error.response?.data || error.message);
         throw error;
     }
 }
