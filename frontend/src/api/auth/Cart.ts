@@ -2,11 +2,6 @@ import axios from "axios";
 import { API_BASE_URL } from "../config";
 import {useAuthStore} from "@/stores/auth.ts";
 
-export interface addItemData {
-    product_id: string;
-    quantity: number;
-}
-
 export interface Cart {
     id: string;
     name: string;
@@ -32,13 +27,6 @@ export interface PaginationLinks {
     last: string;
     prev: string | null;
     next: string | null;
-}
-
-export interface CartResponse {
-    success: boolean;
-    data: Cart[];
-    meta: PaginationMeta;
-    links: PaginationLinks;
 }
 
 export interface AddItem {
