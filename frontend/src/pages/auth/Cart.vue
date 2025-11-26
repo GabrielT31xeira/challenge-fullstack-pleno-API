@@ -55,7 +55,7 @@
             v-if="selectedCart"
             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
         >
-          <div class="bg-white dark:bg-gray-800 p-6 rounded shadow-lg w-96 max-h-[90vh] overflow-y-auto relative">
+          <div class="bg-white dark:bg-gray-800 p-6 rounded shadow-lg w-96 max-h-[100vh] overflow-y-auto relative">
 
             <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">
               Detalhes do Carrinho
@@ -133,9 +133,15 @@
               </button>
               <button
                   @click="clearCart(selectedCart.id)"
-                  class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded"
+                  class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded mr-4"
               >
                 Limpar carrinho
+              </button>
+              <button
+                  @click="openOrderModal(selectedCart.id)"
+                  class="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded"
+              >
+                Fazer pedido
               </button>
             </div>
 
@@ -208,6 +214,51 @@
 
         </div>
 
+        <!-- MODAL DE PEDIDO -->
+        <div v-if="showOrderModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg w-96 relative">
+            <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Fazer Pedido</h2>
+
+            <label class="block text-sm mb-1 text-gray-700 dark:text-gray-200">Endereço de entrega</label>
+            <input
+                type="text"
+                v-model="orderForm.shipping_address"
+                class="w-full border border-gray-300 dark:border-gray-600 rounded-lg p-2 mb-4 text-gray-900"
+                placeholder="Rua, número, bairro, cidade - UF"
+            />
+
+            <label class="block text-sm mb-1 text-gray-700 dark:text-gray-200">Endereço de cobrança</label>
+            <input
+                type="text"
+                v-model="orderForm.billing_address"
+                class="w-full border border-gray-300 dark:border-gray-600 rounded-lg p-2 mb-4 text-gray-900"
+                placeholder="Rua, número, bairro, cidade - UF"
+            />
+
+            <label class="block text-sm mb-1 text-gray-700 dark:text-gray-200">Observações</label>
+            <textarea
+                v-model="orderForm.notes"
+                class="w-full border border-gray-300 dark:border-gray-600 rounded-lg p-2 mb-4 text-gray-900"
+                placeholder="Ex: Entregar no período da tarde"
+            ></textarea>
+
+            <div class="flex justify-end gap-3">
+              <button
+                  @click="closeOrderModal"
+                  class="px-4 py-2 rounded-lg bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500"
+              >
+                Cancelar
+              </button>
+
+              <button
+                  @click="submitOrder"
+                  class="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white"
+              >
+                Enviar Pedido
+              </button>
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   </div>
@@ -235,6 +286,7 @@ import Pagination from "@/components/Pagination.vue";
 import SearchBar from "@/components/cart/SearchBar.vue";
 import CartCard from "@/components/cart/CartCard.vue";
 import type { PaginationLinks } from "@/api/product.ts";
+import {createOrder} from "@/api/auth/Order.ts";
 
 export default defineComponent({
   components: { Sidebar, Navbar, Pagination, SearchBar, CartCard },
@@ -522,6 +574,63 @@ export default defineComponent({
     };
 
     /* ----------------------------------------------------
+    * ORDER MODAL
+    * ---------------------------------------------------- */
+    const showOrderModal = ref(false);
+
+    // Formulário do pedido
+    const orderForm = ref({
+      cart_id: "",
+      shipping_address: "",
+      billing_address: "",
+      notes: "",
+    });
+
+    // Abre o modal e já popula o cart_id
+    function openOrderModal(cart_id: string) {
+      orderForm.value.cart_id = cart_id;
+      showOrderModal.value = true;
+    }
+
+    // Fecha o modal e limpa o formulário
+    function closeOrderModal() {
+      showOrderModal.value = false;
+      orderForm.value = {
+        cart_id: "",
+        shipping_address: "",
+        billing_address: "",
+        notes: "",
+      };
+    }
+
+    // Função para enviar pedido (API)
+    const submitOrder = async () => {
+      try {
+        const res = await createOrder({
+          cart_id: orderForm.value.cart_id,
+          shipping_address: [orderForm.value.shipping_address],
+          billing_address: [orderForm.value.billing_address],
+          notes: orderForm.value.notes,
+        });
+
+        if (res.success) {
+          toastSuccess("Pedido criado com sucesso!");
+          closeOrderModal();
+          fetchCart();
+        } else {
+          toastError(res.errors[0]);
+        }
+      } catch (error: any) {
+        const apiError = error.response?.data;
+        if (apiError) {
+          toastError(apiError.message || "Erro ao criar pedido");
+        } else {
+          toastError("Erro no servidor.");
+        }
+      }
+    };
+
+    /* ----------------------------------------------------
      * HELPERS
      * ---------------------------------------------------- */
     const formatDate = (dateStr: string) => {
@@ -572,6 +681,13 @@ export default defineComponent({
 
       /* Utils */
       formatDate,
+
+      /* Order */
+      openOrderModal,
+      showOrderModal,
+      orderForm,
+      closeOrderModal,
+      submitOrder
     };
   },
 });

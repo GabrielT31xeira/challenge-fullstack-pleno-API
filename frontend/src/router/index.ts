@@ -4,6 +4,7 @@ import Register from "@/pages/Register.vue";
 import Dashboard from "@/pages/Dashboard.vue";
 import Cart from "@/pages/auth/Cart.vue";
 import {useAuthStore} from "@/stores/auth.ts";
+import Order from "@/pages/auth/Order.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,7 +30,13 @@ const router = createRouter({
           component: Cart,
           name: 'Cart',
           meta: {requiresAuth: true},
-      }
+      },
+      {
+          path:'/auth/orders',
+          component: Order,
+          name: 'Order',
+          meta: {requiresAuth: true},
+      },
   ],
 })
 

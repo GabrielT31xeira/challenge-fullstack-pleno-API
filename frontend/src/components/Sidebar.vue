@@ -15,6 +15,14 @@
       >
         Meus Carrinhos
       </router-link>
+
+      <router-link
+          to="/auth/orders"
+          v-if="auth.isAuthenticated"
+          class="block p-4 rounded hover:bg-gray-700 dark:hover:bg-gray-600 cursor-pointer transition mt-2"
+      >
+        Meus Pedidos
+      </router-link>
     </ul>
   </aside>
 </template>
