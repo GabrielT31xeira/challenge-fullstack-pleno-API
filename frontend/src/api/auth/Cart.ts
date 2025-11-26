@@ -91,7 +91,9 @@ export const fetchCarts = async (
     try {
         const params: any = { page };
 
-        if (filters?.search) params.search = filters.search;
+        if (filters) {
+            if (filters.name) params.search = filters.name;
+        }
 
         const response = await axios.get(`${API_BASE_URL}cart`, {
             params,
