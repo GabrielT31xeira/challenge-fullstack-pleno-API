@@ -21,6 +21,7 @@ class CartRepository implements CartRepositoryInterface
     public function getUserCarts(array $filters, string $userId)
     {
         $query = Cart::where('user_id', $userId)
+            ->whereDoesntHave('orders')
             ->with('items.product');
         if (!empty($filters['search'])) {
             $query->where(function ($q) use ($filters) {
