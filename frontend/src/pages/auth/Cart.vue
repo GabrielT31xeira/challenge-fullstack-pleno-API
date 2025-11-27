@@ -283,9 +283,9 @@ import {
 } from "@/api/auth/Cart.ts";
 
 import Pagination from "@/components/Pagination.vue";
-import SearchBar from "@/components/cart/SearchBar.vue";
+import SearchBar from "@/components/global/SearchBar.vue";
 import CartCard from "@/components/cart/CartCard.vue";
-import type { PaginationLinks } from "@/api/product.ts";
+import type { PaginationLinks, PaginationMeta } from "@/api/auth/Cart.ts";
 import {createOrder} from "@/api/auth/Order.ts";
 
 export default defineComponent({
@@ -299,7 +299,7 @@ export default defineComponent({
     const carts = ref<Cart[]>([]);
     const page = ref(1);
     const currentFilters = ref<{ search?: string }>({});
-    const meta = ref<any>(null);
+    const meta = ref<PaginationMeta | null>(null);
     const links = ref<PaginationLinks | null>(null);
 
     /* ----------------------------------------------------
