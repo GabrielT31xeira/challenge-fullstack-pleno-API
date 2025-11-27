@@ -62,7 +62,13 @@ const login = async () => {
     if (res.success) {
       auth.setAuth(res.data.user, res.data.token);
       toastSuccess("Login realizado!");
-      router.push("/");
+
+      if (res.data.user.role === "user") {
+        router.push("/");
+      } else {
+        router.push("/admin/dashboard");
+      }
+
       return;
     }
 

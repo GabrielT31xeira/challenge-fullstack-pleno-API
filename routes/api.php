@@ -7,6 +7,7 @@ use App\Http\Controllers\api\ProductController;
 use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\api\CartController;
 use App\Http\Controllers\api\OrderController;
+use App\Http\Controllers\api\AdminController;
 
 Route::prefix('v1')->group(function () {
 
@@ -53,6 +54,13 @@ Route::prefix('v1')->group(function () {
 
             Route::get('/{id}', [OrderController::class, 'show']);
             Route::put('/{id}/status', [OrderController::class, 'updateStatus'])->middleware('admin');
+        });
+
+        // --- admin routes ---
+        Route::prefix('admin')->group(function () {
+            Route::middleware('admin')->group(function () {
+                Route::get('/dashboard', [AdminController::class, 'dashboard']);
+            });
         });
     });
 });
