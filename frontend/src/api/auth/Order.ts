@@ -90,6 +90,21 @@ export interface Product {
     image_url?: string | null;
 }
 
+export const getOne = async (id: string) => {
+    const auth = useAuthStore();
+    try {
+        const response = await axios.get(`${API_BASE_URL}orders/${id}`, {
+            headers: {
+                Authorization: `Bearer ${auth.token}`,
+            },
+        });
+
+        return response.data;
+    } catch (error: any) {
+        console.error("Erro ao carregar pedidos:", error.response?.data || error.message);
+        throw error;
+    }
+}
 
 export const fetchOrders = async (
     page: number = 1,
