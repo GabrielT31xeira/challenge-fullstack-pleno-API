@@ -21,9 +21,13 @@ class OrderRepository implements OrderRepositoryInterface
     public function listByUser($data)
     {
         return Order::where('user_id', $data->user()->id)
-            ->with('items.product')
+            ->with([
+                'cart.items.product',
+                'items.product',
+            ])
             ->latest()
-            ->get();
+            ->paginate(9);
+
     }
 
     public function find(string $id, string $userId)

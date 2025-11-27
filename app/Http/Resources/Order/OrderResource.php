@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Order;
 
+use App\Http\Resources\Cart\CartResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrderResource extends JsonResource
@@ -21,6 +22,8 @@ class OrderResource extends JsonResource
             'billing_address'  => $this->billing_address,
 
             'items' => OrderItemResource::collection($this->whenLoaded('items')),
+
+            'cart' => new CartResource($this->whenLoaded('cart')),
 
             'created_at' => $this->created_at->toDateTimeString(),
         ];
