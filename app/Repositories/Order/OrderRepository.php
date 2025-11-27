@@ -20,19 +20,24 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function listByUser($data)
     {
-        return Order::where('user_id', $data->user()->id)
-            ->with([
-                'cart.items.product',
-                'items.product',
-            ])
-            ->latest()
-            ->paginate(9);
+        $query = Order::where('user_id', $data->user()->id)
+            ->with(['cart.items.product', 'items.product']);
 
+        if (!empty($data['search'])) {
+            $query->whereHas('cart', function ($q) use ($data) {
+                $q->where('name', 'like', "%{$data['search']}%");
+            });
+        }
+
+        return $query->latest()->paginate(9);
     }
 
     public function find(string $id, string $userId)
     {
-        return Order::with('items.product')
+        return Order::with([
+            'cart.items.product',
+            'items.product'
+            ])
             ->where('user_id', $userId)
             ->findOrFail($id);
     }
