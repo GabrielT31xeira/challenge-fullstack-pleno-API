@@ -12,7 +12,7 @@ class ProductSeeder extends Seeder
     public function run()
     {
         Category::factory(5)->create();
-        Tag::factory(10)->create();
+        Tag::factory(5)->create();
 
         Product::factory(50)
             ->create()
