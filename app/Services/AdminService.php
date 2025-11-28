@@ -25,4 +25,9 @@ class AdminService
     {
         return $this->adminRepository->getAllTags();
     }
+
+    public function lowStock()
+    {
+        return $this->adminRepository->lowStock();
+    }
 }

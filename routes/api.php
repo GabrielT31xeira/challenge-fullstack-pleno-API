@@ -67,6 +67,9 @@ Route::prefix('v1')->group(function () {
                     Route::delete('/delete/{id}', [CategoryController::class, 'delete']);
                     Route::get('/paginated', [CategoryController::class, 'paginated']);
                 });
+                Route::prefix('products')->group(function () {
+                   Route::get('/lowstock', [AdminController::class, 'lowStock']);
+                });
             });
         });
     });

@@ -1,7 +1,7 @@
 <template>
   <div
       class="bg-gray-100 dark:bg-gray-800 rounded-lg p-4 shadow hover:shadow-lg cursor-pointer transition"
-      @click="$emit('click')"
+      @click="$emit('click', product)"
   >
     <!-- Nome do produto -->
     <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
@@ -10,7 +10,7 @@
 
     <!-- Categoria -->
     <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">
-      Categoria: {{ product.category.name }}
+      Categoria: {{ product.category?.name ?? 'Sem categoria' }}
     </p>
 
     <!-- Preço -->

@@ -21,4 +21,11 @@ class AdminRepository
     {
         return Tag::all();
     }
+
+    public function lowStock()
+    {
+        return Product::whereColumn('quantity', '<=', 'min_quantity')
+            ->orderBy('quantity', 'desc')
+            ->paginate(9);
+    }
 }

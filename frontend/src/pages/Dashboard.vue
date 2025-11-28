@@ -173,7 +173,7 @@ export default defineComponent({
       loading.value = true;
       try {
         const res = await fetchProducts(page.value, filters ?? currentFilters.value);
-        products.value = res.data ?? [];
+        products.value = res.data;
         meta.value = res.meta ?? null;
         links.value = res.links ?? null;
       } catch (err) {

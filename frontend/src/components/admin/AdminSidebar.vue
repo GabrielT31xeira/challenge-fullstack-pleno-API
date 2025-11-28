@@ -25,7 +25,7 @@
       </router-link>
 
       <router-link
-          to="/auth/orders"
+          to="/admin/lowstock"
           v-if="auth.isAuthenticated"
           class="block p-4 rounded hover:bg-gray-700 dark:hover:bg-gray-600 cursor-pointer transition mt-2"
       >

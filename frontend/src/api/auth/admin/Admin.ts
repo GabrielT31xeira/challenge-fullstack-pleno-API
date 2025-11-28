@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_BASE_URL } from "@/api/config.ts";
 import {useAuthStore} from "@/stores/auth.ts";
+import type {ProductCategory} from "@/api/product.ts";
 
 export interface Category {
     id: string;
@@ -32,10 +33,38 @@ export interface CategoryResponse {
     links: PaginationLinks;
 }
 
+export interface Product {
+    id: string;
+    name: string;
+    description: string;
+    price: string;
+    quantity: number;
+    min_quantity: number;
+    active: number;
+    category: ProductCategory;
+    tags: { name: string; slug: string }[];
+}
+
 export const dashboard = async () => {
     const auth = useAuthStore();
     try {
         const response = await axios.get(`${API_BASE_URL}admin/dashboard`, {
+            headers: {
+                Authorization: `Bearer ${auth.token}`,
+            },
+        });
+
+        return response.data;
+    } catch (error: any) {
+        console.error("Erro os dados da dashboard:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export const lowStock = async () => {
+    const auth = useAuthStore();
+    try {
+        const response = await axios.get(`${API_BASE_URL}admin/products/lowstock`, {
             headers: {
                 Authorization: `Bearer ${auth.token}`,
             },
