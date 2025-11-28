@@ -20,4 +20,9 @@ class AdminService
             'revenue'  => $data[2],
         ];
     }
+
+    public function getAllTags()
+    {
+        return $this->adminRepository->getAllTags();
+    }
 }

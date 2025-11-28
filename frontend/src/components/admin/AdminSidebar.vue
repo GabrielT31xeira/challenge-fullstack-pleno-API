@@ -2,7 +2,7 @@
   <aside class="w-64 p-4 bg-gray-900 dark:bg-gray-800 text-white h-screen">
     <ul class="flex flex-col gap-2">
       <router-link
-          to="/"
+          to="/admin/product"
           class="block p-4 rounded hover:bg-gray-700 dark:hover:bg-gray-600 cursor-pointer transition"
       >
         Produtos

@@ -4,6 +4,7 @@ namespace App\Repositories\Admin;
 
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Tag;
 
 class AdminRepository
 {
@@ -14,5 +15,10 @@ class AdminRepository
         $revenue = Order::where('status', 'delivered')->sum('total');
 
         return [$products, $orders, $revenue];
+    }
+
+    public function getAllTags()
+    {
+        return Tag::all();
     }
 }

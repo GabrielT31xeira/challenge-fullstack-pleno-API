@@ -6,6 +6,7 @@ import Cart from "@/pages/auth/Cart.vue";
 import {useAuthStore} from "@/stores/auth.ts";
 import Order from "@/pages/auth/Order.vue";
 import AdminDashboard from "@/pages/admin/AdminDashboard.vue";
+import AdminProduct from "@/pages/admin/AdminProduct.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,6 +44,15 @@ const router = createRouter({
           path:'/admin/dashboard',
           component: AdminDashboard,
           name: 'AdminDashboard',
+          meta: {
+              requiresAuth: true,
+              requiresAdmin: true,
+          },
+      },
+      {
+          path:'/admin/product',
+          component: AdminProduct,
+          name: 'AdminProduct',
           meta: {
               requiresAuth: true,
               requiresAdmin: true,

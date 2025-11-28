@@ -544,7 +544,7 @@ export default defineComponent({
     };
 
     /* ----------------------------------------------------
-     * LIMPAR CARRINHO
+     * APAGAR CARRINHO
      * ---------------------------------------------------- */
 
     const deleteCart = async (cart_id: string) => {
