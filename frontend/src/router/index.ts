@@ -7,6 +7,7 @@ import {useAuthStore} from "@/stores/auth.ts";
 import Order from "@/pages/auth/Order.vue";
 import AdminDashboard from "@/pages/admin/AdminDashboard.vue";
 import AdminProduct from "@/pages/admin/AdminProduct.vue";
+import AdminCategory from "@/pages/admin/AdminCategory.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -53,6 +54,15 @@ const router = createRouter({
           path:'/admin/product',
           component: AdminProduct,
           name: 'AdminProduct',
+          meta: {
+              requiresAuth: true,
+              requiresAdmin: true,
+          },
+      },
+      {
+          path:'/admin/category',
+          component: AdminCategory,
+          name: 'AdminCategory',
           meta: {
               requiresAuth: true,
               requiresAdmin: true,

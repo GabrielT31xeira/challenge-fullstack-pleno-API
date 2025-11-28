@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Cart\AddItemCartRequest;
 use App\Http\Requests\Cart\CreateCartRequest;
 use App\Http\Requests\Cart\UpdateCartRequest;
-use App\Http\Resources\Auth\UserResource;
 use App\Http\Resources\Cart\CartResource;
 use App\Services\CartService;
 use App\Support\ApiResponse;

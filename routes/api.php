@@ -61,6 +61,12 @@ Route::prefix('v1')->group(function () {
             Route::middleware('admin')->group(function () {
                 Route::get('/dashboard', [AdminController::class, 'dashboard']);
                 Route::get('/tags', [AdminController::class, 'gelAllTags']);
+                Route::prefix('categories')->group(function () {
+                    Route::post('/create', [CategoryController::class, 'create']);
+                    Route::put('/update/{id}', [CategoryController::class, 'update']);
+                    Route::delete('/delete/{id}', [CategoryController::class, 'delete']);
+                    Route::get('/paginated', [CategoryController::class, 'paginated']);
+                });
             });
         });
     });
