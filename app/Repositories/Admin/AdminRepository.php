@@ -28,4 +28,29 @@ class AdminRepository
             ->orderBy('quantity', 'desc')
             ->paginate(9);
     }
+
+    public function orders($data)
+    {
+        $query = Order::with(['cart.items.product', 'items.product']);
+
+        // Filtro por nome (search)
+        if (!empty($data['search'])) {
+            $query->whereHas('cart', function ($q) use ($data) {
+                $q->where('name', 'like', "%{$data['search']}%");
+            });
+        }
+
+        // Filtro por status
+        if (!empty($data['status'])) {
+            $query->where('status', $data['status']);
+        }
+
+        // (Opcional) Filtro por preço máximo
+        if (!empty($data['max_price'])) {
+            $query->where('total', '<=', $data['max_price']);
+        }
+
+        return $query->latest()->paginate(9);
+    }
+
 }

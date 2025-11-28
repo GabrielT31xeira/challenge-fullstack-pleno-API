@@ -14,7 +14,7 @@
           class="px-2 py-1 text-xs rounded-full"
           :class="statusColor(order.status)"
       >
-        {{ order.status }}
+        {{ getStatusLabel(order.status) }}
       </span>
     </div>
 
@@ -58,6 +58,17 @@ export default defineComponent({
 
   setup() {
     /* -------------------------------------------
+     * STATUS MAPPING
+     * ------------------------------------------- */
+    const statusMap = {
+      "pending": "Pendente",
+      "processing": "Processando",
+      "shipped": "Enviado",
+      "delivered": "Entregue",
+      "cancelled": "Cancelado"
+    };
+
+    /* -------------------------------------------
      * HELPERS
      * ------------------------------------------- */
 
@@ -67,6 +78,10 @@ export default defineComponent({
 
     const formatDate = (date: string) => {
       return new Date(date).toLocaleDateString("pt-BR");
+    };
+
+    const getStatusLabel = (status: string) => {
+      return statusMap[status as keyof typeof statusMap] || status;
     };
 
     const statusColor = (status: string) => {
@@ -88,6 +103,7 @@ export default defineComponent({
       formatCurrency,
       formatDate,
       statusColor,
+      getStatusLabel,
     };
   },
 });

@@ -9,6 +9,7 @@ import AdminDashboard from "@/pages/admin/AdminDashboard.vue";
 import AdminProduct from "@/pages/admin/AdminProduct.vue";
 import AdminCategory from "@/pages/admin/AdminCategory.vue";
 import LowStock from "@/pages/admin/LowStock.vue";
+import OrderAdmin from "@/pages/admin/OrderAdmin.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -73,6 +74,15 @@ const router = createRouter({
           path:'/admin/lowstock',
           component: LowStock,
           name: 'LowStock',
+          meta: {
+              requiresAuth: true,
+              requiresAdmin: true,
+          },
+      },
+      {
+          path:'/admin/order',
+          component: OrderAdmin,
+          name: 'OrderAdmin',
           meta: {
               requiresAuth: true,
               requiresAdmin: true,

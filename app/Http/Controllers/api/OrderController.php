@@ -70,8 +70,8 @@ class OrderController extends Controller
     public function updateStatus(OrderUpdateRequest $request, string $id)
     {
         try {
-            return $this->orderService->updateStatus($id, $request->input('status'));
-
+            $order = $this->orderService->updateStatus($id, $request->input('status'));
+            return ApiResponse::success(new OrderResource($order));
         }catch (ValidationException $e) {
             return ApiResponse::error($e->errors());
         }

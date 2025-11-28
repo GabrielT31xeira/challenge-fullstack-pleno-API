@@ -69,6 +69,7 @@ Route::prefix('v1')->group(function () {
                 });
                 Route::prefix('products')->group(function () {
                    Route::get('/lowstock', [AdminController::class, 'lowStock']);
+                   Route::get('/orders', [AdminController::class, 'order']);
                 });
             });
         });

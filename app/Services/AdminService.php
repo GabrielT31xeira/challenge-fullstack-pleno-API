@@ -30,4 +30,9 @@ class AdminService
     {
         return $this->adminRepository->lowStock();
     }
+
+    public function orders($data)
+    {
+        return $this->adminRepository->orders($data);
+    }
 }

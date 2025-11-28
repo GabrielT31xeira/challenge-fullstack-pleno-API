@@ -132,6 +132,42 @@ export const fetchOrders = async (
     }
 };
 
+export const orderAdmin = async (
+    page: number = 1,
+    filters: {
+        name?: string;
+        status?: string;
+        price?: number | null;
+    } = {}
+) => {
+    const auth = useAuthStore();
+
+    try {
+        const params: any = { page };
+
+        if (filters) {
+            if (filters.name) params.search = filters.name;
+            if (filters.status) params.status = filters.status;
+            if (filters.price) params.max_price = filters.price;
+        }
+
+        const response = await axios.get(`${API_BASE_URL}admin/products/orders`, {
+            params,
+            headers: {
+                Authorization: `Bearer ${auth.token}`,
+            },
+        });
+
+        return response.data;
+    } catch (error: any) {
+        console.error(
+            "Erro ao carregar pedidos:",
+            error.response?.data || error.message
+        );
+        throw error;
+    }
+};
+
 export const createOrder = async (data: createOrderData) => {
     const auth = useAuthStore();
 
@@ -156,6 +192,31 @@ export const createOrder = async (data: createOrderData) => {
         return response.data;
     } catch (error: any) {
         console.error("Erro ao registrar item no carrinho:", error.response?.data || error.message);
+        throw error;
+    }
+};
+
+export const updateStatus = async (status: string, id: string) => {
+    const auth = useAuthStore();
+
+    try {
+        const payload = {
+            status: status,
+        };
+
+        const response = await axios.put(
+            `${API_BASE_URL}orders/${id}/status`,
+            payload,
+            {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`,
+                },
+            }
+        );
+
+        return response.data;
+    } catch (error: any) {
+        console.error("Erro ao atualizar status do pedido:", error.response?.data || error.message);
         throw error;
     }
 };
