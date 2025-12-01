@@ -115,7 +115,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"teste23@example.com\",\n  \"password\": \"Admin1232!\"\n}\n",
+							"raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"admin123\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -253,14 +253,7 @@
 					"name": "get all",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
@@ -315,14 +308,7 @@
 					"name": "get all",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [
@@ -375,14 +361,14 @@
 			"name": "cart",
 			"item": [
 				{
-					"name": "get all",
+					"name": "get paginated",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
+									"value": "55|8c6Fod9UOPtujNjj3Crzr13MXzrztTXJSciBEs5o627ac514",
 									"type": "string"
 								}
 							]
@@ -485,7 +471,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "16|mvIdPNaPsZTOMaPVVEGD0nzJvC9jz5Bq51qau5Ozaba4924a",
+									"value": "48|RljJomByXApxbLGhwgQaBluDzwOiCOtD5O1q0FDbf0ec2800",
 									"type": "string"
 								}
 							]
@@ -493,13 +479,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{url}}cart/items/05d9e618-5b2e-48e7-9c55-115b6d6b1bc7",
+							"raw": "{{url}}cart/019abc64-5398-7156-8536-7c4eed62e50d/items/019abc64-539c-72d1-be0b-73dd8807a012",
 							"host": [
 								"{{url}}cart"
 							],
 							"path": [
+								"019abc64-5398-7156-8536-7c4eed62e50d",
 								"items",
-								"05d9e618-5b2e-48e7-9c55-115b6d6b1bc7"
+								"019abc64-539c-72d1-be0b-73dd8807a012"
 							]
 						}
 					},
@@ -537,7 +524,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
+									"value": "42|iWiJRjXfgHWZzpaRsqGN9yMRq6BAbbDWKk3p7Fpd3fabe959",
 									"type": "string"
 								}
 							]
@@ -545,12 +532,84 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}cart/818d550b-cf39-44cc-b9e4-a3dd51f5f12a",
+							"raw": "{{url}}cart/019abc64-5398-7156-8536-7c4eed62e50d",
 							"host": [
 								"{{url}}cart"
 							],
 							"path": [
-								"818d550b-cf39-44cc-b9e4-a3dd51f5f12a"
+								"019abc64-5398-7156-8536-7c4eed62e50d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "17|hb0ouUr0rEQOALiIdx0430SmJUAWECgt3xGJm5Xze4ad6d1d",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"nada\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}cart",
+							"host": [
+								"{{url}}cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "35|vXEgZAeKqT87xoxraycPCqmJmW2IcOgdO1YFAt7I58e30b79",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}cart/getAll",
+							"host": [
+								"{{url}}cart"
+							],
+							"path": [
+								"getAll"
 							]
 						}
 					},
@@ -611,7 +670,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
+									"value": "55|8c6Fod9UOPtujNjj3Crzr13MXzrztTXJSciBEs5o627ac514",
 									"type": "string"
 								}
 							]
@@ -674,7 +733,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "13|mCejNa05hnmUrXvPlZ1RVyVDkvPsTvHLLdfDviQY0e8578b4",
+									"value": "55|8c6Fod9UOPtujNjj3Crzr13MXzrztTXJSciBEs5o627ac514",
 									"type": "string"
 								}
 							]
@@ -682,12 +741,204 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}orders/818d550b-cf39-44cc-b9e4-a3dd51f5f12a",
+							"raw": "{{url}}orders/84a6106a-8345-4700-8d3d-76ed389308e3",
 							"host": [
 								"{{url}}orders"
 							],
 							"path": [
-								"818d550b-cf39-44cc-b9e4-a3dd51f5f12a"
+								"84a6106a-8345-4700-8d3d-76ed389308e3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "category",
+					"item": [
+						{
+							"name": "create category",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "91|mNi3kgsTrQ2L7SM8RGaR67Htm2cZuw23IX5tWihif76d1200",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Smartphones 5\",\n    \"slug\": \"smartphonesssss\",\n    \"description\": \"Todos os smartphones\",\n    \"active\": true,\n    \"parent_id\": \"cb495811-d5ac-410b-a301-44fb2b6f62ae\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}admin/categories/create",
+									"host": [
+										"{{url}}admin"
+									],
+									"path": [
+										"categories",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all category",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "90|YMugrmvENEnqZaCW5poDGyRWzeIFrisTD04eSkDe2ecd649c",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}admin/categories/paginated",
+									"host": [
+										"{{url}}admin"
+									],
+									"path": [
+										"categories",
+										"paginated"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "product",
+					"item": [
+						{
+							"name": "get low stock",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "93|386LB0ie8zEb6QVlieuTSuJ6sd39dTMtTp9mqphm812e7858",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}admin/products/lowstock",
+									"host": [
+										"{{url}}admin"
+									],
+									"path": [
+										"products",
+										"lowstock"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "dashboard",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "70|fycYC1phFN8fJ4mOUNRTT9BgawuTrs7AWQTn1DXpea0222f7",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}admin/dashboard",
+							"host": [
+								"{{url}}admin"
+							],
+							"path": [
+								"dashboard"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all tags",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "70|fycYC1phFN8fJ4mOUNRTT9BgawuTrs7AWQTn1DXpea0222f7",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}admin/tags",
+							"host": [
+								"{{url}}admin"
+							],
+							"path": [
+								"tags"
 							]
 						}
 					},
