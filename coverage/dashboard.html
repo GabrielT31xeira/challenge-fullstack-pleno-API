@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /var/www/html/app</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="_css/bootstrap.min.css?v=11.0.11" rel="stylesheet" type="text/css">
+  <link href="_css/nv.d3.min.css?v=11.0.11" rel="stylesheet" type="text/css">
+  <link href="_css/style.css?v=11.0.11" rel="stylesheet" type="text/css">
+  <link href="_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="index.html">/var/www/html/app</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Http/Controllers/api/AdminController.php.html#15">App\Http\Controllers\api\AdminController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/AuthController.php.html#14">App\Http\Controllers\api\AuthController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/CategoryController.php.html#15">App\Http\Controllers\api\CategoryController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/ProductController.php.html#15">App\Http\Controllers\api\ProductController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Cart/CreateCartRequest.php.html#8">App\Http\Requests\Cart\CreateCartRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Category/CategoryRequest.php.html#7">App\Http\Requests\Category\CategoryRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Category/UpdateCategoryRequest.php.html#7">App\Http\Requests\Category\UpdateCategoryRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/Admin/DashboardResource.php.html#8">App\Http\Resources\Admin\DashboardResource</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Repositories/Admin/AdminRepository.php.html#9">App\Repositories\Admin\AdminRepository</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/AdminService.php.html#7">App\Services\AdminService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#14">App\Http\Controllers\api\CartController</a></td><td class="text-right">7%</td></tr>
+       <tr><td><a href="Http/Controllers/api/OrderController.php.html#16">App\Http\Controllers\api\OrderController</a></td><td class="text-right">11%</td></tr>
+       <tr><td><a href="Http/Controllers/api/ProfileController.php.html#10">App\Http\Controllers\api\ProfileController</a></td><td class="text-right">20%</td></tr>
+       <tr><td><a href="Services/CartService.php.html#9">App\Services\CartService</a></td><td class="text-right">20%</td></tr>
+       <tr><td><a href="Repositories/Category/CategoryRepository.php.html#7">App\Repositories\Category\CategoryRepository</a></td><td class="text-right">30%</td></tr>
+       <tr><td><a href="Services/CategoryService.php.html#7">App\Services\CategoryService</a></td><td class="text-right">42%</td></tr>
+       <tr><td><a href="Repositories/Cart/CartRepository.php.html#9">App\Repositories\Cart\CartRepository</a></td><td class="text-right">51%</td></tr>
+       <tr><td><a href="Models/Cart.php.html#9">App\Models\Cart</a></td><td class="text-right">66%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#14">App\Http\Controllers\api\CartController</a></td><td class="text-right">333</td></tr>
+       <tr><td><a href="Services/CartService.php.html#9">App\Services\CartService</a></td><td class="text-right">224</td></tr>
+       <tr><td><a href="Http/Controllers/api/CategoryController.php.html#15">App\Http\Controllers\api\CategoryController</a></td><td class="text-right">182</td></tr>
+       <tr><td><a href="Http/Controllers/api/ProductController.php.html#15">App\Http\Controllers\api\ProductController</a></td><td class="text-right">182</td></tr>
+       <tr><td><a href="Http/Controllers/api/OrderController.php.html#16">App\Http\Controllers\api\OrderController</a></td><td class="text-right">95</td></tr>
+       <tr><td><a href="Http/Controllers/api/AdminController.php.html#15">App\Http\Controllers\api\AdminController</a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="Http/Controllers/api/AuthController.php.html#14">App\Http\Controllers\api\AuthController</a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="Repositories/Admin/AdminRepository.php.html#9">App\Repositories\Admin\AdminRepository</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Repositories/Cart/CartRepository.php.html#9">App\Repositories\Cart\CartRepository</a></td><td class="text-right">28</td></tr>
+       <tr><td><a href="Repositories/Category/CategoryRepository.php.html#7">App\Repositories\Category\CategoryRepository</a></td><td class="text-right">23</td></tr>
+       <tr><td><a href="Http/Controllers/api/ProfileController.php.html#10">App\Http\Controllers\api\ProfileController</a></td><td class="text-right">4</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Http/Controllers/api/AdminController.php.html#17"><abbr title="App\Http\Controllers\api\AdminController::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/AdminController.php.html#21"><abbr title="App\Http\Controllers\api\AdminController::dashboard">dashboard</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/AdminController.php.html#33"><abbr title="App\Http\Controllers\api\AdminController::gelAllTags">gelAllTags</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/AdminController.php.html#45"><abbr title="App\Http\Controllers\api\AdminController::lowStock">lowStock</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/AdminController.php.html#59"><abbr title="App\Http\Controllers\api\AdminController::order">order</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/AuthController.php.html#16"><abbr title="App\Http\Controllers\api\AuthController::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/AuthController.php.html#20"><abbr title="App\Http\Controllers\api\AuthController::register">register</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/AuthController.php.html#33"><abbr title="App\Http\Controllers\api\AuthController::login">login</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/AuthController.php.html#58"><abbr title="App\Http\Controllers\api\AuthController::logout">logout</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#20"><abbr title="App\Http\Controllers\api\CartController::getOne">getOne</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#33"><abbr title="App\Http\Controllers\api\CartController::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#45"><abbr title="App\Http\Controllers\api\CartController::showPaginated">showPaginated</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#58"><abbr title="App\Http\Controllers\api\CartController::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#89"><abbr title="App\Http\Controllers\api\CartController::updateItem">updateItem</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#106"><abbr title="App\Http\Controllers\api\CartController::removeItem">removeItem</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#119"><abbr title="App\Http\Controllers\api\CartController::clear">clear</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#132"><abbr title="App\Http\Controllers\api\CartController::deleteCart">deleteCart</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/CategoryController.php.html#17"><abbr title="App\Http\Controllers\api\CategoryController::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/CategoryController.php.html#21"><abbr title="App\Http\Controllers\api\CategoryController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/CategoryController.php.html#37"><abbr title="App\Http\Controllers\api\CategoryController::paginated">paginated</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/CategoryController.php.html#52"><abbr title="App\Http\Controllers\api\CategoryController::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/CategoryController.php.html#66"><abbr title="App\Http\Controllers\api\CategoryController::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/CategoryController.php.html#80"><abbr title="App\Http\Controllers\api\CategoryController::delete">delete</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/CategoryController.php.html#94"><abbr title="App\Http\Controllers\api\CategoryController::products">products</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/OrderController.php.html#23"><abbr title="App\Http\Controllers\api\OrderController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/OrderController.php.html#38"><abbr title="App\Http\Controllers\api\OrderController::show">show</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/OrderController.php.html#70"><abbr title="App\Http\Controllers\api\OrderController::updateStatus">updateStatus</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/ProductController.php.html#17"><abbr title="App\Http\Controllers\api\ProductController::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/ProductController.php.html#21"><abbr title="App\Http\Controllers\api\ProductController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/ProductController.php.html#37"><abbr title="App\Http\Controllers\api\ProductController::show">show</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/ProductController.php.html#58"><abbr title="App\Http\Controllers\api\ProductController::store">store</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/ProductController.php.html#78"><abbr title="App\Http\Controllers\api\ProductController::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/ProductController.php.html#100"><abbr title="App\Http\Controllers\api\ProductController::destroy">destroy</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Cart/CreateCartRequest.php.html#13"><abbr title="App\Http\Requests\Cart\CreateCartRequest::authorize">authorize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Cart/CreateCartRequest.php.html#23"><abbr title="App\Http\Requests\Cart\CreateCartRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Cart/CreateCartRequest.php.html#34"><abbr title="App\Http\Requests\Cart\CreateCartRequest::messages">messages</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Category/CategoryRequest.php.html#12"><abbr title="App\Http\Requests\Category\CategoryRequest::authorize">authorize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Category/CategoryRequest.php.html#22"><abbr title="App\Http\Requests\Category\CategoryRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Category/CategoryRequest.php.html#33"><abbr title="App\Http\Requests\Category\CategoryRequest::messages">messages</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Category/UpdateCategoryRequest.php.html#12"><abbr title="App\Http\Requests\Category\UpdateCategoryRequest::authorize">authorize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Category/UpdateCategoryRequest.php.html#22"><abbr title="App\Http\Requests\Category\UpdateCategoryRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Category/UpdateCategoryRequest.php.html#33"><abbr title="App\Http\Requests\Category\UpdateCategoryRequest::messages">messages</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/Admin/DashboardResource.php.html#10"><abbr title="App\Http\Resources\Admin\DashboardResource::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Cart.php.html#33"><abbr title="App\Models\Cart::order">order</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Repositories/Admin/AdminRepository.php.html#11"><abbr title="App\Repositories\Admin\AdminRepository::dashboard">dashboard</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Repositories/Admin/AdminRepository.php.html#20"><abbr title="App\Repositories\Admin\AdminRepository::getAllTags">getAllTags</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Repositories/Admin/AdminRepository.php.html#25"><abbr title="App\Repositories\Admin\AdminRepository::lowStock">lowStock</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Repositories/Admin/AdminRepository.php.html#32"><abbr title="App\Repositories\Admin\AdminRepository::orders">orders</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Repositories/Cart/CartRepository.php.html#16"><abbr title="App\Repositories\Cart\CartRepository::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Repositories/Cart/CartRepository.php.html#21"><abbr title="App\Repositories\Cart\CartRepository::getUserCarts">getUserCarts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Repositories/Cart/CartRepository.php.html#42"><abbr title="App\Repositories\Cart\CartRepository::createCart">createCart</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Repositories/Cart/CartRepository.php.html#84"><abbr title="App\Repositories\Cart\CartRepository::updateItem">updateItem</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Repositories/Cart/CartRepository.php.html#95"><abbr title="App\Repositories\Cart\CartRepository::removeItem">removeItem</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Repositories/Category/CategoryRepository.php.html#20"><abbr title="App\Repositories\Category\CategoryRepository::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Repositories/Category/CategoryRepository.php.html#31"><abbr title="App\Repositories\Category\CategoryRepository::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Repositories/Category/CategoryRepository.php.html#43"><abbr title="App\Repositories\Category\CategoryRepository::delete">delete</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Repositories/Category/CategoryRepository.php.html#48"><abbr title="App\Repositories\Category\CategoryRepository::paginated">paginated</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Repositories/Order/OrderRepository.php.html#21"><abbr title="App\Repositories\Order\OrderRepository::listByUser">listByUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/AdminService.php.html#9"><abbr title="App\Services\AdminService::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/AdminService.php.html#14"><abbr title="App\Services\AdminService::dashboard">dashboard</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/AdminService.php.html#24"><abbr title="App\Services\AdminService::getAllTags">getAllTags</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/AdminService.php.html#29"><abbr title="App\Services\AdminService::lowStock">lowStock</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/AdminService.php.html#34"><abbr title="App\Services\AdminService::orders">orders</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/CartService.php.html#16"><abbr title="App\Services\CartService::getOne">getOne</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/CartService.php.html#21"><abbr title="App\Services\CartService::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/CartService.php.html#26"><abbr title="App\Services\CartService::getCart">getCart</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/CartService.php.html#31"><abbr title="App\Services\CartService::createCart">createCart</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/CartService.php.html#49"><abbr title="App\Services\CartService::updateItem">updateItem</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/CartService.php.html#86"><abbr title="App\Services\CartService::removeItem">removeItem</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/CartService.php.html#97"><abbr title="App\Services\CartService::clear">clear</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/CartService.php.html#108"><abbr title="App\Services\CartService::deleteCart">deleteCart</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/CategoryService.php.html#17"><abbr title="App\Services\CategoryService::paginated">paginated</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/CategoryService.php.html#22"><abbr title="App\Services\CategoryService::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/CategoryService.php.html#27"><abbr title="App\Services\CategoryService::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/CategoryService.php.html#32"><abbr title="App\Services\CategoryService::delete">delete</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/api/ProfileController.php.html#12"><abbr title="App\Http\Controllers\api\ProfileController::show">show</abbr></a></td><td class="text-right">20%</td></tr>
+       <tr><td><a href="Http/Controllers/api/OrderController.php.html#52"><abbr title="App\Http\Controllers\api\OrderController::store">store</abbr></a></td><td class="text-right">30%</td></tr>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#72"><abbr title="App\Http\Controllers\api\CartController::addItem">addItem</abbr></a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="Services/CartService.php.html#124"><abbr title="App\Services\CartService::validateStockAvailable">validateStockAvailable</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Repositories/Product/ProductRepository.php.html#45"><abbr title="App\Repositories\Product\ProductRepository::update">update</abbr></a></td><td class="text-right">80%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Services/CartService.php.html#49"><abbr title="App\Services\CartService::updateItem">updateItem</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Repositories/Admin/AdminRepository.php.html#32"><abbr title="App\Repositories\Admin\AdminRepository::orders">orders</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Http/Controllers/api/AuthController.php.html#33"><abbr title="App\Http\Controllers\api\AuthController::login">login</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Controllers/api/OrderController.php.html#70"><abbr title="App\Http\Controllers\api\OrderController::updateStatus">updateStatus</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Controllers/api/ProductController.php.html#37"><abbr title="App\Http\Controllers\api\ProductController::show">show</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Controllers/api/ProductController.php.html#78"><abbr title="App\Http\Controllers\api\ProductController::update">update</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Controllers/api/OrderController.php.html#52"><abbr title="App\Http\Controllers\api\OrderController::store">store</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/AdminController.php.html#21"><abbr title="App\Http\Controllers\api\AdminController::dashboard">dashboard</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/AdminController.php.html#33"><abbr title="App\Http\Controllers\api\AdminController::gelAllTags">gelAllTags</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/AdminController.php.html#45"><abbr title="App\Http\Controllers\api\AdminController::lowStock">lowStock</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/AdminController.php.html#59"><abbr title="App\Http\Controllers\api\AdminController::order">order</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/AuthController.php.html#20"><abbr title="App\Http\Controllers\api\AuthController::register">register</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/AuthController.php.html#58"><abbr title="App\Http\Controllers\api\AuthController::logout">logout</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#20"><abbr title="App\Http\Controllers\api\CartController::getOne">getOne</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#33"><abbr title="App\Http\Controllers\api\CartController::getAll">getAll</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#45"><abbr title="App\Http\Controllers\api\CartController::showPaginated">showPaginated</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#58"><abbr title="App\Http\Controllers\api\CartController::create">create</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#89"><abbr title="App\Http\Controllers\api\CartController::updateItem">updateItem</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#106"><abbr title="App\Http\Controllers\api\CartController::removeItem">removeItem</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#119"><abbr title="App\Http\Controllers\api\CartController::clear">clear</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#132"><abbr title="App\Http\Controllers\api\CartController::deleteCart">deleteCart</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/CategoryController.php.html#21"><abbr title="App\Http\Controllers\api\CategoryController::index">index</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/CategoryController.php.html#37"><abbr title="App\Http\Controllers\api\CategoryController::paginated">paginated</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/CategoryController.php.html#52"><abbr title="App\Http\Controllers\api\CategoryController::create">create</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/CategoryController.php.html#66"><abbr title="App\Http\Controllers\api\CategoryController::update">update</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/CategoryController.php.html#80"><abbr title="App\Http\Controllers\api\CategoryController::delete">delete</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/CategoryController.php.html#94"><abbr title="App\Http\Controllers\api\CategoryController::products">products</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/OrderController.php.html#23"><abbr title="App\Http\Controllers\api\OrderController::index">index</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/OrderController.php.html#38"><abbr title="App\Http\Controllers\api\OrderController::show">show</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/ProductController.php.html#21"><abbr title="App\Http\Controllers\api\ProductController::index">index</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/ProductController.php.html#58"><abbr title="App\Http\Controllers\api\ProductController::store">store</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/ProductController.php.html#100"><abbr title="App\Http\Controllers\api\ProductController::destroy">destroy</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Repositories/Cart/CartRepository.php.html#21"><abbr title="App\Repositories\Cart\CartRepository::getUserCarts">getUserCarts</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Repositories/Category/CategoryRepository.php.html#48"><abbr title="App\Repositories\Category\CategoryRepository::paginated">paginated</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Repositories/Order/OrderRepository.php.html#21"><abbr title="App\Repositories\Order\OrderRepository::listByUser">listByUser</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Services/CartService.php.html#86"><abbr title="App\Services\CartService::removeItem">removeItem</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Services/CartService.php.html#97"><abbr title="App\Services\CartService::clear">clear</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Services/CartService.php.html#108"><abbr title="App\Services\CartService::deleteCart">deleteCart</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/api/CartController.php.html#72"><abbr title="App\Http\Controllers\api\CartController::addItem">addItem</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Http/Controllers/api/ProfileController.php.html#12"><abbr title="App\Http\Controllers\api\ProfileController::show">show</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Services/CartService.php.html#124"><abbr title="App\Services\CartService::validateStockAvailable">validateStockAvailable</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Repositories/Product/ProductRepository.php.html#45"><abbr title="App\Repositories\Product\ProductRepository::update">update</abbr></a></td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 11.0.11</a> using <a href="https://www.php.net/" target="_top">PHP 8.2.29</a> and <a href="https://phpunit.de/">PHPUnit 11.5.44</a> at Mon Dec 1 14:48:37 UTC 2025.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="_js/jquery.min.js?v=11.0.11" type="text/javascript"></script>
+  <script src="_js/d3.min.js?v=11.0.11" type="text/javascript"></script>
+  <script src="_js/nv.d3.min.js?v=11.0.11" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([10,1,1,2,1,1,1,1,0,0,2,42], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([75,0,0,1,1,0,1,1,0,1,2,126], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[100,1,"<a href=\"DTO\/Auth\/LoginDTO.php.html#5\">App\\DTO\\Auth\\LoginDTO<\/a>"],[100,1,"<a href=\"DTO\/Auth\/RegisterDTO.php.html#5\">App\\DTO\\Auth\\RegisterDTO<\/a>"],[100,4,"<a href=\"DTO\/Order\/CreateOrderDTO.php.html#9\">App\\DTO\\Order\\CreateOrderDTO<\/a>"],[100,2,"<a href=\"DTO\/Order\/OrderItemDTO.php.html#5\">App\\DTO\\Order\\OrderItemDTO<\/a>"],[100,11,"<a href=\"DTO\/Product\/CreateProductDTO.php.html#9\">App\\DTO\\Product\\CreateProductDTO<\/a>"],[100,15,"<a href=\"DTO\/Product\/UpdateProductDTO.php.html#9\">App\\DTO\\Product\\UpdateProductDTO<\/a>"],[100,0,"<a href=\"Http\/Controllers\/Controller.php.html#5\">App\\Http\\Controllers\\Controller<\/a>"],[0,9,"<a href=\"Http\/Controllers\/api\/AdminController.php.html#15\">App\\Http\\Controllers\\api\\AdminController<\/a>"],[0,8,"<a href=\"Http\/Controllers\/api\/AuthController.php.html#14\">App\\Http\\Controllers\\api\\AuthController<\/a>"],[7.8125,20,"<a href=\"Http\/Controllers\/api\/CartController.php.html#14\">App\\Http\\Controllers\\api\\CartController<\/a>"],[0,13,"<a href=\"Http\/Controllers\/api\/CategoryController.php.html#15\">App\\Http\\Controllers\\api\\CategoryController<\/a>"],[11.11111111111111,11,"<a href=\"Http\/Controllers\/api\/OrderController.php.html#16\">App\\Http\\Controllers\\api\\OrderController<\/a>"],[0,13,"<a href=\"Http\/Controllers\/api\/ProductController.php.html#15\">App\\Http\\Controllers\\api\\ProductController<\/a>"],[20,2,"<a href=\"Http\/Controllers\/api\/ProfileController.php.html#10\">App\\Http\\Controllers\\api\\ProfileController<\/a>"],[100,3,"<a href=\"Http\/Middleware\/IsAdmin.php.html#8\">App\\Http\\Middleware\\IsAdmin<\/a>"],[100,4,"<a href=\"Http\/Middleware\/VerifyToken.php.html#11\">App\\Http\\Middleware\\VerifyToken<\/a>"],[100,3,"<a href=\"Http\/Requests\/Auth\/LoginRequest.php.html#8\">App\\Http\\Requests\\Auth\\LoginRequest<\/a>"],[100,3,"<a href=\"Http\/Requests\/Auth\/RegisterRequest.php.html#11\">App\\Http\\Requests\\Auth\\RegisterRequest<\/a>"],[100,3,"<a href=\"Http\/Requests\/Cart\/AddItemCartRequest.php.html#7\">App\\Http\\Requests\\Cart\\AddItemCartRequest<\/a>"],[0,3,"<a href=\"Http\/Requests\/Cart\/CreateCartRequest.php.html#8\">App\\Http\\Requests\\Cart\\CreateCartRequest<\/a>"],[100,3,"<a href=\"Http\/Requests\/Cart\/UpdateCartRequest.php.html#7\">App\\Http\\Requests\\Cart\\UpdateCartRequest<\/a>"],[0,3,"<a href=\"Http\/Requests\/Category\/CategoryRequest.php.html#7\">App\\Http\\Requests\\Category\\CategoryRequest<\/a>"],[0,3,"<a href=\"Http\/Requests\/Category\/UpdateCategoryRequest.php.html#7\">App\\Http\\Requests\\Category\\UpdateCategoryRequest<\/a>"],[100,3,"<a href=\"Http\/Requests\/Order\/OrderStoreRequest.php.html#7\">App\\Http\\Requests\\Order\\OrderStoreRequest<\/a>"],[100,3,"<a href=\"Http\/Requests\/Order\/OrderUpdateRequest.php.html#7\">App\\Http\\Requests\\Order\\OrderUpdateRequest<\/a>"],[100,3,"<a href=\"Http\/Requests\/Product\/ProductStoreRequest.php.html#7\">App\\Http\\Requests\\Product\\ProductStoreRequest<\/a>"],[100,3,"<a href=\"Http\/Requests\/Product\/ProductUpdateRequest.php.html#8\">App\\Http\\Requests\\Product\\ProductUpdateRequest<\/a>"],[0,1,"<a href=\"Http\/Resources\/Admin\/DashboardResource.php.html#8\">App\\Http\\Resources\\Admin\\DashboardResource<\/a>"],[100,1,"<a href=\"Http\/Resources\/Auth\/UserResource.php.html#8\">App\\Http\\Resources\\Auth\\UserResource<\/a>"],[100,1,"<a href=\"Http\/Resources\/Cart\/CartItemResource.php.html#7\">App\\Http\\Resources\\Cart\\CartItemResource<\/a>"],[100,1,"<a href=\"Http\/Resources\/Cart\/CartResource.php.html#7\">App\\Http\\Resources\\Cart\\CartResource<\/a>"],[100,1,"<a href=\"Http\/Resources\/Category\/CategoryResource.php.html#7\">App\\Http\\Resources\\Category\\CategoryResource<\/a>"],[100,1,"<a href=\"Http\/Resources\/Category\/ProductCategoryResource.php.html#7\">App\\Http\\Resources\\Category\\ProductCategoryResource<\/a>"],[100,1,"<a href=\"Http\/Resources\/Order\/OrderItemResource.php.html#9\">App\\Http\\Resources\\Order\\OrderItemResource<\/a>"],[100,1,"<a href=\"Http\/Resources\/Order\/OrderResource.php.html#8\">App\\Http\\Resources\\Order\\OrderResource<\/a>"],[100,1,"<a href=\"Http\/Resources\/Product\/ProductResource.php.html#9\">App\\Http\\Resources\\Product\\ProductResource<\/a>"],[100,1,"<a href=\"Http\/Resources\/Tags\/TagsResource.php.html#7\">App\\Http\\Resources\\Tags\\TagsResource<\/a>"],[66.66666666666666,3,"<a href=\"Models\/Cart.php.html#9\">App\\Models\\Cart<\/a>"],[100,2,"<a href=\"Models\/CartItem.php.html#9\">App\\Models\\CartItem<\/a>"],[100,3,"<a href=\"Models\/Category.php.html#9\">App\\Models\\Category<\/a>"],[100,3,"<a href=\"Models\/Order.php.html#9\">App\\Models\\Order<\/a>"],[100,2,"<a href=\"Models\/OrderItem.php.html#9\">App\\Models\\OrderItem<\/a>"],[100,4,"<a href=\"Models\/Product.php.html#10\">App\\Models\\Product<\/a>"],[100,1,"<a href=\"Models\/StockMovement.php.html#9\">App\\Models\\StockMovement<\/a>"],[100,1,"<a href=\"Models\/Tag.php.html#9\">App\\Models\\Tag<\/a>"],[100,4,"<a href=\"Models\/User.php.html#12\">App\\Models\\User<\/a>"],[100,2,"<a href=\"Providers\/AppServiceProvider.php.html#7\">App\\Providers\\AppServiceProvider<\/a>"],[100,2,"<a href=\"Providers\/RepositoryServiceProvider.php.html#11\">App\\Providers\\RepositoryServiceProvider<\/a>"],[0,7,"<a href=\"Repositories\/Admin\/AdminRepository.php.html#9\">App\\Repositories\\Admin\\AdminRepository<\/a>"],[51.06382978723404,12,"<a href=\"Repositories\/Cart\/CartRepository.php.html#9\">App\\Repositories\\Cart\\CartRepository<\/a>"],[30.555555555555557,7,"<a href=\"Repositories\/Category\/CategoryRepository.php.html#7\">App\\Repositories\\Category\\CategoryRepository<\/a>"],[92.63157894736842,25,"<a href=\"Repositories\/Order\/OrderRepository.php.html#13\">App\\Repositories\\Order\\OrderRepository<\/a>"],[92.85714285714286,12,"<a href=\"Repositories\/Product\/ProductRepository.php.html#7\">App\\Repositories\\Product\\ProductRepository<\/a>"],[100,2,"<a href=\"Repositories\/Tag\/TagRepository.php.html#7\">App\\Repositories\\Tag\\TagRepository<\/a>"],[100,2,"<a href=\"Repositories\/User\/UserRepository.php.html#7\">App\\Repositories\\User\\UserRepository<\/a>"],[0,5,"<a href=\"Services\/AdminService.php.html#7\">App\\Services\\AdminService<\/a>"],[100,6,"<a href=\"Services\/AuthService.php.html#10\">App\\Services\\AuthService<\/a>"],[20,20,"<a href=\"Services\/CartService.php.html#9\">App\\Services\\CartService<\/a>"],[42.857142857142854,7,"<a href=\"Services\/CategoryService.php.html#7\">App\\Services\\CategoryService<\/a>"],[100,5,"<a href=\"Services\/OrderService.php.html#9\">App\\Services\\OrderService<\/a>"],[100,13,"<a href=\"Services\/ProductService.php.html#12\">App\\Services\\ProductService<\/a>"],[100,4,"<a href=\"Support\/ApiResponse.php.html#8\">App\\Support\\ApiResponse<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[100,1,"<a href=\"DTO\/Auth\/LoginDTO.php.html#7\">App\\DTO\\Auth\\LoginDTO::__construct<\/a>"],[100,1,"<a href=\"DTO\/Auth\/RegisterDTO.php.html#7\">App\\DTO\\Auth\\RegisterDTO::__construct<\/a>"],[100,3,"<a href=\"DTO\/Order\/CreateOrderDTO.php.html#14\">App\\DTO\\Order\\CreateOrderDTO::__construct<\/a>"],[100,1,"<a href=\"DTO\/Order\/CreateOrderDTO.php.html#35\">App\\DTO\\Order\\CreateOrderDTO::fromRequest<\/a>"],[100,1,"<a href=\"DTO\/Order\/OrderItemDTO.php.html#7\">App\\DTO\\Order\\OrderItemDTO::__construct<\/a>"],[100,1,"<a href=\"DTO\/Order\/OrderItemDTO.php.html#12\">App\\DTO\\Order\\OrderItemDTO::fromArray<\/a>"],[100,1,"<a href=\"DTO\/Product\/CreateProductDTO.php.html#11\">App\\DTO\\Product\\CreateProductDTO::__construct<\/a>"],[100,3,"<a href=\"DTO\/Product\/CreateProductDTO.php.html#24\">App\\DTO\\Product\\CreateProductDTO::fromRequest<\/a>"],[100,1,"<a href=\"DTO\/Product\/CreateProductDTO.php.html#40\">App\\DTO\\Product\\CreateProductDTO::getTags<\/a>"],[100,1,"<a href=\"DTO\/Product\/CreateProductDTO.php.html#44\">App\\DTO\\Product\\CreateProductDTO::toArray<\/a>"],[100,5,"<a href=\"DTO\/Product\/CreateProductDTO.php.html#59\">App\\DTO\\Product\\CreateProductDTO::validateBusinessRules<\/a>"],[100,1,"<a href=\"DTO\/Product\/UpdateProductDTO.php.html#11\">App\\DTO\\Product\\UpdateProductDTO::__construct<\/a>"],[100,4,"<a href=\"DTO\/Product\/UpdateProductDTO.php.html#25\">App\\DTO\\Product\\UpdateProductDTO::fromRequest<\/a>"],[100,1,"<a href=\"DTO\/Product\/UpdateProductDTO.php.html#42\">App\\DTO\\Product\\UpdateProductDTO::toArray<\/a>"],[100,1,"<a href=\"DTO\/Product\/UpdateProductDTO.php.html#57\">App\\DTO\\Product\\UpdateProductDTO::getTags<\/a>"],[100,1,"<a href=\"DTO\/Product\/UpdateProductDTO.php.html#62\">App\\DTO\\Product\\UpdateProductDTO::hasTags<\/a>"],[100,7,"<a href=\"DTO\/Product\/UpdateProductDTO.php.html#67\">App\\DTO\\Product\\UpdateProductDTO::validateBusinessRules<\/a>"],[0,1,"<a href=\"Http\/Controllers\/api\/AdminController.php.html#17\">App\\Http\\Controllers\\api\\AdminController::__construct<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/AdminController.php.html#21\">App\\Http\\Controllers\\api\\AdminController::dashboard<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/AdminController.php.html#33\">App\\Http\\Controllers\\api\\AdminController::gelAllTags<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/AdminController.php.html#45\">App\\Http\\Controllers\\api\\AdminController::lowStock<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/AdminController.php.html#59\">App\\Http\\Controllers\\api\\AdminController::order<\/a>"],[0,1,"<a href=\"Http\/Controllers\/api\/AuthController.php.html#16\">App\\Http\\Controllers\\api\\AuthController::__construct<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/AuthController.php.html#20\">App\\Http\\Controllers\\api\\AuthController::register<\/a>"],[0,3,"<a href=\"Http\/Controllers\/api\/AuthController.php.html#33\">App\\Http\\Controllers\\api\\AuthController::login<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/AuthController.php.html#58\">App\\Http\\Controllers\\api\\AuthController::logout<\/a>"],[100,1,"<a href=\"Http\/Controllers\/api\/CartController.php.html#16\">App\\Http\\Controllers\\api\\CartController::__construct<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/CartController.php.html#20\">App\\Http\\Controllers\\api\\CartController::getOne<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/CartController.php.html#33\">App\\Http\\Controllers\\api\\CartController::getAll<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/CartController.php.html#45\">App\\Http\\Controllers\\api\\CartController::showPaginated<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/CartController.php.html#58\">App\\Http\\Controllers\\api\\CartController::create<\/a>"],[50,3,"<a href=\"Http\/Controllers\/api\/CartController.php.html#72\">App\\Http\\Controllers\\api\\CartController::addItem<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/CartController.php.html#89\">App\\Http\\Controllers\\api\\CartController::updateItem<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/CartController.php.html#106\">App\\Http\\Controllers\\api\\CartController::removeItem<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/CartController.php.html#119\">App\\Http\\Controllers\\api\\CartController::clear<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/CartController.php.html#132\">App\\Http\\Controllers\\api\\CartController::deleteCart<\/a>"],[0,1,"<a href=\"Http\/Controllers\/api\/CategoryController.php.html#17\">App\\Http\\Controllers\\api\\CategoryController::__construct<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/CategoryController.php.html#21\">App\\Http\\Controllers\\api\\CategoryController::index<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/CategoryController.php.html#37\">App\\Http\\Controllers\\api\\CategoryController::paginated<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/CategoryController.php.html#52\">App\\Http\\Controllers\\api\\CategoryController::create<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/CategoryController.php.html#66\">App\\Http\\Controllers\\api\\CategoryController::update<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/CategoryController.php.html#80\">App\\Http\\Controllers\\api\\CategoryController::delete<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/CategoryController.php.html#94\">App\\Http\\Controllers\\api\\CategoryController::products<\/a>"],[100,1,"<a href=\"Http\/Controllers\/api\/OrderController.php.html#18\">App\\Http\\Controllers\\api\\OrderController::__construct<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/OrderController.php.html#23\">App\\Http\\Controllers\\api\\OrderController::index<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/OrderController.php.html#38\">App\\Http\\Controllers\\api\\OrderController::show<\/a>"],[30,3,"<a href=\"Http\/Controllers\/api\/OrderController.php.html#52\">App\\Http\\Controllers\\api\\OrderController::store<\/a>"],[0,3,"<a href=\"Http\/Controllers\/api\/OrderController.php.html#70\">App\\Http\\Controllers\\api\\OrderController::updateStatus<\/a>"],[0,1,"<a href=\"Http\/Controllers\/api\/ProductController.php.html#17\">App\\Http\\Controllers\\api\\ProductController::__construct<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/ProductController.php.html#21\">App\\Http\\Controllers\\api\\ProductController::index<\/a>"],[0,3,"<a href=\"Http\/Controllers\/api\/ProductController.php.html#37\">App\\Http\\Controllers\\api\\ProductController::show<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/ProductController.php.html#58\">App\\Http\\Controllers\\api\\ProductController::store<\/a>"],[0,3,"<a href=\"Http\/Controllers\/api\/ProductController.php.html#78\">App\\Http\\Controllers\\api\\ProductController::update<\/a>"],[0,2,"<a href=\"Http\/Controllers\/api\/ProductController.php.html#100\">App\\Http\\Controllers\\api\\ProductController::destroy<\/a>"],[20,2,"<a href=\"Http\/Controllers\/api\/ProfileController.php.html#12\">App\\Http\\Controllers\\api\\ProfileController::show<\/a>"],[100,3,"<a href=\"Http\/Middleware\/IsAdmin.php.html#10\">App\\Http\\Middleware\\IsAdmin::handle<\/a>"],[100,4,"<a href=\"Http\/Middleware\/VerifyToken.php.html#18\">App\\Http\\Middleware\\VerifyToken::handle<\/a>"],[100,1,"<a href=\"Http\/Requests\/Auth\/LoginRequest.php.html#10\">App\\Http\\Requests\\Auth\\LoginRequest::rules<\/a>"],[100,1,"<a href=\"Http\/Requests\/Auth\/LoginRequest.php.html#18\">App\\Http\\Requests\\Auth\\LoginRequest::toDTO<\/a>"],[100,1,"<a href=\"Http\/Requests\/Auth\/LoginRequest.php.html#26\">App\\Http\\Requests\\Auth\\LoginRequest::messages<\/a>"],[100,1,"<a href=\"Http\/Requests\/Auth\/RegisterRequest.php.html#13\">App\\Http\\Requests\\Auth\\RegisterRequest::rules<\/a>"],[100,1,"<a href=\"Http\/Requests\/Auth\/RegisterRequest.php.html#22\">App\\Http\\Requests\\Auth\\RegisterRequest::toDTO<\/a>"],[100,1,"<a href=\"Http\/Requests\/Auth\/RegisterRequest.php.html#31\">App\\Http\\Requests\\Auth\\RegisterRequest::messages<\/a>"],[100,1,"<a href=\"Http\/Requests\/Cart\/AddItemCartRequest.php.html#12\">App\\Http\\Requests\\Cart\\AddItemCartRequest::authorize<\/a>"],[100,1,"<a href=\"Http\/Requests\/Cart\/AddItemCartRequest.php.html#22\">App\\Http\\Requests\\Cart\\AddItemCartRequest::rules<\/a>"],[100,1,"<a href=\"Http\/Requests\/Cart\/AddItemCartRequest.php.html#31\">App\\Http\\Requests\\Cart\\AddItemCartRequest::messages<\/a>"],[0,1,"<a href=\"Http\/Requests\/Cart\/CreateCartRequest.php.html#13\">App\\Http\\Requests\\Cart\\CreateCartRequest::authorize<\/a>"],[0,1,"<a href=\"Http\/Requests\/Cart\/CreateCartRequest.php.html#23\">App\\Http\\Requests\\Cart\\CreateCartRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/Cart\/CreateCartRequest.php.html#34\">App\\Http\\Requests\\Cart\\CreateCartRequest::messages<\/a>"],[100,1,"<a href=\"Http\/Requests\/Cart\/UpdateCartRequest.php.html#12\">App\\Http\\Requests\\Cart\\UpdateCartRequest::authorize<\/a>"],[100,1,"<a href=\"Http\/Requests\/Cart\/UpdateCartRequest.php.html#22\">App\\Http\\Requests\\Cart\\UpdateCartRequest::rules<\/a>"],[100,1,"<a href=\"Http\/Requests\/Cart\/UpdateCartRequest.php.html#29\">App\\Http\\Requests\\Cart\\UpdateCartRequest::messages<\/a>"],[0,1,"<a href=\"Http\/Requests\/Category\/CategoryRequest.php.html#12\">App\\Http\\Requests\\Category\\CategoryRequest::authorize<\/a>"],[0,1,"<a href=\"Http\/Requests\/Category\/CategoryRequest.php.html#22\">App\\Http\\Requests\\Category\\CategoryRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/Category\/CategoryRequest.php.html#33\">App\\Http\\Requests\\Category\\CategoryRequest::messages<\/a>"],[0,1,"<a href=\"Http\/Requests\/Category\/UpdateCategoryRequest.php.html#12\">App\\Http\\Requests\\Category\\UpdateCategoryRequest::authorize<\/a>"],[0,1,"<a href=\"Http\/Requests\/Category\/UpdateCategoryRequest.php.html#22\">App\\Http\\Requests\\Category\\UpdateCategoryRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/Category\/UpdateCategoryRequest.php.html#33\">App\\Http\\Requests\\Category\\UpdateCategoryRequest::messages<\/a>"],[100,1,"<a href=\"Http\/Requests\/Order\/OrderStoreRequest.php.html#9\">App\\Http\\Requests\\Order\\OrderStoreRequest::authorize<\/a>"],[100,1,"<a href=\"Http\/Requests\/Order\/OrderStoreRequest.php.html#14\">App\\Http\\Requests\\Order\\OrderStoreRequest::rules<\/a>"],[100,1,"<a href=\"Http\/Requests\/Order\/OrderStoreRequest.php.html#24\">App\\Http\\Requests\\Order\\OrderStoreRequest::messages<\/a>"],[100,1,"<a href=\"Http\/Requests\/Order\/OrderUpdateRequest.php.html#12\">App\\Http\\Requests\\Order\\OrderUpdateRequest::authorize<\/a>"],[100,1,"<a href=\"Http\/Requests\/Order\/OrderUpdateRequest.php.html#22\">App\\Http\\Requests\\Order\\OrderUpdateRequest::rules<\/a>"],[100,1,"<a href=\"Http\/Requests\/Order\/OrderUpdateRequest.php.html#29\">App\\Http\\Requests\\Order\\OrderUpdateRequest::messages<\/a>"],[100,1,"<a href=\"Http\/Requests\/Product\/ProductStoreRequest.php.html#9\">App\\Http\\Requests\\Product\\ProductStoreRequest::authorize<\/a>"],[100,1,"<a href=\"Http\/Requests\/Product\/ProductStoreRequest.php.html#14\">App\\Http\\Requests\\Product\\ProductStoreRequest::rules<\/a>"],[100,1,"<a href=\"Http\/Requests\/Product\/ProductStoreRequest.php.html#31\">App\\Http\\Requests\\Product\\ProductStoreRequest::messages<\/a>"],[100,1,"<a href=\"Http\/Requests\/Product\/ProductUpdateRequest.php.html#10\">App\\Http\\Requests\\Product\\ProductUpdateRequest::authorize<\/a>"],[100,1,"<a href=\"Http\/Requests\/Product\/ProductUpdateRequest.php.html#15\">App\\Http\\Requests\\Product\\ProductUpdateRequest::rules<\/a>"],[100,1,"<a href=\"Http\/Requests\/Product\/ProductUpdateRequest.php.html#37\">App\\Http\\Requests\\Product\\ProductUpdateRequest::messages<\/a>"],[0,1,"<a href=\"Http\/Resources\/Admin\/DashboardResource.php.html#10\">App\\Http\\Resources\\Admin\\DashboardResource::toArray<\/a>"],[100,1,"<a href=\"Http\/Resources\/Auth\/UserResource.php.html#10\">App\\Http\\Resources\\Auth\\UserResource::toArray<\/a>"],[100,1,"<a href=\"Http\/Resources\/Cart\/CartItemResource.php.html#9\">App\\Http\\Resources\\Cart\\CartItemResource::toArray<\/a>"],[100,1,"<a href=\"Http\/Resources\/Cart\/CartResource.php.html#9\">App\\Http\\Resources\\Cart\\CartResource::toArray<\/a>"],[100,1,"<a href=\"Http\/Resources\/Category\/CategoryResource.php.html#9\">App\\Http\\Resources\\Category\\CategoryResource::toArray<\/a>"],[100,1,"<a href=\"Http\/Resources\/Category\/ProductCategoryResource.php.html#9\">App\\Http\\Resources\\Category\\ProductCategoryResource::toArray<\/a>"],[100,1,"<a href=\"Http\/Resources\/Order\/OrderItemResource.php.html#11\">App\\Http\\Resources\\Order\\OrderItemResource::toArray<\/a>"],[100,1,"<a href=\"Http\/Resources\/Order\/OrderResource.php.html#10\">App\\Http\\Resources\\Order\\OrderResource::toArray<\/a>"],[100,1,"<a href=\"Http\/Resources\/Product\/ProductResource.php.html#11\">App\\Http\\Resources\\Product\\ProductResource::toArray<\/a>"],[100,1,"<a href=\"Http\/Resources\/Tags\/TagsResource.php.html#9\">App\\Http\\Resources\\Tags\\TagsResource::toArray<\/a>"],[100,1,"<a href=\"Models\/Cart.php.html#23\">App\\Models\\Cart::user<\/a>"],[100,1,"<a href=\"Models\/Cart.php.html#28\">App\\Models\\Cart::items<\/a>"],[0,1,"<a href=\"Models\/Cart.php.html#33\">App\\Models\\Cart::order<\/a>"],[100,1,"<a href=\"Models\/CartItem.php.html#22\">App\\Models\\CartItem::cart<\/a>"],[100,1,"<a href=\"Models\/CartItem.php.html#27\">App\\Models\\CartItem::product<\/a>"],[100,1,"<a href=\"Models\/Category.php.html#25\">App\\Models\\Category::parent<\/a>"],[100,1,"<a href=\"Models\/Category.php.html#30\">App\\Models\\Category::children<\/a>"],[100,1,"<a href=\"Models\/Category.php.html#35\">App\\Models\\Category::products<\/a>"],[100,1,"<a href=\"Models\/Order.php.html#41\">App\\Models\\Order::user<\/a>"],[100,1,"<a href=\"Models\/Order.php.html#46\">App\\Models\\Order::items<\/a>"],[100,1,"<a href=\"Models\/Order.php.html#51\">App\\Models\\Order::cart<\/a>"],[100,1,"<a href=\"Models\/OrderItem.php.html#29\">App\\Models\\OrderItem::order<\/a>"],[100,1,"<a href=\"Models\/OrderItem.php.html#34\">App\\Models\\OrderItem::product<\/a>"],[100,1,"<a href=\"Models\/Product.php.html#31\">App\\Models\\Product::category<\/a>"],[100,1,"<a href=\"Models\/Product.php.html#36\">App\\Models\\Product::tags<\/a>"],[100,1,"<a href=\"Models\/Product.php.html#41\">App\\Models\\Product::orderItems<\/a>"],[100,1,"<a href=\"Models\/Product.php.html#46\">App\\Models\\Product::stockMovements<\/a>"],[100,1,"<a href=\"Models\/StockMovement.php.html#25\">App\\Models\\StockMovement::product<\/a>"],[100,1,"<a href=\"Models\/Tag.php.html#21\">App\\Models\\Tag::products<\/a>"],[100,1,"<a href=\"Models\/User.php.html#40\">App\\Models\\User::isAdmin<\/a>"],[100,1,"<a href=\"Models\/User.php.html#45\">App\\Models\\User::isUser<\/a>"],[100,1,"<a href=\"Models\/User.php.html#54\">App\\Models\\User::orders<\/a>"],[100,1,"<a href=\"Models\/User.php.html#59\">App\\Models\\User::carts<\/a>"],[100,1,"<a href=\"Providers\/AppServiceProvider.php.html#12\">App\\Providers\\AppServiceProvider::register<\/a>"],[100,1,"<a href=\"Providers\/AppServiceProvider.php.html#20\">App\\Providers\\AppServiceProvider::boot<\/a>"],[100,1,"<a href=\"Providers\/RepositoryServiceProvider.php.html#13\">App\\Providers\\RepositoryServiceProvider::register<\/a>"],[100,1,"<a href=\"Providers\/RepositoryServiceProvider.php.html#40\">App\\Providers\\RepositoryServiceProvider::boot<\/a>"],[0,1,"<a href=\"Repositories\/Admin\/AdminRepository.php.html#11\">App\\Repositories\\Admin\\AdminRepository::dashboard<\/a>"],[0,1,"<a href=\"Repositories\/Admin\/AdminRepository.php.html#20\">App\\Repositories\\Admin\\AdminRepository::getAllTags<\/a>"],[0,1,"<a href=\"Repositories\/Admin\/AdminRepository.php.html#25\">App\\Repositories\\Admin\\AdminRepository::lowStock<\/a>"],[0,4,"<a href=\"Repositories\/Admin\/AdminRepository.php.html#32\">App\\Repositories\\Admin\\AdminRepository::orders<\/a>"],[100,1,"<a href=\"Repositories\/Cart\/CartRepository.php.html#11\">App\\Repositories\\Cart\\CartRepository::getOne<\/a>"],[0,1,"<a href=\"Repositories\/Cart\/CartRepository.php.html#16\">App\\Repositories\\Cart\\CartRepository::getAll<\/a>"],[0,2,"<a href=\"Repositories\/Cart\/CartRepository.php.html#21\">App\\Repositories\\Cart\\CartRepository::getUserCarts<\/a>"],[100,1,"<a href=\"Repositories\/Cart\/CartRepository.php.html#35\">App\\Repositories\\Cart\\CartRepository::createUserCart<\/a>"],[0,1,"<a href=\"Repositories\/Cart\/CartRepository.php.html#42\">App\\Repositories\\Cart\\CartRepository::createCart<\/a>"],[95.23809523809523,4,"<a href=\"Repositories\/Cart\/CartRepository.php.html#51\">App\\Repositories\\Cart\\CartRepository::addItem<\/a>"],[0,1,"<a href=\"Repositories\/Cart\/CartRepository.php.html#84\">App\\Repositories\\Cart\\CartRepository::updateItem<\/a>"],[0,1,"<a href=\"Repositories\/Cart\/CartRepository.php.html#95\">App\\Repositories\\Cart\\CartRepository::removeItem<\/a>"],[100,1,"<a href=\"Repositories\/Category\/CategoryRepository.php.html#9\">App\\Repositories\\Category\\CategoryRepository::allTree<\/a>"],[0,1,"<a href=\"Repositories\/Category\/CategoryRepository.php.html#20\">App\\Repositories\\Category\\CategoryRepository::create<\/a>"],[0,1,"<a href=\"Repositories\/Category\/CategoryRepository.php.html#31\">App\\Repositories\\Category\\CategoryRepository::update<\/a>"],[0,1,"<a href=\"Repositories\/Category\/CategoryRepository.php.html#43\">App\\Repositories\\Category\\CategoryRepository::delete<\/a>"],[0,2,"<a href=\"Repositories\/Category\/CategoryRepository.php.html#48\">App\\Repositories\\Category\\CategoryRepository::paginated<\/a>"],[100,1,"<a href=\"Repositories\/Category\/CategoryRepository.php.html#64\">App\\Repositories\\Category\\CategoryRepository::findProductsByCategory<\/a>"],[100,1,"<a href=\"Repositories\/Order\/OrderRepository.php.html#16\">App\\Repositories\\Order\\OrderRepository::addItem<\/a>"],[0,2,"<a href=\"Repositories\/Order\/OrderRepository.php.html#21\">App\\Repositories\\Order\\OrderRepository::listByUser<\/a>"],[100,1,"<a href=\"Repositories\/Order\/OrderRepository.php.html#35\">App\\Repositories\\Order\\OrderRepository::find<\/a>"],[100,5,"<a href=\"Repositories\/Order\/OrderRepository.php.html#45\">App\\Repositories\\Order\\OrderRepository::create<\/a>"],[100,6,"<a href=\"Repositories\/Order\/OrderRepository.php.html#101\">App\\Repositories\\Order\\OrderRepository::updateStatus<\/a>"],[100,3,"<a href=\"Repositories\/Order\/OrderRepository.php.html#127\">App\\Repositories\\Order\\OrderRepository::restoreStock<\/a>"],[100,4,"<a href=\"Repositories\/Order\/OrderRepository.php.html#140\">App\\Repositories\\Order\\OrderRepository::removeStock<\/a>"],[100,2,"<a href=\"Repositories\/Order\/OrderRepository.php.html#158\">App\\Repositories\\Order\\OrderRepository::validateStatusTransition<\/a>"],[100,1,"<a href=\"Repositories\/Order\/OrderRepository.php.html#174\">App\\Repositories\\Order\\OrderRepository::findById<\/a>"],[90.9090909090909,4,"<a href=\"Repositories\/Product\/ProductRepository.php.html#9\">App\\Repositories\\Product\\ProductRepository::paginate<\/a>"],[100,1,"<a href=\"Repositories\/Product\/ProductRepository.php.html#31\">App\\Repositories\\Product\\ProductRepository::find<\/a>"],[100,1,"<a href=\"Repositories\/Product\/ProductRepository.php.html#38\">App\\Repositories\\Product\\ProductRepository::create<\/a>"],[80,2,"<a href=\"Repositories\/Product\/ProductRepository.php.html#45\">App\\Repositories\\Product\\ProductRepository::update<\/a>"],[100,2,"<a href=\"Repositories\/Product\/ProductRepository.php.html#58\">App\\Repositories\\Product\\ProductRepository::slugExists<\/a>"],[100,1,"<a href=\"Repositories\/Product\/ProductRepository.php.html#69\">App\\Repositories\\Product\\ProductRepository::findWithRelations<\/a>"],[100,1,"<a href=\"Repositories\/Product\/ProductRepository.php.html#74\">App\\Repositories\\Product\\ProductRepository::delete<\/a>"],[100,1,"<a href=\"Repositories\/Tag\/TagRepository.php.html#9\">App\\Repositories\\Tag\\TagRepository::__construct<\/a>"],[100,1,"<a href=\"Repositories\/Tag\/TagRepository.php.html#11\">App\\Repositories\\Tag\\TagRepository::findMany<\/a>"],[100,1,"<a href=\"Repositories\/User\/UserRepository.php.html#9\">App\\Repositories\\User\\UserRepository::create<\/a>"],[100,1,"<a href=\"Repositories\/User\/UserRepository.php.html#14\">App\\Repositories\\User\\UserRepository::findByEmail<\/a>"],[0,1,"<a href=\"Services\/AdminService.php.html#9\">App\\Services\\AdminService::__construct<\/a>"],[0,1,"<a href=\"Services\/AdminService.php.html#14\">App\\Services\\AdminService::dashboard<\/a>"],[0,1,"<a href=\"Services\/AdminService.php.html#24\">App\\Services\\AdminService::getAllTags<\/a>"],[0,1,"<a href=\"Services\/AdminService.php.html#29\">App\\Services\\AdminService::lowStock<\/a>"],[0,1,"<a href=\"Services\/AdminService.php.html#34\">App\\Services\\AdminService::orders<\/a>"],[100,1,"<a href=\"Services\/AuthService.php.html#12\">App\\Services\\AuthService::__construct<\/a>"],[100,1,"<a href=\"Services\/AuthService.php.html#16\">App\\Services\\AuthService::register<\/a>"],[100,3,"<a href=\"Services\/AuthService.php.html#26\">App\\Services\\AuthService::login<\/a>"],[100,1,"<a href=\"Services\/AuthService.php.html#45\">App\\Services\\AuthService::logout<\/a>"],[100,1,"<a href=\"Services\/CartService.php.html#11\">App\\Services\\CartService::__construct<\/a>"],[0,1,"<a href=\"Services\/CartService.php.html#16\">App\\Services\\CartService::getOne<\/a>"],[0,1,"<a href=\"Services\/CartService.php.html#21\">App\\Services\\CartService::getAll<\/a>"],[0,1,"<a href=\"Services\/CartService.php.html#26\">App\\Services\\CartService::getCart<\/a>"],[0,1,"<a href=\"Services\/CartService.php.html#31\">App\\Services\\CartService::createCart<\/a>"],[100,1,"<a href=\"Services\/CartService.php.html#36\">App\\Services\\CartService::addItem<\/a>"],[0,6,"<a href=\"Services\/CartService.php.html#49\">App\\Services\\CartService::updateItem<\/a>"],[0,2,"<a href=\"Services\/CartService.php.html#86\">App\\Services\\CartService::removeItem<\/a>"],[0,2,"<a href=\"Services\/CartService.php.html#97\">App\\Services\\CartService::clear<\/a>"],[0,2,"<a href=\"Services\/CartService.php.html#108\">App\\Services\\CartService::deleteCart<\/a>"],[66.66666666666666,2,"<a href=\"Services\/CartService.php.html#124\">App\\Services\\CartService::validateStockAvailable<\/a>"],[100,1,"<a href=\"Services\/CategoryService.php.html#9\">App\\Services\\CategoryService::__construct<\/a>"],[100,1,"<a href=\"Services\/CategoryService.php.html#12\">App\\Services\\CategoryService::allTree<\/a>"],[0,1,"<a href=\"Services\/CategoryService.php.html#17\">App\\Services\\CategoryService::paginated<\/a>"],[0,1,"<a href=\"Services\/CategoryService.php.html#22\">App\\Services\\CategoryService::create<\/a>"],[0,1,"<a href=\"Services\/CategoryService.php.html#27\">App\\Services\\CategoryService::update<\/a>"],[0,1,"<a href=\"Services\/CategoryService.php.html#32\">App\\Services\\CategoryService::delete<\/a>"],[100,1,"<a href=\"Services\/CategoryService.php.html#37\">App\\Services\\CategoryService::findProductsByCategory<\/a>"],[100,1,"<a href=\"Services\/OrderService.php.html#11\">App\\Services\\OrderService::__construct<\/a>"],[100,1,"<a href=\"Services\/OrderService.php.html#16\">App\\Services\\OrderService::listByUser<\/a>"],[100,1,"<a href=\"Services\/OrderService.php.html#21\">App\\Services\\OrderService::getOne<\/a>"],[100,1,"<a href=\"Services\/OrderService.php.html#26\">App\\Services\\OrderService::createOrder<\/a>"],[100,1,"<a href=\"Services\/OrderService.php.html#31\">App\\Services\\OrderService::updateStatus<\/a>"],[100,1,"<a href=\"Services\/ProductService.php.html#14\">App\\Services\\ProductService::__construct<\/a>"],[100,1,"<a href=\"Services\/ProductService.php.html#19\">App\\Services\\ProductService::list<\/a>"],[100,1,"<a href=\"Services\/ProductService.php.html#24\">App\\Services\\ProductService::show<\/a>"],[100,2,"<a href=\"Services\/ProductService.php.html#29\">App\\Services\\ProductService::create<\/a>"],[100,2,"<a href=\"Services\/ProductService.php.html#39\">App\\Services\\ProductService::associateTags<\/a>"],[100,5,"<a href=\"Services\/ProductService.php.html#50\">App\\Services\\ProductService::update<\/a>"],[100,1,"<a href=\"Services\/ProductService.php.html#72\">App\\Services\\ProductService::delete<\/a>"],[100,1,"<a href=\"Support\/ApiResponse.php.html#10\">App\\Support\\ApiResponse::success<\/a>"],[100,1,"<a href=\"Support\/ApiResponse.php.html#18\">App\\Support\\ApiResponse::paginated<\/a>"],[100,1,"<a href=\"Support\/ApiResponse.php.html#40\">App\\Support\\ApiResponse::error<\/a>"],[100,1,"<a href=\"Support\/ApiResponse.php.html#49\">App\\Support\\ApiResponse::serverError<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>
